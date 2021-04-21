@@ -1,18 +1,14 @@
 import Head from "next/head"
 import styles from "./layout.module.css"
-import utilStyles from "@/styles/utils.module.css"
-import Link from "next/link"
 import { FC } from "react"
 
-const name = "autopp"
-export const siteTitle = "Next.js Sample Website"
+export const siteTitle = "MH Rise Atack Comparator"
 
 interface LayoutProps {
-  home?: boolean
   children: React.ReactNode
 }
 
-const Layout: FC<LayoutProps> = ({ children, home }: LayoutProps) => {
+const Layout: FC<LayoutProps> = ({ children }: LayoutProps) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -26,30 +22,9 @@ const Layout: FC<LayoutProps> = ({ children, home }: LayoutProps) => {
         />
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
+        <title>{siteTitle}</title>
       </Head>
-      <header className={styles.header}>
-        {home ? (
-          <>
-            <h1 className={utilStyles.heading2Xl}>{name}</h1>
-          </>
-        ) : (
-          <>
-            <h2 className={utilStyles.headingLg}>
-              <Link href="/">
-                <a className={utilStyles.colorInherit}>{name}</a>
-              </Link>
-            </h2>
-          </>
-        )}
-      </header>
       <main>{children}</main>
-      {!home && (
-        <div className={styles.backToHome}>
-          <Link href="/">
-            <a>← Back to home</a>
-          </Link>
-        </div>
-      )}
     </div>
   )
 }
