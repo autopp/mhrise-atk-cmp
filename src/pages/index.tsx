@@ -7,6 +7,7 @@ import NumberInputRow from "@/components/number-input-row"
 const Home: FC = () => {
   const leftWeaponAttack = useState(180)
   const rightWeaponAttack = useState(180)
+  const weaponAttackSynced = useState(false)
   return (
     <Layout>
       <Head>
@@ -24,8 +25,7 @@ const Home: FC = () => {
           min={0}
           max={300}
           step={10}
-          synced={false}
-          setSync={() => undefined}
+          syncedState={weaponAttackSynced}
           left={leftWeaponAttack}
           right={rightWeaponAttack}
         />
