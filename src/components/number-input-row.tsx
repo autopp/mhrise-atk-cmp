@@ -1,3 +1,4 @@
+import { State } from "@/lib/types"
 import { FC } from "react"
 import InputRow from "./input-row"
 import NumberInput from "./number-input"
@@ -9,8 +10,8 @@ type Props = {
   step: number
   synced: boolean
   setSync: (s: boolean) => void
-  left: [number, (n: number) => void]
-  right: [number, (n: number) => void]
+  left: State<number>
+  right: State<number>
 }
 
 const NumberInputRow: FC<Props> = ({ label, min, max, step, synced, setSync, left, right }: Props) => {

@@ -1,7 +1,8 @@
 import { FC } from "react"
+import { State } from "@/lib/types"
 
 type Props = {
-  state: [number, (value: number) => void]
+  state: State<number>
   min: number
   max: number
   step: number
