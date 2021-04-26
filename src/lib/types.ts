@@ -1,3 +1,2 @@
-import { Dispatch, SetStateAction } from "react"
-
-export type State<S> = [S, Dispatch<SetStateAction<S>>]
+export type State<S> = [S, (v: S) => void]
+export type SyncedState = State<boolean>
