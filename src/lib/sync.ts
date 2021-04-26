@@ -4,7 +4,7 @@ export function createPairingState<S>(
   leftState: State<S>,
   rightState: State<S>,
   syncedState: SyncedState
-): [State<S>, State<S>, SyncedState] {
+): { leftState: State<S>; rightState: State<S>; syncedState: SyncedState } {
   const [left, setLeft] = leftState
   const [right, setRight] = rightState
   const [synced, setSynced] = syncedState
@@ -30,9 +30,9 @@ export function createPairingState<S>(
     }
   }
 
-  return [
-    [left, setLeftWithSync],
-    [right, setRightWithSync],
-    [synced, setSyncedWithSync],
-  ]
+  return {
+    leftState: [left, setLeftWithSync],
+    rightState: [right, setRightWithSync],
+    syncedState: [synced, setSyncedWithSync],
+  }
 }

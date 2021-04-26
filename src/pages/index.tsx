@@ -7,7 +7,7 @@ import { createPairingState } from "@/lib/sync"
 
 const Home: FC = () => {
   const initialWeaponAttack = 180
-  const [leftWeaponAttack, rightWeaponAttack, weaponAttackSynced] = createPairingState(
+  const weaponAttack = createPairingState(
     useState(initialWeaponAttack),
     useState(initialWeaponAttack),
     useState<boolean>(false)
@@ -25,15 +25,7 @@ const Home: FC = () => {
           </div>
         </div>
         <HeadingRow text="武器" />
-        <NumberInputRow
-          label="武器攻撃力"
-          min={0}
-          max={300}
-          step={10}
-          left={leftWeaponAttack}
-          right={rightWeaponAttack}
-          syncedState={weaponAttackSynced}
-        />
+        <NumberInputRow label="武器攻撃力" min={0} max={300} step={10} {...weaponAttack} />
       </div>
     </Layout>
   )
