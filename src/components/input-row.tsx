@@ -1,6 +1,7 @@
 import { FC, ReactElement } from "react"
 import { State } from "@/lib/types"
 import SyncButton from "./sync-button"
+import styles from "./input-row.module.css"
 
 type Props = {
   label: string
@@ -15,7 +16,7 @@ export const syncColClass = "col-lg-2 center"
 
 const InputRow: FC<Props> = ({ label, left, right, syncedState }: Props) => {
   return (
-    <div className="row inputRow">
+    <div className={`row ${styles.inputRow}`}>
       <div className={labelColClass}>
         <p>{label}</p>
       </div>

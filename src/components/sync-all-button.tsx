@@ -9,7 +9,7 @@ const SyncAllButton: FC<Props> = ({ setters }: Props) => {
     setters.forEach((setSynced) => setSynced(true))
   }
   return (
-    <button type="button" className="btn btn-success btn-xs" onClick={onClick}>
+    <button type="button" className="btn btn-success btn-sm" onClick={onClick}>
       Sync all
     </button>
   )
