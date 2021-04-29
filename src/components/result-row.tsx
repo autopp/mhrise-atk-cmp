@@ -2,7 +2,7 @@ import { calculateTotal } from "@/lib/calc"
 import { Status } from "@/lib/status"
 import { FC } from "react"
 import { inputColClass, labelColClass, syncColClass } from "./input-row"
-import Result from "./Result"
+import Result from "./result"
 import SyncAllButton from "./sync-all-button"
 
 type Props = {
