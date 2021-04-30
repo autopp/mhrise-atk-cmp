@@ -1,13 +1,12 @@
+import { useState } from "react"
 import { State, SyncedState } from "./types"
 
-export function createPairingState<S>(
-  leftState: State<S>,
-  rightState: State<S>,
-  syncedState: SyncedState
+export function usePairingState<S>(
+  initialState: S
 ): { leftState: State<S>; rightState: State<S>; syncedState: SyncedState } {
-  const [left, setLeft] = leftState
-  const [right, setRight] = rightState
-  const [synced, setSynced] = syncedState
+  const [left, setLeft] = useState(initialState)
+  const [right, setRight] = useState(initialState)
+  const [synced, setSynced] = useState(false)
 
   const setLeftWithSync = (v: S) => {
     setLeft(v)

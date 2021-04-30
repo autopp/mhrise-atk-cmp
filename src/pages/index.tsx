@@ -1,17 +1,17 @@
 import Head from "next/head"
-import { FC, useState } from "react"
+import { FC } from "react"
 import Layout, { siteTitle } from "@/components/layout"
 import HeadingRow from "@/components/heading-row"
 import NumberInputRow from "@/components/number-input-row"
-import { createPairingState } from "@/lib/sync"
 import ResultRow from "@/components/result-row"
 import { sharpnesses, Status } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
+import { usePairingState } from "@/lib/pairing"
 
 const Home: FC = () => {
-  const weaponAttack = createPairingState(useState(180), useState(180), useState<boolean>(false))
-  const weaponCritical = createPairingState(useState(0), useState(0), useState<boolean>(false))
-  const itemTalonAndCharm = createPairingState(useState(true), useState(true), useState<boolean>(false))
+  const weaponAttack = usePairingState(180)
+  const weaponCritical = usePairingState(0)
+  const itemTalonAndCharm = usePairingState(true)
   const [leftStatus, rightStatus]: Status[] = (["leftState", "rightState"] as const).map((pos) => ({
     weapon: {
       attack: weaponAttack[pos][0],
@@ -23,7 +23,9 @@ const Home: FC = () => {
     },
   }))
 
-  const syncedSetters = [weaponAttack, weaponCritical].map(({ syncedState: [, setSynced] }) => setSynced)
+  const syncedSetters = [weaponAttack, weaponCritical, itemTalonAndCharm].map(
+    ({ syncedState: [, setSynced] }) => setSynced
+  )
 
   return (
     <Layout>
