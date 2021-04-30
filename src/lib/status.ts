@@ -12,6 +12,9 @@ export type Status = {
     readonly critical: number
     readonly sharpness: Sharpness
   }
+  readonly item: {
+    talonAndCharm: boolean
+  }
 }
 
 export const sharpnesses: { readonly [k in Color]: Sharpness } = {

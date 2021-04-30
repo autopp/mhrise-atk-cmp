@@ -6,9 +6,9 @@ export type Total = {
   expectedValue: number
 }
 
-export function calculateTotal(status: Status): Total {
-  const attack = (status.weapon.attack * status.weapon.sharpness.factor) / 100
-  const critical = status.weapon.critical
+export function calculateTotal({ weapon, item }: Status): Total {
+  const attack = ((weapon.attack + (item.talonAndCharm ? 15 : 0)) * weapon.sharpness.factor) / 100
+  const critical = weapon.critical
   return {
     attack,
     critical,
