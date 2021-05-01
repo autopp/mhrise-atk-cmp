@@ -22,8 +22,8 @@ const NumberInputRow: FC<Props> = ({
   leftState: left,
   rightState: right,
 }: Props) => {
-  const leftElem = <NumberInput {...{ label, min, max, step, state: left }} />
-  const rightElem = <NumberInput {...{ label, min, max, step, state: right }} />
+  const leftElem = <NumberInput {...{ min, max, step, state: left }} />
+  const rightElem = <NumberInput {...{ min, max, step, state: right }} />
   return <InputRow label={label} syncedState={syncedState} left={leftElem} right={rightElem} />
 }
 
