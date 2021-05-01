@@ -4,7 +4,16 @@ import Layout, { siteTitle } from "@/components/layout"
 import HeadingRow from "@/components/heading-row"
 import NumberInputRow from "@/components/number-input-row"
 import ResultRow from "@/components/result-row"
-import { DEMONDRUGS, SHARPNESSES, Status } from "@/lib/status"
+import {
+  DEMONDRUGS,
+  getTalonAndCharm,
+  getMightSeed,
+  getDemonPowder,
+  getDangoBooster,
+  SHARPNESSES,
+  Status,
+  getDangoTemper,
+} from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { usePairingState } from "@/lib/pairing"
 import RadioInputRow from "@/components/radio-input-row"
@@ -26,14 +35,14 @@ const Home: FC = () => {
       sharpness: SHARPNESSES[weaponSharpness[pos][0]],
     },
     item: {
-      talonAndCharm: itemTalonAndCharm[pos][0],
+      talonAndCharm: getTalonAndCharm(itemTalonAndCharm[pos][0]),
       demonDrug: DEMONDRUGS[itemDemondrug[pos][0]],
-      mightSeed: itemMightSeed[pos][0],
-      demonPowder: itemDemonPowder[pos][0],
+      mightSeed: getMightSeed(itemMightSeed[pos][0]),
+      demonPowder: getDemonPowder(itemDemonPowder[pos][0]),
     },
     dango: {
-      booster: dangoBooster[pos][0],
-      temper: dangoTemper[pos][0],
+      booster: getDangoBooster(dangoBooster[pos][0]),
+      temper: getDangoTemper(dangoTemper[pos][0]),
     },
   }))
 

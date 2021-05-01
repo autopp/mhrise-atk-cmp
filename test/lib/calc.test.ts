@@ -1,5 +1,16 @@
 import { calculateTotal, Total } from "@/lib/calc"
-import { DEMONDRUG_MEGA, DEMONDRUG_NONE, SHARPNESS_BLUE, SHARPNESS_YELLOW, Status } from "@/lib/status"
+import {
+  DANGO_BOOSTER,
+  DANGO_TEMPER,
+  DEMONDRUG_MEGA,
+  DEMONDRUG_NONE,
+  DEMON_POWDER,
+  MIGHT_SEED,
+  SHARPNESS_BLUE,
+  SHARPNESS_YELLOW,
+  Status,
+  TALON_AND_CHARM,
+} from "@/lib/status"
 import { DeepPartial } from "ts-essentials"
 import { merge as mergeObject } from "lodash"
 
@@ -10,14 +21,14 @@ const defaultStatus: Status = {
     sharpness: SHARPNESS_YELLOW,
   },
   item: {
-    talonAndCharm: false,
+    talonAndCharm: 0,
     demonDrug: DEMONDRUG_NONE,
-    mightSeed: false,
-    demonPowder: false,
+    mightSeed: 0,
+    demonPowder: 0,
   },
   dango: {
-    booster: false,
-    temper: false,
+    booster: 0,
+    temper: 1,
   },
 }
 
@@ -31,7 +42,7 @@ describe("calculateTotal", () => {
     [{ weapon: { critical: 50 } }, { attack: 100, critical: 50, expectedValue: 112.5 }],
     [{ weapon: { sharpness: SHARPNESS_BLUE } }, { attack: 120, critical: 0, expectedValue: 120 }],
     [
-      { weapon: { attack: 85, sharpness: SHARPNESS_BLUE }, item: { talonAndCharm: true } },
+      { weapon: { attack: 85, sharpness: SHARPNESS_BLUE }, item: { talonAndCharm: TALON_AND_CHARM } },
       { attack: 120, critical: 0, expectedValue: 120 },
     ],
     [
@@ -39,19 +50,19 @@ describe("calculateTotal", () => {
       { attack: 100, critical: 0, expectedValue: 100 },
     ],
     [
-      { weapon: { attack: 90 }, item: { mightSeed: true } },
+      { weapon: { attack: 90 }, item: { mightSeed: MIGHT_SEED } },
       { attack: 100, critical: 0, expectedValue: 100 },
     ],
     [
-      { weapon: { attack: 90 }, item: { demonPowder: true } },
+      { weapon: { attack: 90 }, item: { demonPowder: DEMON_POWDER } },
       { attack: 100, critical: 0, expectedValue: 100 },
     ],
     [
-      { weapon: { attack: 91 }, dango: { booster: true } },
+      { weapon: { attack: 91 }, dango: { booster: DANGO_BOOSTER } },
       { attack: 100, critical: 0, expectedValue: 100 },
     ],
     [
-      { weapon: { attack: 100, sharpness: SHARPNESS_BLUE }, dango: { temper: true } },
+      { weapon: { attack: 100, sharpness: SHARPNESS_BLUE }, dango: { temper: DANGO_TEMPER } },
       { attack: 126, critical: 0, expectedValue: 126 },
     ],
   ])("case %#", (partialStatus, expected) => {
