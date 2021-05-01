@@ -16,6 +16,7 @@ export type Status = {
   }
   readonly item: {
     readonly talonAndCharm: boolean
+    readonly demonDrug: Demondrug
   }
 }
 
@@ -36,3 +37,11 @@ export const [
   SHARPNESS_BLUE,
   SHARPNESS_WHITE,
 ] = SHARPNESSES
+
+export const DEMONDRUGS: Demondrug[] = [
+  { text: "なし", increase: 0 },
+  { text: "鬼人薬（+5）", increase: 5 },
+  { text: "鬼人薬グレート（+7）", increase: 7 },
+]
+
+export const [DEMONDRUG_NONE, DEMONDRUG_NORMAL, DEMONDRUG_MEGA] = DEMONDRUGS

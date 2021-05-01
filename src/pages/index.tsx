@@ -4,7 +4,7 @@ import Layout, { siteTitle } from "@/components/layout"
 import HeadingRow from "@/components/heading-row"
 import NumberInputRow from "@/components/number-input-row"
 import ResultRow from "@/components/result-row"
-import { SHARPNESSES, Status } from "@/lib/status"
+import { DEMONDRUGS, SHARPNESSES, Status } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { usePairingState } from "@/lib/pairing"
 import RadioInputRow from "@/components/radio-input-row"
@@ -14,6 +14,7 @@ const Home: FC = () => {
   const weaponCritical = usePairingState(0)
   const weaponSharpness = usePairingState(SHARPNESSES.length - 1)
   const itemTalonAndCharm = usePairingState(true)
+  const itemDemondrug = usePairingState(0)
   const [leftStatus, rightStatus]: Status[] = (["leftState", "rightState"] as const).map((pos) => ({
     weapon: {
       attack: weaponAttack[pos][0],
@@ -22,10 +23,11 @@ const Home: FC = () => {
     },
     item: {
       talonAndCharm: itemTalonAndCharm[pos][0],
+      demonDrug: DEMONDRUGS[itemDemondrug[pos][0]],
     },
   }))
 
-  const syncedSetters = [weaponAttack, weaponCritical, weaponSharpness, itemTalonAndCharm].map(
+  const syncedSetters = [weaponAttack, weaponCritical, weaponSharpness, itemTalonAndCharm, itemDemondrug].map(
     ({ syncedState: [, setSynced] }) => setSynced
   )
 
@@ -46,6 +48,7 @@ const Home: FC = () => {
         <RadioInputRow label="斬れ味" idPrefix="weaponSharpness" options={SHARPNESSES} {...weaponSharpness} />
         <HeadingRow text="アイテム" />
         <CheckboxInputRow label="爪・護符" {...itemTalonAndCharm} />
+        <RadioInputRow label="鬼人薬" idPrefix="itemDemondrug" options={DEMONDRUGS} {...itemDemondrug} />
         <ResultRow left={leftStatus} right={rightStatus} syncedSetters={syncedSetters} />
       </div>
     </Layout>
