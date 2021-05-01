@@ -15,6 +15,8 @@ const Home: FC = () => {
   const weaponSharpness = usePairingState(SHARPNESSES.length - 1)
   const itemTalonAndCharm = usePairingState(true)
   const itemDemondrug = usePairingState(0)
+  const itemMightSeed = usePairingState(false)
+  const itemDemonPowder = usePairingState(false)
   const [leftStatus, rightStatus]: Status[] = (["leftState", "rightState"] as const).map((pos) => ({
     weapon: {
       attack: weaponAttack[pos][0],
@@ -24,12 +26,20 @@ const Home: FC = () => {
     item: {
       talonAndCharm: itemTalonAndCharm[pos][0],
       demonDrug: DEMONDRUGS[itemDemondrug[pos][0]],
+      mightSeed: itemMightSeed[pos][0],
+      demonPowder: itemDemonPowder[pos][0],
     },
   }))
 
-  const syncedSetters = [weaponAttack, weaponCritical, weaponSharpness, itemTalonAndCharm, itemDemondrug].map(
-    ({ syncedState: [, setSynced] }) => setSynced
-  )
+  const syncedSetters = [
+    weaponAttack,
+    weaponCritical,
+    weaponSharpness,
+    itemTalonAndCharm,
+    itemDemondrug,
+    itemMightSeed,
+    itemDemonPowder,
+  ].map(({ syncedState: [, setSynced] }) => setSynced)
 
   return (
     <Layout>
@@ -49,6 +59,8 @@ const Home: FC = () => {
         <HeadingRow text="アイテム" />
         <CheckboxInputRow label="爪・護符" {...itemTalonAndCharm} />
         <RadioInputRow label="鬼人薬" idPrefix="itemDemondrug" options={DEMONDRUGS} {...itemDemondrug} />
+        <CheckboxInputRow label="怪力の種" {...itemMightSeed} />
+        <CheckboxInputRow label="鬼人の粉塵" {...itemDemonPowder} />
         <ResultRow left={leftStatus} right={rightStatus} syncedSetters={syncedSetters} />
       </div>
     </Layout>

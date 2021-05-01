@@ -17,6 +17,12 @@ export function calculateTotal(status: Status): Total {
   }
 }
 
-function calculateBaseAttack({ weapon, item }: Status): number {
-  return weapon.attack + (item.talonAndCharm ? 15 : 0) + item.demonDrug.increase
+function calculateBaseAttack({ weapon, item: { talonAndCharm, demonDrug, mightSeed, demonPowder } }: Status): number {
+  return (
+    weapon.attack + orZero(talonAndCharm, 15) + orZero(mightSeed, 10) + orZero(demonPowder, 10) + demonDrug.increase
+  )
+}
+
+function orZero(cond: boolean, increase: number) {
+  return cond ? increase : 0
 }

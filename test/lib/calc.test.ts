@@ -12,6 +12,8 @@ const defaultStatus: Status = {
   item: {
     talonAndCharm: false,
     demonDrug: DEMONDRUG_NONE,
+    mightSeed: false,
+    demonPowder: false,
   },
 }
 
@@ -29,8 +31,16 @@ describe("calculateTotal", () => {
       { attack: 120, critical: 0, expectedValue: 120 },
     ],
     [
-      { weapon: { attack: 93, sharpness: SHARPNESS_BLUE }, item: { demonDrug: DEMONDRUG_MEGA } },
-      { attack: 120, critical: 0, expectedValue: 120 },
+      { weapon: { attack: 93 }, item: { demonDrug: DEMONDRUG_MEGA } },
+      { attack: 100, critical: 0, expectedValue: 100 },
+    ],
+    [
+      { weapon: { attack: 90 }, item: { mightSeed: true } },
+      { attack: 100, critical: 0, expectedValue: 100 },
+    ],
+    [
+      { weapon: { attack: 90 }, item: { demonPowder: true } },
+      { attack: 100, critical: 0, expectedValue: 100 },
     ],
   ])("case %#", (partialStatus, expected) => {
     it(`returns ${JSON.stringify(expected)}`, () => {

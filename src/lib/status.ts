@@ -17,6 +17,8 @@ export type Status = {
   readonly item: {
     readonly talonAndCharm: boolean
     readonly demonDrug: Demondrug
+    readonly mightSeed: boolean
+    readonly demonPowder: boolean
   }
 }
 
