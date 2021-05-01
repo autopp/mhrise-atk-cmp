@@ -1,5 +1,6 @@
 import { FC } from "react"
 import { State } from "@/lib/types"
+import styles from "./radio-input.module.css"
 
 type Props = {
   idPrefix: string
@@ -9,25 +10,25 @@ type Props = {
 
 const RadioInput: FC<Props> = ({ idPrefix, options, state: [selected, setSelected] }: Props) => {
   return (
-    <div className="form-check">
+    <>
       {options.map((option, i) => {
         const id = `${idPrefix}${i}`
         return (
-          <>
+          <span className="text-nowrap" key={i}>
             <input
-              className="form-check-input"
+              className={`form-check-input ${styles.input}`}
               type="radio"
               id={id}
               checked={i === selected}
               onChange={() => setSelected(i)}
             />
-            <label className="form-check-label" htmlFor={id}>
+            <label className={`form-check-label ${styles.label}`} htmlFor={id}>
               {option}
             </label>
-          </>
+          </span>
         )
       })}
-    </div>
+    </>
   )
 }
 
