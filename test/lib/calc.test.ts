@@ -15,6 +15,10 @@ const defaultStatus: Status = {
     mightSeed: false,
     demonPowder: false,
   },
+  dango: {
+    booster: false,
+    temper: false,
+  },
 }
 
 function createStatus(partialStatus: DeepPartial<Status>): Status {
@@ -41,6 +45,14 @@ describe("calculateTotal", () => {
     [
       { weapon: { attack: 90 }, item: { demonPowder: true } },
       { attack: 100, critical: 0, expectedValue: 100 },
+    ],
+    [
+      { weapon: { attack: 91 }, dango: { booster: true } },
+      { attack: 100, critical: 0, expectedValue: 100 },
+    ],
+    [
+      { weapon: { attack: 100, sharpness: SHARPNESS_BLUE }, dango: { temper: true } },
+      { attack: 126, critical: 0, expectedValue: 126 },
     ],
   ])("case %#", (partialStatus, expected) => {
     it(`returns ${JSON.stringify(expected)}`, () => {

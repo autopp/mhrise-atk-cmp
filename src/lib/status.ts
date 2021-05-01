@@ -20,6 +20,10 @@ export type Status = {
     readonly mightSeed: boolean
     readonly demonPowder: boolean
   }
+  readonly dango: {
+    readonly booster: boolean
+    readonly temper: boolean
+  }
 }
 
 export const SHARPNESSES: Sharpness[] = [

@@ -17,6 +17,8 @@ const Home: FC = () => {
   const itemDemondrug = usePairingState(0)
   const itemMightSeed = usePairingState(false)
   const itemDemonPowder = usePairingState(false)
+  const dangoBooster = usePairingState(false)
+  const dangoTemper = usePairingState(false)
   const [leftStatus, rightStatus]: Status[] = (["leftState", "rightState"] as const).map((pos) => ({
     weapon: {
       attack: weaponAttack[pos][0],
@@ -29,6 +31,10 @@ const Home: FC = () => {
       mightSeed: itemMightSeed[pos][0],
       demonPowder: itemDemonPowder[pos][0],
     },
+    dango: {
+      booster: dangoBooster[pos][0],
+      temper: dangoTemper[pos][0],
+    },
   }))
 
   const syncedSetters = [
@@ -39,6 +45,8 @@ const Home: FC = () => {
     itemDemondrug,
     itemMightSeed,
     itemDemonPowder,
+    dangoBooster,
+    dangoTemper,
   ].map(({ syncedState: [, setSynced] }) => setSynced)
 
   return (
@@ -61,6 +69,9 @@ const Home: FC = () => {
         <RadioInputRow label="鬼人薬" idPrefix="itemDemondrug" options={DEMONDRUGS} {...itemDemondrug} />
         <CheckboxInputRow label="怪力の種" {...itemMightSeed} />
         <CheckboxInputRow label="鬼人の粉塵" {...itemDemonPowder} />
+        <HeadingRow text="おだんごスキル" />
+        <CheckboxInputRow label="おだんご短期催眠術" {...dangoBooster} />
+        <CheckboxInputRow label="おだんご暴れ撃ち" {...dangoTemper} />
         <ResultRow left={leftStatus} right={rightStatus} syncedSetters={syncedSetters} />
       </div>
     </Layout>
