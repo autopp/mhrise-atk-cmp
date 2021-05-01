@@ -1,20 +1,13 @@
 import { calculateTotal, Total } from "@/lib/calc"
-import { sharpnesses, Status } from "@/lib/status"
+import { SHARPNESS_BLUE, SHARPNESS_YELLOW, Status } from "@/lib/status"
 import { DeepPartial } from "ts-essentials"
 import { merge as mergeObject } from "lodash"
-
-const RED = sharpnesses.red
-const ORANGE = sharpnesses.orange
-const YELLOW = sharpnesses.yellow
-const GREEN = sharpnesses.green
-const BLUE = sharpnesses.blue
-const WHITE = sharpnesses.white
 
 const defaultStatus: Status = {
   weapon: {
     attack: 100,
     critical: 0,
-    sharpness: YELLOW,
+    sharpness: SHARPNESS_YELLOW,
   },
   item: {
     talonAndCharm: false,
@@ -29,6 +22,7 @@ describe("calculateTotal", () => {
   describe.each<[DeepPartial<Status>, Total]>([
     [{}, { attack: 100, critical: 0, expectedValue: 100 }],
     [{ weapon: { critical: 50 } }, { attack: 100, critical: 50, expectedValue: 112.5 }],
+    [{ weapon: { sharpness: SHARPNESS_BLUE } }, { attack: 120, critical: 0, expectedValue: 120 }],
     [{ item: { talonAndCharm: true } }, { attack: 115, critical: 0, expectedValue: 115 }],
   ])("case %#", (partialStatus, expected) => {
     it(`returns ${JSON.stringify(expected)}`, () => {

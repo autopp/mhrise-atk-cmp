@@ -4,7 +4,7 @@ import styles from "./radio-input.module.css"
 
 type Props = {
   idPrefix: string
-  options: string[]
+  options: { text: string }[]
   state: State<number>
 }
 
@@ -23,7 +23,7 @@ const RadioInput: FC<Props> = ({ idPrefix, options, state: [selected, setSelecte
               onChange={() => setSelected(i)}
             />
             <label className={`form-check-label ${styles.label}`} htmlFor={id}>
-              {option}
+              {option.text}
             </label>
           </span>
         )

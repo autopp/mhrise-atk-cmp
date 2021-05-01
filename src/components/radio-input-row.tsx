@@ -6,7 +6,7 @@ import RadioInput from "./radio-input"
 type Props = {
   label: string
   idPrefix: string
-  options: string[]
+  options: { text: string }[]
   leftState: State<number>
   rightState: State<number>
   syncedState: State<boolean>
