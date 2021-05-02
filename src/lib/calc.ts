@@ -2,18 +2,18 @@ import { Status } from "./status"
 
 export type Total = {
   attack: number
-  critical: number
+  affinity: number
   expectedValue: number
 }
 
 export function calculateTotal(status: Status): Total {
   const baseAttack = calculateBaseAttack(status)
   const attack = baseAttack * status.weapon.sharpness.factor * status.dango.temper
-  const critical = calculateAffinity(status)
+  const affinity = calculateAffinity(status)
   return {
     attack,
-    critical,
-    expectedValue: attack * (1 + (critical * 0.25) / 100),
+    affinity,
+    expectedValue: attack * (1 + (affinity * 0.25) / 100),
   }
 }
 
@@ -35,5 +35,5 @@ function calculateBaseAttack({
 }
 
 function calculateAffinity({ weapon, rampage }: Status) {
-  return Math.min(Math.max(weapon.critical + rampage.affinityBoost.increase, -100), 100)
+  return Math.min(Math.max(weapon.affinity + rampage.affinityBoost.increase, -100), 100)
 }

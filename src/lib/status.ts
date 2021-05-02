@@ -23,7 +23,7 @@ function createIncreaseSkill(levels: Increase[]): Increase[] {
 export type Status = {
   readonly weapon: {
     readonly attack: number
-    readonly critical: number
+    readonly affinity: number
     readonly sharpness: Factor
   }
   readonly item: {

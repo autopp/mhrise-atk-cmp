@@ -19,7 +19,7 @@ import { merge as mergeObject } from "lodash"
 const defaultStatus: Status = {
   weapon: {
     attack: 100,
-    critical: 0,
+    affinity: 0,
     sharpness: SHARPNESS_YELLOW,
   },
   item: {
@@ -44,44 +44,44 @@ function createStatus(partialStatus: DeepPartial<Status>): Status {
 
 describe("calculateTotal", () => {
   describe.each<[DeepPartial<Status>, Total]>([
-    [{}, { attack: 100, critical: 0, expectedValue: 100 }],
-    [{ weapon: { critical: 50 } }, { attack: 100, critical: 50, expectedValue: 112.5 }],
-    [{ weapon: { sharpness: SHARPNESS_BLUE } }, { attack: 120, critical: 0, expectedValue: 120 }],
+    [{}, { attack: 100, affinity: 0, expectedValue: 100 }],
+    [{ weapon: { affinity: 50 } }, { attack: 100, affinity: 50, expectedValue: 112.5 }],
+    [{ weapon: { sharpness: SHARPNESS_BLUE } }, { attack: 120, affinity: 0, expectedValue: 120 }],
     [
       { weapon: { attack: 85, sharpness: SHARPNESS_BLUE }, item: { talonAndCharm: TALON_AND_CHARM } },
-      { attack: 120, critical: 0, expectedValue: 120 },
+      { attack: 120, affinity: 0, expectedValue: 120 },
     ],
     [
       { weapon: { attack: 93 }, item: { demonDrug: DEMONDRUG_MEGA } },
-      { attack: 100, critical: 0, expectedValue: 100 },
+      { attack: 100, affinity: 0, expectedValue: 100 },
     ],
     [
       { weapon: { attack: 90 }, item: { mightSeed: MIGHT_SEED } },
-      { attack: 100, critical: 0, expectedValue: 100 },
+      { attack: 100, affinity: 0, expectedValue: 100 },
     ],
     [
       { weapon: { attack: 90 }, item: { demonPowder: DEMON_POWDER } },
-      { attack: 100, critical: 0, expectedValue: 100 },
+      { attack: 100, affinity: 0, expectedValue: 100 },
     ],
     [
       { weapon: { attack: 91 }, dango: { booster: DANGO_BOOSTER } },
-      { attack: 100, critical: 0, expectedValue: 100 },
+      { attack: 100, affinity: 0, expectedValue: 100 },
     ],
     [
       { weapon: { attack: 100, sharpness: SHARPNESS_BLUE }, dango: { temper: DANGO_TEMPER } },
-      { attack: 126, critical: 0, expectedValue: 126 },
+      { attack: 126, affinity: 0, expectedValue: 126 },
     ],
     [
       { weapon: { attack: 92 }, rampage: { attackBoost: RAMPAGE_ATTACK_BOOSTS[3] } },
-      { attack: 100, critical: 0, expectedValue: 100 },
+      { attack: 100, affinity: 0, expectedValue: 100 },
     ],
     [
-      { weapon: { attack: 100, critical: 12 }, rampage: { affinityBoost: RAMPAGE_AFFINITY_BOOSTS[3] } },
-      { attack: 100, critical: 20, expectedValue: 105 },
+      { weapon: { attack: 100, affinity: 12 }, rampage: { affinityBoost: RAMPAGE_AFFINITY_BOOSTS[3] } },
+      { attack: 100, affinity: 20, expectedValue: 105 },
     ],
     [
-      { weapon: { attack: 100, critical: 95 }, rampage: { affinityBoost: RAMPAGE_AFFINITY_BOOSTS[4] } },
-      { attack: 100, critical: 100, expectedValue: 125 },
+      { weapon: { attack: 100, affinity: 95 }, rampage: { affinityBoost: RAMPAGE_AFFINITY_BOOSTS[4] } },
+      { attack: 100, affinity: 100, expectedValue: 125 },
     ],
   ])("case %#", (partialStatus, expected) => {
     it(`returns ${JSON.stringify(expected)}`, () => {

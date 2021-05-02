@@ -24,7 +24,7 @@ import LevelInputRow from "@/components/level-input-row"
 const Home: FC = () => {
   // Weapon
   const weaponAttack = usePairingState(180)
-  const weaponCritical = usePairingState(0)
+  const weaponAffinity = usePairingState(0)
   const weaponSharpness = usePairingState(SHARPNESSES.length - 1)
   // Item
   const itemTalonAndCharm = usePairingState(true)
@@ -40,7 +40,7 @@ const Home: FC = () => {
   const [leftStatus, rightStatus]: Status[] = (["leftState", "rightState"] as const).map((pos) => ({
     weapon: {
       attack: weaponAttack[pos][0],
-      critical: weaponCritical[pos][0],
+      affinity: weaponAffinity[pos][0],
       sharpness: SHARPNESSES[weaponSharpness[pos][0]],
     },
     item: {
@@ -61,7 +61,7 @@ const Home: FC = () => {
 
   const syncedSetters = [
     weaponAttack,
-    weaponCritical,
+    weaponAffinity,
     weaponSharpness,
     itemTalonAndCharm,
     itemDemondrug,
@@ -86,7 +86,7 @@ const Home: FC = () => {
         </div>
         <HeadingRow text="武器" />
         <NumberInputRow label="武器攻撃力" min={0} max={300} step={10} {...weaponAttack} />
-        <NumberInputRow label="武器会心率" min={-100} max={100} step={5} {...weaponCritical} />
+        <NumberInputRow label="武器会心率" min={-100} max={100} step={5} {...weaponAffinity} />
         <RadioInputRow label="斬れ味" idPrefix="weaponSharpness" options={SHARPNESSES} {...weaponSharpness} />
         <HeadingRow text="アイテム" />
         <CheckboxInputRow label="爪・護符" {...itemTalonAndCharm} />
