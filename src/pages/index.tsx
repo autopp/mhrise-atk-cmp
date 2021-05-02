@@ -14,6 +14,7 @@ import {
   Status,
   getDangoTemper,
   RAMPAGE_ATTACK_BOOSTS,
+  RAMPAGE_AFFINITY_BOOSTS,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { usePairingState } from "@/lib/pairing"
@@ -35,6 +36,7 @@ const Home: FC = () => {
   const dangoTemper = usePairingState(false)
   // Rampage
   const rampageAttackBoost = usePairingState(0)
+  const rampageAffinityBoost = usePairingState(0)
   const [leftStatus, rightStatus]: Status[] = (["leftState", "rightState"] as const).map((pos) => ({
     weapon: {
       attack: weaponAttack[pos][0],
@@ -53,6 +55,7 @@ const Home: FC = () => {
     },
     rampage: {
       attackBoost: RAMPAGE_ATTACK_BOOSTS[rampageAttackBoost[pos][0]],
+      affinityBoost: RAMPAGE_AFFINITY_BOOSTS[rampageAffinityBoost[pos][0]],
     },
   }))
 
@@ -67,6 +70,7 @@ const Home: FC = () => {
     dangoBooster,
     dangoTemper,
     rampageAttackBoost,
+    rampageAffinityBoost,
   ].map(({ syncedState: [, setSynced] }) => setSynced)
 
   return (
@@ -94,6 +98,7 @@ const Home: FC = () => {
         <CheckboxInputRow label="おだんご暴れ撃ち" {...dangoTemper} />
         <HeadingRow text="百竜スキル" />
         <LevelInputRow label="攻撃力強化" levels={RAMPAGE_ATTACK_BOOSTS} {...rampageAttackBoost} />
+        <LevelInputRow label="会心率強化" levels={RAMPAGE_AFFINITY_BOOSTS} {...rampageAffinityBoost} />
         <ResultRow left={leftStatus} right={rightStatus} syncedSetters={syncedSetters} />
       </div>
     </Layout>

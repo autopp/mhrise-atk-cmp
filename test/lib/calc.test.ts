@@ -6,6 +6,7 @@ import {
   DEMONDRUG_NONE,
   DEMON_POWDER,
   MIGHT_SEED,
+  RAMPAGE_AFFINITY_BOOSTS,
   RAMPAGE_ATTACK_BOOSTS,
   SHARPNESS_BLUE,
   SHARPNESS_YELLOW,
@@ -33,6 +34,7 @@ const defaultStatus: Status = {
   },
   rampage: {
     attackBoost: RAMPAGE_ATTACK_BOOSTS[0],
+    affinityBoost: RAMPAGE_AFFINITY_BOOSTS[0],
   },
 }
 
@@ -72,6 +74,14 @@ describe("calculateTotal", () => {
     [
       { weapon: { attack: 92 }, rampage: { attackBoost: RAMPAGE_ATTACK_BOOSTS[3] } },
       { attack: 100, critical: 0, expectedValue: 100 },
+    ],
+    [
+      { weapon: { attack: 100, critical: 12 }, rampage: { affinityBoost: RAMPAGE_AFFINITY_BOOSTS[3] } },
+      { attack: 100, critical: 20, expectedValue: 105 },
+    ],
+    [
+      { weapon: { attack: 100, critical: 95 }, rampage: { affinityBoost: RAMPAGE_AFFINITY_BOOSTS[4] } },
+      { attack: 100, critical: 100, expectedValue: 125 },
     ],
   ])("case %#", (partialStatus, expected) => {
     it(`returns ${JSON.stringify(expected)}`, () => {
