@@ -17,14 +17,14 @@ export const syncColClass = "col-lg-2 center"
 const InputRow: FC<Props> = ({ label, left, right, syncedState }: Props) => {
   return (
     <div className={`row ${styles.inputRow}`}>
-      <div className={labelColClass}>
+      <div className={`align-self-center ${labelColClass}`}>
         <p>{label}</p>
       </div>
-      <div className={inputColClass}>{left}</div>
-      <div className={syncColClass}>
+      <div className={`align-self-center ${inputColClass}`}>{left}</div>
+      <div className={`align-self-center ${syncColClass}`}>
         <SyncButton state={syncedState} />
       </div>
-      <div className={inputColClass}>{right}</div>
+      <div className={`align-self-center ${inputColClass}`}>{right}</div>
     </div>
   )
 }

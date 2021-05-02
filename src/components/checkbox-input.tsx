@@ -8,7 +8,7 @@ type Props = {
 
 const CheckboxInput: FC<Props> = ({ state: [value, setValue] }: Props) => {
   const src = value ? "/images/checkbox-on.svg" : "/images/checkbox-off.svg"
-  return <Image src={src} height={20} width={20} onClick={() => setValue(!value)} />
+  return <Image src={src} height={15} width={15} onClick={() => setValue(!value)} />
 }
 
 export default CheckboxInput
