@@ -21,6 +21,7 @@ import CheckboxInputRow from "@/components/checkbox-input-row"
 import { usePairingState } from "@/lib/pairing"
 import RadioInputRow from "@/components/radio-input-row"
 import LevelInputRow from "@/components/level-input-row"
+import { State } from "@/lib/types"
 
 const Home: FC = () => {
   // Weapon
@@ -40,28 +41,31 @@ const Home: FC = () => {
   const rampageAffinityBoost = usePairingState(0)
   const rampageNonElementalBoost = usePairingState(false)
 
-  const [leftStatus, rightStatus]: Status[] = (["leftState", "rightState"] as const).map((pos) => ({
-    weapon: {
-      attack: weaponAttack[pos][0],
-      affinity: weaponAffinity[pos][0],
-      sharpness: SHARPNESSES[weaponSharpness[pos][0]],
-    },
-    item: {
-      talonAndCharm: getTalonAndCharm(itemTalonAndCharm[pos][0]),
-      demonDrug: DEMONDRUGS[itemDemondrug[pos][0]],
-      mightSeed: getMightSeed(itemMightSeed[pos][0]),
-      demonPowder: getDemonPowder(itemDemonPowder[pos][0]),
-    },
-    dango: {
-      booster: getDangoBooster(dangoBooster[pos][0]),
-      temper: getDangoTemper(dangoTemper[pos][0]),
-    },
-    rampage: {
-      attackBoost: RAMPAGE_ATTACK_BOOSTS[rampageAttackBoost[pos][0]],
-      affinityBoost: RAMPAGE_AFFINITY_BOOSTS[rampageAffinityBoost[pos][0]],
-      nonElementalBoost: getRampageNonElementalBoost(rampageNonElementalBoost[pos][0]),
-    },
-  }))
+  const [leftStatus, rightStatus]: Status[] = (["leftState", "rightState"] as const).map((pos) => {
+    const valueOf = <T,>(states: { leftState: State<T>; rightState: State<T> }) => states[pos][0]
+    return {
+      weapon: {
+        attack: valueOf(weaponAttack),
+        affinity: valueOf(weaponAffinity),
+        sharpness: SHARPNESSES[valueOf(weaponSharpness)],
+      },
+      item: {
+        talonAndCharm: getTalonAndCharm(valueOf(itemTalonAndCharm)),
+        demonDrug: DEMONDRUGS[valueOf(itemDemondrug)],
+        mightSeed: getMightSeed(valueOf(itemMightSeed)),
+        demonPowder: getDemonPowder(valueOf(itemDemonPowder)),
+      },
+      dango: {
+        booster: getDangoBooster(valueOf(dangoBooster)),
+        temper: getDangoTemper(valueOf(dangoTemper)),
+      },
+      rampage: {
+        attackBoost: RAMPAGE_ATTACK_BOOSTS[valueOf(rampageAttackBoost)],
+        affinityBoost: RAMPAGE_AFFINITY_BOOSTS[valueOf(rampageAffinityBoost)],
+        nonElementalBoost: getRampageNonElementalBoost(valueOf(rampageNonElementalBoost)),
+      },
+    }
+  })
 
   const syncedSetters = [
     weaponAttack,
