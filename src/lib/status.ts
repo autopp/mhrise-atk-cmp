@@ -1,3 +1,5 @@
+import Decimal from "decimal.js-light"
+
 type Increase = {
   readonly text: string
   readonly increase: number
@@ -115,14 +117,16 @@ export type Total = {
 
 export function calculateTotal(status: Status): Total {
   const baseAttack = calculateBaseAttack(status)
-  const attack =
-    baseAttack * status.weapon.sharpness.factor * status.dango.temper * calculateDullingStrikeFactor(status)
+  const attack = new Decimal(baseAttack)
+    .mul(status.weapon.sharpness.factor)
+    .mul(status.dango.temper)
+    .mul(calculateDullingStrikeFactor(status))
   const affinity = calculateAffinity(status)
   const criticalFactor = calculateCriticalFactor(status, affinity)
   return {
-    attack,
-    affinity,
-    expectedValue: (attack * (100 + affinity * criticalFactor)) / 100,
+    attack: attack.toNumber(),
+    affinity: affinity.toNumber(),
+    expectedValue: attack.mul(affinity.mul(criticalFactor).div(100).add(1)).toNumber(),
   }
 }
 
@@ -145,15 +149,15 @@ function calculateBaseAttack({
   )
 }
 
-function calculateAffinity({ weapon, rampage }: Status) {
+function calculateAffinity({ weapon, rampage }: Status): Decimal {
   const affinity = weapon.affinity + rampage.affinityBoost.increase + rampage.attackOrAffinitySurge.affinity
-  return Math.min(Math.max(affinity, -100), 100)
+  return new Decimal(Math.min(Math.max(affinity, -100), 100))
 }
 
-function calculateCriticalFactor({ rampage: { brutalStrike } }: Status, affinity: number) {
-  return affinity < 0 && brutalStrike ? 0.0625 : 0.25
+function calculateCriticalFactor({ rampage: { brutalStrike } }: Status, affinity: Decimal): Decimal {
+  return affinity.isNegative() && brutalStrike ? new Decimal("0.0625") : new Decimal("0.25")
 }
 
-function calculateDullingStrikeFactor({ weapon: { sharpness }, rampage: { dullingStrike } }: Status): number {
-  return dullingStrike && sharpness.level <= SHARPNESS_GREEN.level ? 1.02 : 1.0
+function calculateDullingStrikeFactor({ weapon: { sharpness }, rampage: { dullingStrike } }: Status): Decimal {
+  return dullingStrike && sharpness.level <= SHARPNESS_GREEN.level ? new Decimal("1.02") : new Decimal(1.0)
 }
