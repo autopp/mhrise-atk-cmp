@@ -16,6 +16,7 @@ import {
   RAMPAGE_ATTACK_BOOSTS,
   RAMPAGE_AFFINITY_BOOSTS,
   getRampageNonElementalBoost,
+  RAMPAGE_ATTACK_OR_AFFINITY_SURGES,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { usePairingState } from "@/lib/pairing"
@@ -42,6 +43,7 @@ const Home: FC = () => {
   const rampageNonElementalBoost = usePairingState(false)
   const rampageDullingStrike = usePairingState(false)
   const rampageBrutalStrike = usePairingState(false)
+  const rampageAttackOrAffinitySurge = usePairingState(0)
 
   const [leftStatus, rightStatus]: Status[] = (["leftState", "rightState"] as const).map((pos) => {
     const valueOf = <T,>(states: { leftState: State<T>; rightState: State<T> }) => states[pos][0]
@@ -67,6 +69,7 @@ const Home: FC = () => {
         nonElementalBoost: getRampageNonElementalBoost(valueOf(rampageNonElementalBoost)),
         dullingStrike: valueOf(rampageDullingStrike),
         brutalStrike: valueOf(rampageBrutalStrike),
+        attackOrAffinitySurge: RAMPAGE_ATTACK_OR_AFFINITY_SURGES[valueOf(rampageAttackOrAffinitySurge)],
       },
     }
   })
@@ -86,6 +89,7 @@ const Home: FC = () => {
     rampageNonElementalBoost,
     rampageDullingStrike,
     rampageBrutalStrike,
+    rampageAttackOrAffinitySurge,
   ].map(({ syncedState: [, setSynced] }) => setSynced)
 
   return (
@@ -117,6 +121,12 @@ const Home: FC = () => {
         <CheckboxInputRow label="無属性強化" {...rampageNonElementalBoost} />
         <CheckboxInputRow label="鈍刃の一撃" {...rampageDullingStrike} />
         <CheckboxInputRow label="痛恨の一撃" {...rampageBrutalStrike} />
+        <RadioInputRow
+          label="攻撃力激化・会心率激化"
+          idPrefix="rampageAttackOrAffinitySurge"
+          options={RAMPAGE_ATTACK_OR_AFFINITY_SURGES}
+          {...rampageAttackOrAffinitySurge}
+        />
         <ResultRow left={leftStatus} right={rightStatus} syncedSetters={syncedSetters} />
       </div>
     </Layout>

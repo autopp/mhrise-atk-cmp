@@ -14,6 +14,9 @@ import {
   SHARPNESS_YELLOW,
   Status,
   TALON_AND_CHARM,
+  RAMPAGE_NO_SURGE,
+  RAMPAGE_ATTACK_SURGE,
+  RAMPAGE_AFFINITY_SURGE,
 } from "@/lib/status"
 import { DeepPartial } from "ts-essentials"
 import { merge as mergeObject } from "lodash"
@@ -40,6 +43,7 @@ const defaultStatus: Status = {
     nonElementalBoost: 0,
     dullingStrike: false,
     brutalStrike: false,
+    attackOrAffinitySurge: RAMPAGE_NO_SURGE,
   },
 }
 
@@ -111,6 +115,18 @@ describe("calculateTotal", () => {
     [
       { weapon: { attack: 160, affinity: -100 }, rampage: { brutalStrike: true } },
       { attack: 160, affinity: -100, expectedValue: 150 },
+    ],
+    [
+      { weapon: { attack: 80 }, rampage: { attackOrAffinitySurge: RAMPAGE_ATTACK_SURGE } },
+      { attack: 100, affinity: -30, expectedValue: 92.5 },
+    ],
+    [
+      { weapon: { attack: 80, affinity: -80 }, rampage: { attackOrAffinitySurge: RAMPAGE_ATTACK_SURGE } },
+      { attack: 100, affinity: -100, expectedValue: 75 },
+    ],
+    [
+      { weapon: { attack: 110 }, rampage: { attackOrAffinitySurge: RAMPAGE_AFFINITY_SURGE } },
+      { attack: 100, affinity: 20, expectedValue: 105 },
     ],
   ])("case %#", (partialStatus, expected) => {
     it(`returns ${JSON.stringify(expected)}`, () => {

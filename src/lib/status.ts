@@ -10,6 +10,12 @@ type Factor = {
 
 type Sharpness = Factor & { level: number }
 
+type AttackOrAffinitySurge = {
+  readonly text: string
+  readonly attack: number
+  readonly affinity: number
+}
+
 function createOptionalIncreaseGetter(increase: number): (x: boolean) => number {
   return (x) => (x ? increase : 0)
 }
@@ -44,6 +50,7 @@ export type Status = {
     readonly nonElementalBoost: number
     readonly dullingStrike: boolean
     readonly brutalStrike: boolean
+    readonly attackOrAffinitySurge: AttackOrAffinitySurge
   }
 }
 
@@ -93,6 +100,13 @@ export const RAMPAGE_AFFINITY_BOOSTS = createIncreaseSkill([4, 6, 8, 10].map((x)
 export const RAMPAGE_NON_ELEMENTAL_BOOST = 10
 export const getRampageNonElementalBoost = createOptionalIncreaseGetter(RAMPAGE_NON_ELEMENTAL_BOOST)
 
+export const RAMPAGE_ATTACK_OR_AFFINITY_SURGES: AttackOrAffinitySurge[] = [
+  { text: "なし", attack: 0, affinity: 0 },
+  { text: "攻撃力激化", attack: 20, affinity: -30 },
+  { text: "会心率激化", attack: -10, affinity: 20 },
+]
+export const [RAMPAGE_NO_SURGE, RAMPAGE_ATTACK_SURGE, RAMPAGE_AFFINITY_SURGE] = RAMPAGE_ATTACK_OR_AFFINITY_SURGES
+
 export type Total = {
   attack: number
   affinity: number
@@ -126,12 +140,14 @@ function calculateBaseAttack({
     booster +
     demonDrug.increase +
     rampage.attackBoost.increase +
-    rampage.nonElementalBoost
+    rampage.nonElementalBoost +
+    rampage.attackOrAffinitySurge.attack
   )
 }
 
 function calculateAffinity({ weapon, rampage }: Status) {
-  return Math.min(Math.max(weapon.affinity + rampage.affinityBoost.increase, -100), 100)
+  const affinity = weapon.affinity + rampage.affinityBoost.increase + rampage.attackOrAffinitySurge.affinity
+  return Math.min(Math.max(affinity, -100), 100)
 }
 
 function calculateCriticalFactor({ rampage: { brutalStrike } }: Status, affinity: number) {
