@@ -38,6 +38,7 @@ const defaultStatus: Status = {
     attackBoost: RAMPAGE_ATTACK_BOOSTS[0],
     affinityBoost: RAMPAGE_AFFINITY_BOOSTS[0],
     nonElementalBoost: 0,
+    dullingStrike: false,
   },
 }
 
@@ -89,6 +90,10 @@ describe("calculateTotal", () => {
     [
       { weapon: { attack: 90 }, rampage: { nonElementalBoost: RAMPAGE_NON_ELEMENTAL_BOOST } },
       { attack: 100, affinity: 0, expectedValue: 100 },
+    ],
+    [
+      { weapon: { attack: 100 }, rampage: { dullingStrike: true } },
+      { attack: 102, affinity: 0, expectedValue: 102 },
     ],
   ])("case %#", (partialStatus, expected) => {
     it(`returns ${JSON.stringify(expected)}`, () => {

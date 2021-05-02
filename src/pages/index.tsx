@@ -40,6 +40,7 @@ const Home: FC = () => {
   const rampageAttackBoost = usePairingState(0)
   const rampageAffinityBoost = usePairingState(0)
   const rampageNonElementalBoost = usePairingState(false)
+  const rampageDullingStrike = usePairingState(false)
 
   const [leftStatus, rightStatus]: Status[] = (["leftState", "rightState"] as const).map((pos) => {
     const valueOf = <T,>(states: { leftState: State<T>; rightState: State<T> }) => states[pos][0]
@@ -63,6 +64,7 @@ const Home: FC = () => {
         attackBoost: RAMPAGE_ATTACK_BOOSTS[valueOf(rampageAttackBoost)],
         affinityBoost: RAMPAGE_AFFINITY_BOOSTS[valueOf(rampageAffinityBoost)],
         nonElementalBoost: getRampageNonElementalBoost(valueOf(rampageNonElementalBoost)),
+        dullingStrike: valueOf(rampageDullingStrike),
       },
     }
   })
@@ -79,6 +81,8 @@ const Home: FC = () => {
     dangoTemper,
     rampageAttackBoost,
     rampageAffinityBoost,
+    rampageNonElementalBoost,
+    rampageDullingStrike,
   ].map(({ syncedState: [, setSynced] }) => setSynced)
 
   return (
@@ -108,6 +112,7 @@ const Home: FC = () => {
         <LevelInputRow label="攻撃力強化" levels={RAMPAGE_ATTACK_BOOSTS} {...rampageAttackBoost} />
         <LevelInputRow label="会心率強化" levels={RAMPAGE_AFFINITY_BOOSTS} {...rampageAffinityBoost} />
         <CheckboxInputRow label="無属性強化" {...rampageNonElementalBoost} />
+        <CheckboxInputRow label="鈍刃の一撃" {...rampageDullingStrike} />
         <ResultRow left={leftStatus} right={rightStatus} syncedSetters={syncedSetters} />
       </div>
     </Layout>

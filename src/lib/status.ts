@@ -8,6 +8,8 @@ type Factor = {
   readonly factor: number
 }
 
+type Sharpness = Factor & { level: number }
+
 function createOptionalIncreaseGetter(increase: number): (x: boolean) => number {
   return (x) => (x ? increase : 0)
 }
@@ -24,7 +26,7 @@ export type Status = {
   readonly weapon: {
     readonly attack: number
     readonly affinity: number
-    readonly sharpness: Factor
+    readonly sharpness: Sharpness
   }
   readonly item: {
     readonly talonAndCharm: number
@@ -40,17 +42,18 @@ export type Status = {
     readonly attackBoost: Increase
     readonly affinityBoost: Increase
     readonly nonElementalBoost: number
+    readonly dullingStrike: boolean
   }
 }
 
-export const SHARPNESSES: Factor[] = [
+export const SHARPNESSES: Sharpness[] = [
   { text: "赤 (0.5)", factor: 0.5 },
   { text: "橙 (0.75)", factor: 0.75 },
   { text: "黄 (1.0)", factor: 1 },
   { text: "緑 (1.05)", factor: 1.05 },
   { text: "青 (1.2)", factor: 1.2 },
   { text: "白 (1.32)", factor: 1.32 },
-]
+].map((factor, level) => ({ level, ...factor }))
 
 export const [
   SHARPNESS_RED,
@@ -97,7 +100,8 @@ export type Total = {
 
 export function calculateTotal(status: Status): Total {
   const baseAttack = calculateBaseAttack(status)
-  const attack = baseAttack * status.weapon.sharpness.factor * status.dango.temper
+  const attack =
+    baseAttack * status.weapon.sharpness.factor * status.dango.temper * calculateDullingStrikeFactor(status)
   const affinity = calculateAffinity(status)
   return {
     attack,
@@ -126,4 +130,8 @@ function calculateBaseAttack({
 
 function calculateAffinity({ weapon, rampage }: Status) {
   return Math.min(Math.max(weapon.affinity + rampage.affinityBoost.increase, -100), 100)
+}
+
+function calculateDullingStrikeFactor({ weapon: { sharpness }, rampage: { dullingStrike } }: Status): number {
+  return dullingStrike && sharpness.level <= SHARPNESS_GREEN.level ? 1.02 : 1.0
 }
