@@ -39,6 +39,7 @@ export type Status = {
   readonly rampage: {
     readonly attackBoost: Increase
     readonly affinityBoost: Increase
+    readonly nonElementalBoost: number
   }
 }
 
@@ -84,3 +85,6 @@ export const getDangoTemper = createOptionalFactorGetter(DANGO_TEMPER)
 
 export const RAMPAGE_ATTACK_BOOSTS = createIncreaseSkill([4, 6, 8, 10].map((x) => ({ text: `+${x}`, increase: x })))
 export const RAMPAGE_AFFINITY_BOOSTS = createIncreaseSkill([4, 6, 8, 10].map((x) => ({ text: `+${x}`, increase: x })))
+
+export const RAMPAGE_NON_ELEMENTAL_BOOST = 10
+export const getRampageNonElementalBoost = createOptionalIncreaseGetter(RAMPAGE_NON_ELEMENTAL_BOOST)

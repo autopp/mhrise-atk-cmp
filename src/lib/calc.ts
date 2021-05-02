@@ -30,7 +30,8 @@ function calculateBaseAttack({
     demonPowder +
     booster +
     demonDrug.increase +
-    rampage.attackBoost.increase
+    rampage.attackBoost.increase +
+    rampage.nonElementalBoost
   )
 }
 

@@ -8,6 +8,7 @@ import {
   MIGHT_SEED,
   RAMPAGE_AFFINITY_BOOSTS,
   RAMPAGE_ATTACK_BOOSTS,
+  RAMPAGE_NON_ELEMENTAL_BOOST,
   SHARPNESS_BLUE,
   SHARPNESS_YELLOW,
   Status,
@@ -35,6 +36,7 @@ const defaultStatus: Status = {
   rampage: {
     attackBoost: RAMPAGE_ATTACK_BOOSTS[0],
     affinityBoost: RAMPAGE_AFFINITY_BOOSTS[0],
+    nonElementalBoost: 0,
   },
 }
 
@@ -82,6 +84,10 @@ describe("calculateTotal", () => {
     [
       { weapon: { attack: 100, affinity: 95 }, rampage: { affinityBoost: RAMPAGE_AFFINITY_BOOSTS[4] } },
       { attack: 100, affinity: 100, expectedValue: 125 },
+    ],
+    [
+      { weapon: { attack: 90 }, rampage: { nonElementalBoost: RAMPAGE_NON_ELEMENTAL_BOOST } },
+      { attack: 100, affinity: 0, expectedValue: 100 },
     ],
   ])("case %#", (partialStatus, expected) => {
     it(`returns ${JSON.stringify(expected)}`, () => {
