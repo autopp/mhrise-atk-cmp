@@ -16,6 +16,10 @@ function createOptionalFactorGetter(factor: number): (x: boolean) => number {
   return (x) => (x ? factor : 1)
 }
 
+function createIncreaseSkill(levels: Increase[]): Increase[] {
+  return [{ text: "", increase: 0 }, ...levels]
+}
+
 export type Status = {
   readonly weapon: {
     readonly attack: number
@@ -31,6 +35,9 @@ export type Status = {
   readonly dango: {
     readonly booster: number
     readonly temper: number
+  }
+  readonly rampage: {
+    readonly attackBoost: Increase
   }
 }
 
@@ -73,3 +80,5 @@ export const getDangoBooster = createOptionalIncreaseGetter(DANGO_BOOSTER)
 
 export const DANGO_TEMPER = 1.05
 export const getDangoTemper = createOptionalFactorGetter(DANGO_TEMPER)
+
+export const RAMPAGE_ATTACK_BOOSTS = createIncreaseSkill([4, 6, 8, 10].map((x) => ({ text: `+${x}`, increase: x })))

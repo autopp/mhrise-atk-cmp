@@ -13,21 +13,28 @@ import {
   SHARPNESSES,
   Status,
   getDangoTemper,
+  RAMPAGE_ATTACK_BOOSTS,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { usePairingState } from "@/lib/pairing"
 import RadioInputRow from "@/components/radio-input-row"
+import LevelInputRow from "@/components/level-input-row"
 
 const Home: FC = () => {
+  // Weapon
   const weaponAttack = usePairingState(180)
   const weaponCritical = usePairingState(0)
   const weaponSharpness = usePairingState(SHARPNESSES.length - 1)
+  // Item
   const itemTalonAndCharm = usePairingState(true)
   const itemDemondrug = usePairingState(0)
   const itemMightSeed = usePairingState(false)
   const itemDemonPowder = usePairingState(false)
+  // Dango
   const dangoBooster = usePairingState(false)
   const dangoTemper = usePairingState(false)
+  // Rampage
+  const rampageAttackBoost = usePairingState(0)
   const [leftStatus, rightStatus]: Status[] = (["leftState", "rightState"] as const).map((pos) => ({
     weapon: {
       attack: weaponAttack[pos][0],
@@ -44,6 +51,9 @@ const Home: FC = () => {
       booster: getDangoBooster(dangoBooster[pos][0]),
       temper: getDangoTemper(dangoTemper[pos][0]),
     },
+    rampage: {
+      attackBoost: RAMPAGE_ATTACK_BOOSTS[rampageAttackBoost[pos][0]],
+    },
   }))
 
   const syncedSetters = [
@@ -56,6 +66,7 @@ const Home: FC = () => {
     itemDemonPowder,
     dangoBooster,
     dangoTemper,
+    rampageAttackBoost,
   ].map(({ syncedState: [, setSynced] }) => setSynced)
 
   return (
@@ -81,6 +92,8 @@ const Home: FC = () => {
         <HeadingRow text="おだんごスキル" />
         <CheckboxInputRow label="おだんご短期催眠術" {...dangoBooster} />
         <CheckboxInputRow label="おだんご暴れ撃ち" {...dangoTemper} />
+        <HeadingRow text="百竜スキル" />
+        <LevelInputRow label="攻撃力強化" levels={RAMPAGE_ATTACK_BOOSTS} {...rampageAttackBoost} />
         <ResultRow left={leftStatus} right={rightStatus} syncedSetters={syncedSetters} />
       </div>
     </Layout>

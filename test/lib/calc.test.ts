@@ -6,6 +6,7 @@ import {
   DEMONDRUG_NONE,
   DEMON_POWDER,
   MIGHT_SEED,
+  RAMPAGE_ATTACK_BOOSTS,
   SHARPNESS_BLUE,
   SHARPNESS_YELLOW,
   Status,
@@ -29,6 +30,9 @@ const defaultStatus: Status = {
   dango: {
     booster: 0,
     temper: 1,
+  },
+  rampage: {
+    attackBoost: RAMPAGE_ATTACK_BOOSTS[0],
   },
 }
 
@@ -64,6 +68,10 @@ describe("calculateTotal", () => {
     [
       { weapon: { attack: 100, sharpness: SHARPNESS_BLUE }, dango: { temper: DANGO_TEMPER } },
       { attack: 126, critical: 0, expectedValue: 126 },
+    ],
+    [
+      { weapon: { attack: 92 }, rampage: { attackBoost: RAMPAGE_ATTACK_BOOSTS[3] } },
+      { attack: 100, critical: 0, expectedValue: 100 },
     ],
   ])("case %#", (partialStatus, expected) => {
     it(`returns ${JSON.stringify(expected)}`, () => {

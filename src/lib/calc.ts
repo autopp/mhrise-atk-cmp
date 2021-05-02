@@ -21,6 +21,15 @@ function calculateBaseAttack({
   weapon,
   item: { talonAndCharm, demonDrug, mightSeed, demonPowder },
   dango: { booster },
+  rampage,
 }: Status): number {
-  return weapon.attack + talonAndCharm + mightSeed + demonPowder + booster + demonDrug.increase
+  return (
+    weapon.attack +
+    talonAndCharm +
+    mightSeed +
+    demonPowder +
+    booster +
+    demonDrug.increase +
+    rampage.attackBoost.increase
+  )
 }
