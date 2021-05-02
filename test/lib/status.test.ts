@@ -39,6 +39,7 @@ const defaultStatus: Status = {
     affinityBoost: RAMPAGE_AFFINITY_BOOSTS[0],
     nonElementalBoost: 0,
     dullingStrike: false,
+    brutalStrike: false,
   },
 }
 
@@ -94,6 +95,22 @@ describe("calculateTotal", () => {
     [
       { weapon: { attack: 100 }, rampage: { dullingStrike: true } },
       { attack: 102, affinity: 0, expectedValue: 102 },
+    ],
+    [
+      { weapon: { attack: 100 }, rampage: { brutalStrike: true } },
+      { attack: 100, affinity: 0, expectedValue: 100 },
+    ],
+    [
+      { weapon: { attack: 100, affinity: 40 }, rampage: { brutalStrike: true } },
+      { attack: 100, affinity: 40, expectedValue: 110 },
+    ],
+    [
+      { weapon: { attack: 100, affinity: -40 }, rampage: { brutalStrike: true } },
+      { attack: 100, affinity: -40, expectedValue: 97.5 },
+    ],
+    [
+      { weapon: { attack: 160, affinity: -100 }, rampage: { brutalStrike: true } },
+      { attack: 160, affinity: -100, expectedValue: 150 },
     ],
   ])("case %#", (partialStatus, expected) => {
     it(`returns ${JSON.stringify(expected)}`, () => {

@@ -43,6 +43,7 @@ export type Status = {
     readonly affinityBoost: Increase
     readonly nonElementalBoost: number
     readonly dullingStrike: boolean
+    readonly brutalStrike: boolean
   }
 }
 
@@ -103,10 +104,11 @@ export function calculateTotal(status: Status): Total {
   const attack =
     baseAttack * status.weapon.sharpness.factor * status.dango.temper * calculateDullingStrikeFactor(status)
   const affinity = calculateAffinity(status)
+  const criticalFactor = calculateCriticalFactor(status, affinity)
   return {
     attack,
     affinity,
-    expectedValue: attack * (1 + (affinity * 0.25) / 100),
+    expectedValue: (attack * (100 + affinity * criticalFactor)) / 100,
   }
 }
 
@@ -130,6 +132,10 @@ function calculateBaseAttack({
 
 function calculateAffinity({ weapon, rampage }: Status) {
   return Math.min(Math.max(weapon.affinity + rampage.affinityBoost.increase, -100), 100)
+}
+
+function calculateCriticalFactor({ rampage: { brutalStrike } }: Status, affinity: number) {
+  return affinity < 0 && brutalStrike ? 0.0625 : 0.25
 }
 
 function calculateDullingStrikeFactor({ weapon: { sharpness }, rampage: { dullingStrike } }: Status): number {
