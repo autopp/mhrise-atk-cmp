@@ -1,4 +1,4 @@
-import { Total } from "@/lib/calc"
+import { Total } from "@/lib/status"
 import { FC } from "react"
 
 type Props = {

@@ -88,3 +88,42 @@ export const RAMPAGE_AFFINITY_BOOSTS = createIncreaseSkill([4, 6, 8, 10].map((x)
 
 export const RAMPAGE_NON_ELEMENTAL_BOOST = 10
 export const getRampageNonElementalBoost = createOptionalIncreaseGetter(RAMPAGE_NON_ELEMENTAL_BOOST)
+
+export type Total = {
+  attack: number
+  affinity: number
+  expectedValue: number
+}
+
+export function calculateTotal(status: Status): Total {
+  const baseAttack = calculateBaseAttack(status)
+  const attack = baseAttack * status.weapon.sharpness.factor * status.dango.temper
+  const affinity = calculateAffinity(status)
+  return {
+    attack,
+    affinity,
+    expectedValue: attack * (1 + (affinity * 0.25) / 100),
+  }
+}
+
+function calculateBaseAttack({
+  weapon,
+  item: { talonAndCharm, demonDrug, mightSeed, demonPowder },
+  dango: { booster },
+  rampage,
+}: Status): number {
+  return (
+    weapon.attack +
+    talonAndCharm +
+    mightSeed +
+    demonPowder +
+    booster +
+    demonDrug.increase +
+    rampage.attackBoost.increase +
+    rampage.nonElementalBoost
+  )
+}
+
+function calculateAffinity({ weapon, rampage }: Status) {
+  return Math.min(Math.max(weapon.affinity + rampage.affinityBoost.increase, -100), 100)
+}

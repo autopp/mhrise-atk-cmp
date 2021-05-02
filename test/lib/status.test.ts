@@ -1,5 +1,6 @@
-import { calculateTotal, Total } from "@/lib/calc"
 import {
+  calculateTotal,
+  Total,
   DANGO_BOOSTER,
   DANGO_TEMPER,
   DEMONDRUG_MEGA,
