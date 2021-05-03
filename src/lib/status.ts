@@ -34,6 +34,10 @@ function createIncreaseSkill(levels: Increase[]): Increase[] {
   return [{ text: "", increase: 0 }, ...levels]
 }
 
+function createFactorSkill(levels: Factor[]): Factor[] {
+  return [{ text: "", factor: UNIT_FACTOR }, ...levels]
+}
+
 export type Status = {
   readonly weapon: {
     readonly attack: number
@@ -65,6 +69,7 @@ export type Status = {
     readonly maximumMight: Increase
     readonly criticalDraw: Increase
     readonly criticalBoost: Factor
+    readonly offensiveGuard: Factor
   }
 }
 
@@ -155,6 +160,10 @@ export const CRITICAL_BOOSTS: Factor[] = [
   { text: "1.40", factor: new Decimal("0.40") },
 ]
 
+export const OFFENSIVE_GUARDS = createFactorSkill(
+  ["1.05", "1.1", "1.15"].map((v) => ({ text: `${v}倍`, factor: new Decimal(v) }))
+)
+
 export type Total = {
   attack: number
   affinity: number
@@ -183,12 +192,12 @@ function calculateBaseAttack({
   item: { talonAndCharm, demonDrug, mightSeed, demonPowder },
   dango: { booster },
   rampage,
-  skill: { attackBoost },
+  skill: { attackBoost, offensiveGuard },
 }: Status): Decimal {
   const weaponAttack = new Decimal(sum(weapon.attack, rampage.attackBoost, rampage.attackOrAffinitySurge.attack))
-  return weaponAttack
-    .mul(attackBoost.factor)
-    .add(sum(talonAndCharm, mightSeed, demonPowder, booster, demonDrug, rampage.nonElementalBoost, attackBoost))
+  return product(weaponAttack, attackBoost, offensiveGuard).add(
+    sum(talonAndCharm, mightSeed, demonPowder, booster, demonDrug, rampage.nonElementalBoost, attackBoost)
+  )
 }
 
 function calculateAffinity({
