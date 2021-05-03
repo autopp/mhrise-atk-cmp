@@ -116,6 +116,10 @@ export const RAMPAGE_AFFINITY_BOOSTS = createIncreaseSkill([4, 6, 8, 10].map((x)
 export const RAMPAGE_NON_ELEMENTAL_BOOST = 10
 export const getRampageNonElementalBoost = createOptionalIncreaseGetter(RAMPAGE_NON_ELEMENTAL_BOOST)
 
+const RAMPAGE_DULLING_STRIKE = new Decimal("1.02")
+
+const RAMPAGE_BRUTAL_STRIKE = new Decimal("0.0625")
+
 export const RAMPAGE_ATTACK_OR_AFFINITY_SURGES: AttackOrAffinitySurge[] = [
   { text: "なし", attack: 0, affinity: 0 },
   { text: "攻撃力激化", attack: 20, affinity: -30 },
@@ -210,14 +214,14 @@ function calculateCriticalFactor(
   affinity: Decimal
 ): Decimal {
   if (affinity.isNegative()) {
-    return brutalStrike ? new Decimal("0.0625") : DEFAULT_CRITICAL_RATE
+    return brutalStrike ? RAMPAGE_BRUTAL_STRIKE : DEFAULT_CRITICAL_RATE
   }
 
   return criticalBoost.factor
 }
 
 function calculateDullingStrikeFactor({ weapon: { sharpness }, rampage: { dullingStrike } }: Status): Decimal {
-  return dullingStrike && sharpness.level <= SHARPNESS_GREEN.level ? new Decimal("1.02") : new Decimal(1.0)
+  return dullingStrike && sharpness.level <= SHARPNESS_GREEN.level ? RAMPAGE_DULLING_STRIKE : UNIT_FACTOR
 }
 
 function sum(...values: (number | Increase)[]): number {
