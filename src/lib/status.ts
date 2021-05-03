@@ -20,6 +20,12 @@ type AttackOrAffinitySurge = {
 
 type AttackBoost = Increase & Factor
 
+type Agitator = {
+  readonly text: string
+  readonly attack: number
+  readonly affinity: number
+}
+
 const UNIT_FACTOR = new Decimal(1)
 
 function createOptionalIncreaseGetter(increase: number): (x: boolean) => number {
@@ -72,6 +78,7 @@ export type Status = {
     readonly offensiveGuard: Factor
     readonly peakPerformance: Increase
     readonly latentPower: Increase
+    readonly agitator: Agitator
   }
 }
 
@@ -170,6 +177,15 @@ export const PEAK_PERFORMANCES = createIncreaseSkill([5, 10, 20].map((x) => ({ t
 
 export const LATENT_POWERS = createIncreaseSkill([10, 20, 30, 40, 50].map((x) => ({ text: `+${x}`, increase: x })))
 
+export const AGITATORS: Agitator[] = [
+  { text: "", attack: 0, affinity: 0 },
+  { text: "攻撃力+4 & 会心率+3", attack: 4, affinity: 3 },
+  { text: "攻撃力+8 & 会心率+5", attack: 8, affinity: 5 },
+  { text: "攻撃力+12 & 会心率+7", attack: 12, affinity: 7 },
+  { text: "攻撃力+16 & 会心率+10", attack: 16, affinity: 10 },
+  { text: "攻撃力+20 & 会心率+15", attack: 20, affinity: 15 },
+]
+
 export type Total = {
   attack: number
   affinity: number
@@ -198,7 +214,7 @@ function calculateBaseAttack({
   item: { talonAndCharm, demonDrug, mightSeed, demonPowder },
   dango: { booster },
   rampage,
-  skill: { attackBoost, offensiveGuard, peakPerformance },
+  skill: { attackBoost, offensiveGuard, peakPerformance, agitator },
 }: Status): Decimal {
   const weaponAttack = new Decimal(sum(weapon.attack, rampage.attackBoost, rampage.attackOrAffinitySurge.attack))
   return product(weaponAttack, attackBoost, offensiveGuard).add(
@@ -210,7 +226,8 @@ function calculateBaseAttack({
       demonDrug,
       rampage.nonElementalBoost,
       attackBoost,
-      peakPerformance
+      peakPerformance,
+      agitator.attack
     )
   )
 }
@@ -218,7 +235,7 @@ function calculateBaseAttack({
 function calculateAffinity({
   weapon,
   rampage,
-  skill: { criticalEye, weaknessExploit, maximumMight, criticalDraw, latentPower },
+  skill: { criticalEye, weaknessExploit, maximumMight, criticalDraw, latentPower, agitator },
 }: Status): Decimal {
   const affinity = sum(
     weapon.affinity,
@@ -228,7 +245,8 @@ function calculateAffinity({
     weaknessExploit,
     maximumMight,
     criticalDraw,
-    latentPower
+    latentPower,
+    agitator.affinity
   )
 
   return new Decimal(Math.min(Math.max(affinity, -100), 100))
