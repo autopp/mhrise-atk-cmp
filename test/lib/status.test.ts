@@ -20,6 +20,7 @@ import {
 } from "@/lib/status"
 import { DeepPartial } from "ts-essentials"
 import { merge as mergeObject } from "lodash"
+import Decimal from "decimal.js-light"
 
 const defaultStatus: Status = {
   weapon: {
@@ -35,7 +36,7 @@ const defaultStatus: Status = {
   },
   dango: {
     booster: 0,
-    temper: 1,
+    temper: new Decimal(1),
   },
   rampage: {
     attackBoost: RAMPAGE_ATTACK_BOOSTS[0],

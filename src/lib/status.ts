@@ -7,7 +7,7 @@ type Increase = {
 
 type Factor = {
   readonly text: string
-  readonly factor: number
+  readonly factor: Decimal
 }
 
 type Sharpness = Factor & { level: number }
@@ -22,8 +22,8 @@ function createOptionalIncreaseGetter(increase: number): (x: boolean) => number 
   return (x) => (x ? increase : 0)
 }
 
-function createOptionalFactorGetter(factor: number): (x: boolean) => number {
-  return (x) => (x ? factor : 1)
+function createOptionalFactorGetter(factor: Decimal): (x: boolean) => Decimal {
+  return (x) => (x ? factor : new Decimal(1))
 }
 
 function createIncreaseSkill(levels: Increase[]): Increase[] {
@@ -44,7 +44,7 @@ export type Status = {
   }
   readonly dango: {
     readonly booster: number
-    readonly temper: number
+    readonly temper: Decimal
   }
   readonly rampage: {
     readonly attackBoost: Increase
@@ -57,12 +57,12 @@ export type Status = {
 }
 
 export const SHARPNESSES: Sharpness[] = [
-  { text: "赤 (0.5)", factor: 0.5 },
-  { text: "橙 (0.75)", factor: 0.75 },
-  { text: "黄 (1.0)", factor: 1 },
-  { text: "緑 (1.05)", factor: 1.05 },
-  { text: "青 (1.2)", factor: 1.2 },
-  { text: "白 (1.32)", factor: 1.32 },
+  { text: "赤 (0.5)", factor: new Decimal("0.5") },
+  { text: "橙 (0.75)", factor: new Decimal("0.75") },
+  { text: "黄 (1.0)", factor: new Decimal("1") },
+  { text: "緑 (1.05)", factor: new Decimal("1.05") },
+  { text: "青 (1.2)", factor: new Decimal("1.2") },
+  { text: "白 (1.32)", factor: new Decimal("1.32") },
 ].map((factor, level) => ({ level, ...factor }))
 
 export const [
@@ -93,7 +93,7 @@ export const getDemonPowder = createOptionalIncreaseGetter(DEMON_POWDER)
 export const DANGO_BOOSTER = 9
 export const getDangoBooster = createOptionalIncreaseGetter(DANGO_BOOSTER)
 
-export const DANGO_TEMPER = 1.05
+export const DANGO_TEMPER = new Decimal(1.05)
 export const getDangoTemper = createOptionalFactorGetter(DANGO_TEMPER)
 
 export const RAMPAGE_ATTACK_BOOSTS = createIncreaseSkill([4, 6, 8, 10].map((x) => ({ text: `+${x}`, increase: x })))
