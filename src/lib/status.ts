@@ -1,5 +1,4 @@
-import Decimal from "decimal.js-light"
-import { SIGKILL } from "node:constants"
+import Decimal, { Numeric } from "decimal.js-light"
 
 type Increase = {
   readonly text: string
@@ -51,8 +50,18 @@ function createAffinityIncreaseSkill(increases: number[]): Increase[] {
   return createIncreaseSkill(increases, "会心率")
 }
 
-function createFactorSkill(levels: Factor[]): Factor[] {
-  return [{ text: "", factor: UNIT_FACTOR }, ...levels]
+function createFactorSkill(factors: Numeric[], prefix: string): Factor[] {
+  return [
+    { text: "", factor: UNIT_FACTOR },
+    ...factors.map((f) => {
+      const factor = f instanceof Decimal ? f : new Decimal(f)
+      return { text: `${prefix}${factor.toString()}倍`, factor }
+    }),
+  ]
+}
+
+function createDamageFactorSkill(factors: Numeric[]): Factor[] {
+  return createFactorSkill(factors, "ダメージ")
 }
 
 export type Status = {
@@ -91,6 +100,7 @@ export type Status = {
     readonly latentPower: Increase
     readonly agitator: Agitator
     readonly bludgeoner: Bludgeoner
+    readonly artillery: Factor
   }
 }
 
@@ -179,9 +189,7 @@ export const CRITICAL_BOOSTS: Factor[] = [
   { text: "1.40", factor: new Decimal("0.40") },
 ]
 
-export const OFFENSIVE_GUARDS = createFactorSkill(
-  ["1.05", "1.1", "1.15"].map((v) => ({ text: `${v}倍`, factor: new Decimal(v) }))
-)
+export const OFFENSIVE_GUARDS = createFactorSkill(["1.05", "1.1", "1.15"], "攻撃力")
 
 export const PEAK_PERFORMANCES = createAttackIncreaseSkill([5, 10, 20])
 
@@ -203,6 +211,8 @@ export const BLUDGEONERS: Bludgeoner[] = [
   { text: "斬れ味が緑色以下の時、攻撃力1.1倍", factor: new Decimal("1.1"), activeLevel: SHARPNESS_GREEN.level },
 ]
 
+export const ARTILLERIES = createDamageFactorSkill(["1.1", "1.2", "1.3"])
+
 export type Total = {
   attack: number
   affinity: number
@@ -215,7 +225,8 @@ export function calculateTotal(status: Status): Total {
     baseAttack,
     status.weapon.sharpness.factor,
     status.dango.temper,
-    calculateDullingStrikeFactor(status)
+    calculateDullingStrikeFactor(status),
+    status.skill.artillery
   )
   const affinity = calculateAffinity(status)
   const criticalFactor = calculateCriticalFactor(status, affinity)
