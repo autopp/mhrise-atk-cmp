@@ -33,6 +33,9 @@ import {
   RAPID_MORPHS,
   AMMO_AND_ARROW_UPS,
   RAPID_FIRE_UPS,
+  NO_BARREL,
+  LONG_BARREL,
+  POWER_BARREL,
 } from "@/lib/status"
 import { DeepPartial } from "ts-essentials"
 import { merge as mergeObject } from "lodash"
@@ -43,6 +46,7 @@ const defaultStatus: Status = {
     attack: 100,
     affinity: 0,
     sharpness: SHARPNESS_YELLOW,
+    barrel: NO_BARREL,
   },
   item: {
     talonAndCharm: 0,
@@ -161,6 +165,20 @@ describe("calculateTotal", () => {
     [
       { weapon: { attack: 110 }, rampage: { attackOrAffinitySurge: RAMPAGE_AFFINITY_SURGE } },
       { attack: 100, affinity: 20, expectedValue: 105 },
+    ],
+    [
+      {
+        weapon: { attack: 200, affinity: 30, barrel: LONG_BARREL },
+        rampage: { attackOrAffinitySurge: RAMPAGE_ATTACK_SURGE },
+      },
+      { attack: 229, affinity: 0, expectedValue: 229 },
+    ],
+    [
+      {
+        weapon: { attack: 100, affinity: 30, barrel: POWER_BARREL },
+        rampage: { attackOrAffinitySurge: RAMPAGE_ATTACK_SURGE },
+      },
+      { attack: 132, affinity: 0, expectedValue: 132 },
     ],
     [
       { weapon: { attack: 100 }, skill: { attackBoost: ATTACK_BOOSTS[3] } },

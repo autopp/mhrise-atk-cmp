@@ -69,6 +69,7 @@ export type Status = {
     readonly attack: number
     readonly affinity: number
     readonly sharpness: Sharpness
+    readonly barrel: Factor
   }
   readonly item: {
     readonly talonAndCharm: number
@@ -126,6 +127,13 @@ export const [
   SHARPNESS_BLUE,
   SHARPNESS_WHITE,
 ] = SHARPNESSES
+
+export const BARRELS: Factor[] = [
+  { text: "なし", factor: UNIT_FACTOR },
+  { text: "ロングバレル（1.0475倍）", factor: new Decimal("1.0475") },
+  { text: "パワーバレル（1.125倍）", factor: new Decimal("1.125") },
+]
+export const [NO_BARREL, LONG_BARREL, POWER_BARREL] = BARRELS
 
 export const TALON_AND_CHARM = 15
 export const getTalonAndCharm = createOptionalIncreaseGetter(TALON_AND_CHARM)
@@ -263,7 +271,13 @@ function calculateBaseAttack(status: Status): Decimal {
     skill: { attackBoost, offensiveGuard, peakPerformance, agitator },
   } = status
 
-  const weaponAttack = new Decimal(sum(weapon.attack, rampage.attackBoost, rampage.attackOrAffinitySurge.attack))
+  const weaponAttack = new Decimal(
+    sum(
+      weapon.barrel.factor.mul(weapon.attack).toDecimalPlaces(0, Decimal.ROUND_DOWN).toNumber(),
+      rampage.attackBoost,
+      rampage.attackOrAffinitySurge.attack
+    )
+  )
   return product(weaponAttack, attackBoost, offensiveGuard, calculateBludgeonerFactor(status)).add(
     sum(
       talonAndCharm,

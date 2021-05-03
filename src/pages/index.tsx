@@ -11,6 +11,7 @@ import {
   getDemonPowder,
   getDangoBooster,
   SHARPNESSES,
+  BARRELS,
   Status,
   getDangoTemper,
   RAMPAGE_ATTACK_BOOSTS,
@@ -44,6 +45,7 @@ const Home: FC = () => {
   const weaponAttack = usePairingState(180)
   const weaponAffinity = usePairingState(0)
   const weaponSharpness = usePairingState(SHARPNESSES.length - 1)
+  const weaponBarrel = usePairingState(0)
   // Item
   const itemTalonAndCharm = usePairingState(true)
   const itemDemondrug = usePairingState(0)
@@ -83,6 +85,7 @@ const Home: FC = () => {
         attack: valueOf(weaponAttack),
         affinity: valueOf(weaponAffinity),
         sharpness: SHARPNESSES[valueOf(weaponSharpness)],
+        barrel: BARRELS[valueOf(weaponBarrel)],
       },
       item: {
         talonAndCharm: getTalonAndCharm(valueOf(itemTalonAndCharm)),
@@ -170,6 +173,7 @@ const Home: FC = () => {
         <NumberInputRow label="武器攻撃力" min={0} max={300} step={10} {...weaponAttack} />
         <NumberInputRow label="武器会心率" min={-100} max={100} step={5} {...weaponAffinity} />
         <RadioInputRow label="斬れ味" idPrefix="weaponSharpness" options={SHARPNESSES} {...weaponSharpness} />
+        <RadioInputRow label="ロング/パワーバレル" idPrefix="weaponBarrel" options={BARRELS} {...weaponBarrel} />
         <HeadingRow text="アイテム" />
         <CheckboxInputRow label="爪・護符" {...itemTalonAndCharm} />
         <RadioInputRow label="鬼人薬" idPrefix="itemDemondrug" options={DEMONDRUGS} {...itemDemondrug} />
