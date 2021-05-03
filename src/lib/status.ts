@@ -61,6 +61,7 @@ export type Status = {
   readonly skill: {
     readonly attackBoost: AttackBoost
     readonly criticalEye: Increase
+    readonly weaknessExploit: Increase
   }
 }
 
@@ -132,6 +133,8 @@ export const CRITICAL_EYES = createIncreaseSkill(
   [5, 10, 15, 20, 25, 30, 40].map((x) => ({ text: `+${x}`, increase: x }))
 )
 
+export const WEAKNESS_EXPLOITS = createIncreaseSkill([15, 30, 50].map((x) => ({ text: `+${x}`, increase: x })))
+
 export type Total = {
   attack: number
   affinity: number
@@ -174,9 +177,15 @@ function calculateBaseAttack({
     )
 }
 
-function calculateAffinity({ weapon, rampage, skill: { criticalEye } }: Status): Decimal {
-  const affinity =
-    weapon.affinity + rampage.affinityBoost.increase + rampage.attackOrAffinitySurge.affinity + criticalEye.increase
+function calculateAffinity({ weapon, rampage, skill: { criticalEye, weaknessExploit } }: Status): Decimal {
+  const affinity = sumOf(
+    weapon.affinity,
+    rampage.affinityBoost,
+    rampage.attackOrAffinitySurge.affinity,
+    criticalEye,
+    weaknessExploit
+  )
+
   return new Decimal(Math.min(Math.max(affinity, -100), 100))
 }
 
@@ -186,4 +195,8 @@ function calculateCriticalFactor({ rampage: { brutalStrike } }: Status, affinity
 
 function calculateDullingStrikeFactor({ weapon: { sharpness }, rampage: { dullingStrike } }: Status): Decimal {
   return dullingStrike && sharpness.level <= SHARPNESS_GREEN.level ? new Decimal("1.02") : new Decimal(1.0)
+}
+
+function sumOf(...values: (number | Increase)[]): number {
+  return values.reduce<number>((sum, x) => (typeof x === "number" ? sum + x : sum + x.increase), 0)
 }

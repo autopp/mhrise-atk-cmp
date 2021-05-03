@@ -19,6 +19,7 @@ import {
   RAMPAGE_AFFINITY_SURGE,
   ATTACK_BOOSTS,
   CRITICAL_EYES,
+  WEAKNESS_EXPLOITS,
 } from "@/lib/status"
 import { DeepPartial } from "ts-essentials"
 import { merge as mergeObject } from "lodash"
@@ -51,6 +52,7 @@ const defaultStatus: Status = {
   skill: {
     attackBoost: ATTACK_BOOSTS[0],
     criticalEye: CRITICAL_EYES[0],
+    weaknessExploit: WEAKNESS_EXPLOITS[0],
   },
 }
 
@@ -155,6 +157,10 @@ describe("calculateTotal", () => {
     [
       { weapon: { attack: 100 }, skill: { criticalEye: CRITICAL_EYES[7] } },
       { attack: 100, affinity: 40, expectedValue: 110 },
+    ],
+    [
+      { weapon: { attack: 100 }, skill: { weaknessExploit: WEAKNESS_EXPLOITS[3] } },
+      { attack: 100, affinity: 50, expectedValue: 112.5 },
     ],
   ])("case %#", (partialStatus, expected) => {
     it(`returns ${JSON.stringify(expected)}`, () => {
