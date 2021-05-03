@@ -103,6 +103,7 @@ export type Status = {
     readonly artillery: Factor
     readonly rapidMorph: Factor
     readonly ammoAndArrowUp: Factor
+    readonly rapidFireUp: Factor
   }
 }
 
@@ -223,6 +224,7 @@ export const RAPID_MORPHS: Factor[] = [
 ]
 
 export const AMMO_AND_ARROW_UPS = createDamageFactorSkill(["1.05", "1.1", "1.2"])
+export const RAPID_FIRE_UPS = createDamageFactorSkill(["1.05", "1.1", "1.2"])
 
 export type Total = {
   attack: number
@@ -240,7 +242,8 @@ export function calculateTotal(status: Status): Total {
     calculateDullingStrikeFactor(status),
     skill.artillery,
     skill.rapidMorph,
-    skill.ammoAndArrowUp
+    skill.ammoAndArrowUp,
+    skill.rapidFireUp
   )
   const affinity = calculateAffinity(status)
   const criticalFactor = calculateCriticalFactor(status, affinity)

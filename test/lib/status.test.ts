@@ -32,6 +32,7 @@ import {
   ARTILLERIES,
   RAPID_MORPHS,
   AMMO_AND_ARROW_UPS,
+  RAPID_FIRE_UPS,
 } from "@/lib/status"
 import { DeepPartial } from "ts-essentials"
 import { merge as mergeObject } from "lodash"
@@ -76,6 +77,7 @@ const defaultStatus: Status = {
     artillery: ARTILLERIES[0],
     rapidMorph: RAPID_MORPHS[0],
     ammoAndArrowUp: AMMO_AND_ARROW_UPS[0],
+    rapidFireUp: RAPID_FIRE_UPS[0],
   },
 }
 
@@ -269,6 +271,14 @@ describe("calculateTotal", () => {
         weapon: { attack: 100 },
         item: { mightSeed: MIGHT_SEED },
         skill: { ammoAndArrowUp: AMMO_AND_ARROW_UPS[3] },
+      },
+      { attack: 132, affinity: 0, expectedValue: 132 },
+    ],
+    [
+      {
+        weapon: { attack: 100 },
+        item: { mightSeed: MIGHT_SEED },
+        skill: { rapidFireUp: RAPID_FIRE_UPS[3] },
       },
       { attack: 132, affinity: 0, expectedValue: 132 },
     ],
