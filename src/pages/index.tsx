@@ -21,6 +21,7 @@ import {
   CRITICAL_EYES,
   WEAKNESS_EXPLOITS,
   MAXIMUM_MIGHTS,
+  CRITICAL_DRAWS,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { usePairingState } from "@/lib/pairing"
@@ -53,6 +54,7 @@ const Home: FC = () => {
   const skillCriticalEye = usePairingState(0)
   const skillWeaknessExploit = usePairingState(0)
   const skillMaximumMight = usePairingState(0)
+  const skillCriticalDraw = usePairingState(0)
 
   const [leftStatus, rightStatus]: Status[] = (["leftState", "rightState"] as const).map((pos) => {
     const valueOf = <T,>(states: { leftState: State<T>; rightState: State<T> }) => states[pos][0]
@@ -85,6 +87,7 @@ const Home: FC = () => {
         criticalEye: CRITICAL_EYES[valueOf(skillCriticalEye)],
         weaknessExploit: WEAKNESS_EXPLOITS[valueOf(skillWeaknessExploit)],
         maximumMight: MAXIMUM_MIGHTS[valueOf(skillMaximumMight)],
+        criticalDraw: CRITICAL_DRAWS[valueOf(skillCriticalDraw)],
       },
     }
   })
@@ -109,6 +112,7 @@ const Home: FC = () => {
     skillCriticalEye,
     skillWeaknessExploit,
     skillMaximumMight,
+    skillCriticalDraw,
   ].map(({ syncedState: [, setSynced] }) => setSynced)
 
   return (
@@ -151,6 +155,7 @@ const Home: FC = () => {
         <LevelInputRow label="見切り" levels={CRITICAL_EYES} {...skillCriticalEye} />
         <LevelInputRow label="弱点特効" levels={WEAKNESS_EXPLOITS} {...skillWeaknessExploit} />
         <LevelInputRow label="渾身" levels={MAXIMUM_MIGHTS} {...skillMaximumMight} />
+        <LevelInputRow label="抜刀術【技】" levels={CRITICAL_DRAWS} {...skillCriticalDraw} />
         <ResultRow left={leftStatus} right={rightStatus} syncedSetters={syncedSetters} />
       </div>
     </Layout>

@@ -63,6 +63,7 @@ export type Status = {
     readonly criticalEye: Increase
     readonly weaknessExploit: Increase
     readonly maximumMight: Increase
+    readonly criticalDraw: Increase
   }
 }
 
@@ -138,6 +139,8 @@ export const WEAKNESS_EXPLOITS = createIncreaseSkill([15, 30, 50].map((x) => ({ 
 
 export const MAXIMUM_MIGHTS = createIncreaseSkill([10, 20, 30].map((x) => ({ text: `+${x}`, increase: x })))
 
+export const CRITICAL_DRAWS = createIncreaseSkill([10, 20, 40].map((x) => ({ text: `+${x}`, increase: x })))
+
 export type Total = {
   attack: number
   affinity: number
@@ -177,7 +180,7 @@ function calculateBaseAttack({
 function calculateAffinity({
   weapon,
   rampage,
-  skill: { criticalEye, weaknessExploit, maximumMight },
+  skill: { criticalEye, weaknessExploit, maximumMight, criticalDraw },
 }: Status): Decimal {
   const affinity = sum(
     weapon.affinity,
@@ -185,7 +188,8 @@ function calculateAffinity({
     rampage.attackOrAffinitySurge.affinity,
     criticalEye,
     weaknessExploit,
-    maximumMight
+    maximumMight,
+    criticalDraw
   )
 
   return new Decimal(Math.min(Math.max(affinity, -100), 100))
