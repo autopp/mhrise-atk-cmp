@@ -24,6 +24,7 @@ import {
   CRITICAL_DRAWS,
   CRITICAL_BOOSTS,
   OFFENSIVE_GUARDS,
+  PEAK_PERFORMANCES,
 } from "@/lib/status"
 import { DeepPartial } from "ts-essentials"
 import { merge as mergeObject } from "lodash"
@@ -61,6 +62,7 @@ const defaultStatus: Status = {
     criticalDraw: CRITICAL_DRAWS[0],
     criticalBoost: CRITICAL_BOOSTS[0],
     offensiveGuard: OFFENSIVE_GUARDS[0],
+    peakPerformance: PEAK_PERFORMANCES[0],
   },
 }
 
@@ -189,6 +191,13 @@ describe("calculateTotal", () => {
     [
       { weapon: { attack: 100 }, item: { mightSeed: MIGHT_SEED }, skill: { offensiveGuard: OFFENSIVE_GUARDS[3] } },
       { attack: 125, affinity: 0, expectedValue: 125 },
+    ],
+    [
+      {
+        weapon: { attack: 100 },
+        skill: { offensiveGuard: OFFENSIVE_GUARDS[3], peakPerformance: PEAK_PERFORMANCES[3] },
+      },
+      { attack: 135, affinity: 0, expectedValue: 135 },
     ],
   ])("case %#", (partialStatus, expected) => {
     it(`returns ${JSON.stringify(expected)}`, () => {
