@@ -18,6 +18,7 @@ import {
   getRampageNonElementalBoost,
   RAMPAGE_ATTACK_OR_AFFINITY_SURGES,
   ATTACK_BOOSTS,
+  CRITICAL_EYES,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { usePairingState } from "@/lib/pairing"
@@ -46,6 +47,7 @@ const Home: FC = () => {
   const rampageBrutalStrike = usePairingState(false)
   const rampageAttackOrAffinitySurge = usePairingState(0)
   const skillAttackBoost = usePairingState(0)
+  const skillCriticalEye = usePairingState(0)
 
   const [leftStatus, rightStatus]: Status[] = (["leftState", "rightState"] as const).map((pos) => {
     const valueOf = <T,>(states: { leftState: State<T>; rightState: State<T> }) => states[pos][0]
@@ -75,6 +77,7 @@ const Home: FC = () => {
       },
       skill: {
         attackBoost: ATTACK_BOOSTS[valueOf(skillAttackBoost)],
+        criticalEye: CRITICAL_EYES[valueOf(skillCriticalEye)],
       },
     }
   })
@@ -96,6 +99,7 @@ const Home: FC = () => {
     rampageBrutalStrike,
     rampageAttackOrAffinitySurge,
     skillAttackBoost,
+    skillCriticalEye,
   ].map(({ syncedState: [, setSynced] }) => setSynced)
 
   return (
@@ -135,6 +139,7 @@ const Home: FC = () => {
         />
         <HeadingRow text="スキル" />
         <LevelInputRow label="攻撃" levels={ATTACK_BOOSTS} {...skillAttackBoost} />
+        <LevelInputRow label="見切り" levels={CRITICAL_EYES} {...skillCriticalEye} />
         <ResultRow left={leftStatus} right={rightStatus} syncedSetters={syncedSetters} />
       </div>
     </Layout>

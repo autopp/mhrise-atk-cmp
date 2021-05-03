@@ -60,6 +60,7 @@ export type Status = {
   }
   readonly skill: {
     readonly attackBoost: AttackBoost
+    readonly criticalEye: Increase
   }
 }
 
@@ -127,6 +128,10 @@ export const ATTACK_BOOSTS: AttackBoost[] = [
   { text: "1.1倍 & +10", increase: 10, factor: new Decimal("1.1") },
 ]
 
+export const CRITICAL_EYES = createIncreaseSkill(
+  [5, 10, 15, 20, 25, 30, 40].map((x) => ({ text: `+${x}`, increase: x }))
+)
+
 export type Total = {
   attack: number
   affinity: number
@@ -169,8 +174,9 @@ function calculateBaseAttack({
     )
 }
 
-function calculateAffinity({ weapon, rampage }: Status): Decimal {
-  const affinity = weapon.affinity + rampage.affinityBoost.increase + rampage.attackOrAffinitySurge.affinity
+function calculateAffinity({ weapon, rampage, skill: { criticalEye } }: Status): Decimal {
+  const affinity =
+    weapon.affinity + rampage.affinityBoost.increase + rampage.attackOrAffinitySurge.affinity + criticalEye.increase
   return new Decimal(Math.min(Math.max(affinity, -100), 100))
 }
 
