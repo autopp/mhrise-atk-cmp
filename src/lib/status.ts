@@ -163,18 +163,10 @@ function calculateBaseAttack({
   rampage,
   skill: { attackBoost },
 }: Status): Decimal {
-  const weaponAttack = new Decimal(weapon.attack + rampage.attackBoost.increase + rampage.attackOrAffinitySurge.attack)
+  const weaponAttack = new Decimal(sumOf(weapon.attack, rampage.attackBoost, rampage.attackOrAffinitySurge.attack))
   return weaponAttack
     .mul(attackBoost.factor)
-    .add(
-      talonAndCharm +
-        mightSeed +
-        demonPowder +
-        booster +
-        demonDrug.increase +
-        rampage.nonElementalBoost +
-        attackBoost.increase
-    )
+    .add(sumOf(talonAndCharm, mightSeed, demonPowder, booster, demonDrug, rampage.nonElementalBoost, attackBoost))
 }
 
 function calculateAffinity({ weapon, rampage, skill: { criticalEye, weaknessExploit } }: Status): Decimal {
