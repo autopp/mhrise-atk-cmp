@@ -102,6 +102,7 @@ export type Status = {
     readonly bludgeoner: Bludgeoner
     readonly artillery: Factor
     readonly rapidMorph: Factor
+    readonly ammoAndArrowUp: Factor
   }
 }
 
@@ -221,6 +222,8 @@ export const RAPID_MORPHS: Factor[] = [
   { text: "ダメージ1.2倍", factor: new Decimal("1.2") },
 ]
 
+export const AMMO_AND_ARROW_UPS = createDamageFactorSkill(["1.05", "1.1", "1.2"])
+
 export type Total = {
   attack: number
   affinity: number
@@ -236,7 +239,8 @@ export function calculateTotal(status: Status): Total {
     status.dango.temper,
     calculateDullingStrikeFactor(status),
     skill.artillery,
-    skill.rapidMorph
+    skill.rapidMorph,
+    skill.ammoAndArrowUp
   )
   const affinity = calculateAffinity(status)
   const criticalFactor = calculateCriticalFactor(status, affinity)

@@ -30,6 +30,7 @@ import {
   BLUDGEONERS,
   ARTILLERIES,
   RAPID_MORPHS,
+  AMMO_AND_ARROW_UPS,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { usePairingState } from "@/lib/pairing"
@@ -71,6 +72,7 @@ const Home: FC = () => {
   const skillBludgeoner = usePairingState(0)
   const skillArtillery = usePairingState(0)
   const skillRapidMorph = usePairingState(0)
+  const skillAmmoAndArrowUp = usePairingState(0)
 
   const [leftStatus, rightStatus]: Status[] = (["leftState", "rightState"] as const).map((pos) => {
     const valueOf = <T,>(states: { leftState: State<T>; rightState: State<T> }) => states[pos][0]
@@ -112,6 +114,7 @@ const Home: FC = () => {
         bludgeoner: BLUDGEONERS[valueOf(skillBludgeoner)],
         artillery: ARTILLERIES[valueOf(skillArtillery)],
         rapidMorph: RAPID_MORPHS[valueOf(skillRapidMorph)],
+        ammoAndArrowUp: AMMO_AND_ARROW_UPS[valueOf(skillAmmoAndArrowUp)],
       },
     }
   })
@@ -145,6 +148,7 @@ const Home: FC = () => {
     skillBludgeoner,
     skillArtillery,
     skillRapidMorph,
+    skillAmmoAndArrowUp,
   ].map(({ syncedState: [, setSynced] }) => setSynced)
 
   return (
@@ -196,6 +200,7 @@ const Home: FC = () => {
         <LevelInputRow label="鈍器使い" levels={BLUDGEONERS} {...skillBludgeoner} />
         <LevelInputRow label="砲術" levels={ARTILLERIES} {...skillArtillery} />
         <LevelInputRow label="高速変形" levels={RAPID_MORPHS} {...skillRapidMorph} />
+        <LevelInputRow label="弾・矢強化" levels={AMMO_AND_ARROW_UPS} {...skillAmmoAndArrowUp} />
         <ResultRow left={leftStatus} right={rightStatus} syncedSetters={syncedSetters} />
       </div>
     </Layout>

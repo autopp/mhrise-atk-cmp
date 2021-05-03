@@ -30,7 +30,8 @@ import {
   BLUDGEONERS,
   SHARPNESS_GREEN,
   ARTILLERIES,
-  RAPID_MORPHES,
+  RAPID_MORPHS,
+  AMMO_AND_ARROW_UPS,
 } from "@/lib/status"
 import { DeepPartial } from "ts-essentials"
 import { merge as mergeObject } from "lodash"
@@ -73,7 +74,8 @@ const defaultStatus: Status = {
     agitator: AGITATORS[0],
     bludgeoner: BLUDGEONERS[0],
     artillery: ARTILLERIES[0],
-    rapidMorph: RAPID_MORPHES[0],
+    rapidMorph: RAPID_MORPHS[0],
+    ammoAndArrowUp: AMMO_AND_ARROW_UPS[0],
   },
 }
 
@@ -258,7 +260,15 @@ describe("calculateTotal", () => {
       {
         weapon: { attack: 100 },
         item: { mightSeed: MIGHT_SEED },
-        skill: { rapidMorph: RAPID_MORPHES[3] },
+        skill: { rapidMorph: RAPID_MORPHS[3] },
+      },
+      { attack: 132, affinity: 0, expectedValue: 132 },
+    ],
+    [
+      {
+        weapon: { attack: 100 },
+        item: { mightSeed: MIGHT_SEED },
+        skill: { ammoAndArrowUp: AMMO_AND_ARROW_UPS[3] },
       },
       { attack: 132, affinity: 0, expectedValue: 132 },
     ],
