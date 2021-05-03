@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light"
+import { SIGKILL } from "node:constants"
 
 type Increase = {
   readonly text: string
@@ -25,6 +26,8 @@ type Agitator = {
   readonly attack: number
   readonly affinity: number
 }
+
+type Bludgeoner = Factor & { activeLevel: number }
 
 const UNIT_FACTOR = new Decimal(1)
 
@@ -87,6 +90,7 @@ export type Status = {
     readonly peakPerformance: Increase
     readonly latentPower: Increase
     readonly agitator: Agitator
+    readonly bludgeoner: Bludgeoner
   }
 }
 
@@ -192,6 +196,13 @@ export const AGITATORS: Agitator[] = [
   { text: "攻撃力+20 & 会心率+15", attack: 20, affinity: 15 },
 ]
 
+export const BLUDGEONERS: Bludgeoner[] = [
+  { text: "", factor: UNIT_FACTOR, activeLevel: SHARPNESS_RED.level },
+  { text: "斬れ味が黄色以下の時、攻撃力1.05倍", factor: new Decimal("1.05"), activeLevel: SHARPNESS_YELLOW.level },
+  { text: "斬れ味が黄色以下の時、攻撃力1.1倍", factor: new Decimal("1.1"), activeLevel: SHARPNESS_YELLOW.level },
+  { text: "斬れ味が緑色以下の時、攻撃力1.1倍", factor: new Decimal("1.1"), activeLevel: SHARPNESS_GREEN.level },
+]
+
 export type Total = {
   attack: number
   affinity: number
@@ -215,15 +226,17 @@ export function calculateTotal(status: Status): Total {
   }
 }
 
-function calculateBaseAttack({
-  weapon,
-  item: { talonAndCharm, demonDrug, mightSeed, demonPowder },
-  dango: { booster },
-  rampage,
-  skill: { attackBoost, offensiveGuard, peakPerformance, agitator },
-}: Status): Decimal {
+function calculateBaseAttack(status: Status): Decimal {
+  const {
+    weapon,
+    item: { talonAndCharm, demonDrug, mightSeed, demonPowder },
+    dango: { booster },
+    rampage,
+    skill: { attackBoost, offensiveGuard, peakPerformance, agitator },
+  } = status
+
   const weaponAttack = new Decimal(sum(weapon.attack, rampage.attackBoost, rampage.attackOrAffinitySurge.attack))
-  return product(weaponAttack, attackBoost, offensiveGuard).add(
+  return product(weaponAttack, attackBoost, offensiveGuard, calculateBludgeonerFactor(status)).add(
     sum(
       talonAndCharm,
       mightSeed,
@@ -267,6 +280,10 @@ function calculateCriticalFactor(
   }
 
   return criticalBoost.factor
+}
+
+function calculateBludgeonerFactor({ weapon: { sharpness }, skill: { bludgeoner } }: Status): Decimal {
+  return sharpness.level <= bludgeoner.activeLevel ? bludgeoner.factor : UNIT_FACTOR
 }
 
 function calculateDullingStrikeFactor({ weapon: { sharpness }, rampage: { dullingStrike } }: Status): Decimal {

@@ -27,6 +27,7 @@ import {
   PEAK_PERFORMANCES,
   LATENT_POWERS,
   AGITATORS,
+  BLUDGEONERS,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { usePairingState } from "@/lib/pairing"
@@ -65,6 +66,7 @@ const Home: FC = () => {
   const skillPeakPerformace = usePairingState(0)
   const skillLatentPower = usePairingState(0)
   const skillAgitator = usePairingState(0)
+  const skillBludgeoner = usePairingState(0)
 
   const [leftStatus, rightStatus]: Status[] = (["leftState", "rightState"] as const).map((pos) => {
     const valueOf = <T,>(states: { leftState: State<T>; rightState: State<T> }) => states[pos][0]
@@ -103,6 +105,7 @@ const Home: FC = () => {
         peakPerformance: PEAK_PERFORMANCES[valueOf(skillPeakPerformace)],
         latentPower: LATENT_POWERS[valueOf(skillLatentPower)],
         agitator: AGITATORS[valueOf(skillAgitator)],
+        bludgeoner: BLUDGEONERS[valueOf(skillBludgeoner)],
       },
     }
   })
@@ -133,6 +136,7 @@ const Home: FC = () => {
     skillPeakPerformace,
     skillLatentPower,
     skillAgitator,
+    skillBludgeoner,
   ].map(({ syncedState: [, setSynced] }) => setSynced)
 
   return (
@@ -181,6 +185,7 @@ const Home: FC = () => {
         <LevelInputRow label="フルチャージ" levels={PEAK_PERFORMANCES} {...skillPeakPerformace} />
         <LevelInputRow label="力の解放" levels={LATENT_POWERS} {...skillLatentPower} />
         <LevelInputRow label="挑戦者" levels={AGITATORS} {...skillAgitator} />
+        <LevelInputRow label="鈍器使い" levels={BLUDGEONERS} {...skillBludgeoner} />
         <ResultRow left={leftStatus} right={rightStatus} syncedSetters={syncedSetters} />
       </div>
     </Layout>

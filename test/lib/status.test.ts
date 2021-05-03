@@ -27,6 +27,8 @@ import {
   PEAK_PERFORMANCES,
   LATENT_POWERS,
   AGITATORS,
+  BLUDGEONERS,
+  SHARPNESS_GREEN,
 } from "@/lib/status"
 import { DeepPartial } from "ts-essentials"
 import { merge as mergeObject } from "lodash"
@@ -67,6 +69,7 @@ const defaultStatus: Status = {
     peakPerformance: PEAK_PERFORMANCES[0],
     latentPower: LATENT_POWERS[0],
     agitator: AGITATORS[0],
+    bludgeoner: BLUDGEONERS[0],
   },
 }
 
@@ -210,6 +213,34 @@ describe("calculateTotal", () => {
     [
       { weapon: { attack: 100 }, skill: { offensiveGuard: OFFENSIVE_GUARDS[3], agitator: AGITATORS[5] } },
       { attack: 135, affinity: 15, expectedValue: 140.0625 },
+    ],
+    [
+      { weapon: { attack: 100 }, item: { mightSeed: MIGHT_SEED }, skill: { bludgeoner: BLUDGEONERS[2] } },
+      { attack: 120, affinity: 0, expectedValue: 120 },
+    ],
+    [
+      {
+        weapon: { attack: 100, sharpness: SHARPNESS_GREEN },
+        item: { mightSeed: MIGHT_SEED },
+        skill: { bludgeoner: BLUDGEONERS[2] },
+      },
+      { attack: 115.5, affinity: 0, expectedValue: 115.5 },
+    ],
+    [
+      {
+        weapon: { attack: 100, sharpness: SHARPNESS_GREEN },
+        item: { mightSeed: MIGHT_SEED },
+        skill: { bludgeoner: BLUDGEONERS[3] },
+      },
+      { attack: 126, affinity: 0, expectedValue: 126 },
+    ],
+    [
+      {
+        weapon: { attack: 100, sharpness: SHARPNESS_BLUE },
+        item: { mightSeed: MIGHT_SEED },
+        skill: { bludgeoner: BLUDGEONERS[3] },
+      },
+      { attack: 132, affinity: 0, expectedValue: 132 },
     ],
   ])("case %#", (partialStatus, expected) => {
     it(`returns ${JSON.stringify(expected)}`, () => {
