@@ -101,6 +101,7 @@ export type Status = {
     readonly agitator: Agitator
     readonly bludgeoner: Bludgeoner
     readonly artillery: Factor
+    readonly rapidMorph: Factor
   }
 }
 
@@ -213,6 +214,13 @@ export const BLUDGEONERS: Bludgeoner[] = [
 
 export const ARTILLERIES = createDamageFactorSkill(["1.1", "1.2", "1.3"])
 
+export const RAPID_MORPHS: Factor[] = [
+  { text: "", factor: UNIT_FACTOR },
+  { text: "", factor: UNIT_FACTOR },
+  { text: "ダメージ1.1倍", factor: new Decimal("1.1") },
+  { text: "ダメージ1.2倍", factor: new Decimal("1.2") },
+]
+
 export type Total = {
   attack: number
   affinity: number
@@ -220,13 +228,15 @@ export type Total = {
 }
 
 export function calculateTotal(status: Status): Total {
+  const skill = status.skill
   const baseAttack = calculateBaseAttack(status)
   const attack = product(
     baseAttack,
     status.weapon.sharpness.factor,
     status.dango.temper,
     calculateDullingStrikeFactor(status),
-    status.skill.artillery
+    skill.artillery,
+    skill.rapidMorph
   )
   const affinity = calculateAffinity(status)
   const criticalFactor = calculateCriticalFactor(status, affinity)
