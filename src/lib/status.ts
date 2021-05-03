@@ -36,8 +36,16 @@ function createOptionalFactorGetter(factor: Decimal): (x: boolean) => Decimal {
   return (x) => (x ? factor : UNIT_FACTOR)
 }
 
-function createIncreaseSkill(levels: Increase[]): Increase[] {
-  return [{ text: "", increase: 0 }, ...levels]
+function createIncreaseSkill(increases: number[], prefix: string): Increase[] {
+  return [{ text: "", increase: 0 }, ...increases.map((increase) => ({ text: `${prefix}+${increase}`, increase }))]
+}
+
+function createAttackIncreaseSkill(increases: number[]): Increase[] {
+  return createIncreaseSkill(increases, "攻撃力")
+}
+
+function createAffinityIncreaseSkill(increases: number[]): Increase[] {
+  return createIncreaseSkill(increases, "会心率")
 }
 
 function createFactorSkill(levels: Factor[]): Factor[] {
@@ -121,11 +129,11 @@ export const getDemonPowder = createOptionalIncreaseGetter(DEMON_POWDER)
 export const DANGO_BOOSTER = 9
 export const getDangoBooster = createOptionalIncreaseGetter(DANGO_BOOSTER)
 
-export const DANGO_TEMPER = new Decimal(1.05)
+export const DANGO_TEMPER = new Decimal("1.05")
 export const getDangoTemper = createOptionalFactorGetter(DANGO_TEMPER)
 
-export const RAMPAGE_ATTACK_BOOSTS = createIncreaseSkill([4, 6, 8, 10].map((x) => ({ text: `+${x}`, increase: x })))
-export const RAMPAGE_AFFINITY_BOOSTS = createIncreaseSkill([4, 6, 8, 10].map((x) => ({ text: `+${x}`, increase: x })))
+export const RAMPAGE_ATTACK_BOOSTS = createAttackIncreaseSkill([4, 6, 8, 10])
+export const RAMPAGE_AFFINITY_BOOSTS = createAffinityIncreaseSkill([4, 6, 8, 10])
 
 export const RAMPAGE_NON_ELEMENTAL_BOOST = 10
 export const getRampageNonElementalBoost = createOptionalIncreaseGetter(RAMPAGE_NON_ELEMENTAL_BOOST)
@@ -143,24 +151,22 @@ export const [RAMPAGE_NO_SURGE, RAMPAGE_ATTACK_SURGE, RAMPAGE_AFFINITY_SURGE] = 
 
 export const ATTACK_BOOSTS: AttackBoost[] = [
   { text: "", increase: 0, factor: UNIT_FACTOR },
-  { text: "+3", increase: 3, factor: UNIT_FACTOR },
-  { text: "+6", increase: 6, factor: UNIT_FACTOR },
-  { text: "+9", increase: 9, factor: UNIT_FACTOR },
-  { text: "1.05倍 & +7", increase: 7, factor: new Decimal("1.05") },
-  { text: "1.06倍 & +8", increase: 8, factor: new Decimal("1.06") },
-  { text: "1.08倍 & +9", increase: 9, factor: new Decimal("1.08") },
-  { text: "1.1倍 & +10", increase: 10, factor: new Decimal("1.1") },
+  { text: "攻撃力+3", increase: 3, factor: UNIT_FACTOR },
+  { text: "攻撃力+6", increase: 6, factor: UNIT_FACTOR },
+  { text: "攻撃力+9", increase: 9, factor: UNIT_FACTOR },
+  { text: "攻撃力1.05倍 & +7", increase: 7, factor: new Decimal("1.05") },
+  { text: "攻撃力1.06倍 & +8", increase: 8, factor: new Decimal("1.06") },
+  { text: "攻撃力1.08倍 & +9", increase: 9, factor: new Decimal("1.08") },
+  { text: "攻撃力1.1倍 & +10", increase: 10, factor: new Decimal("1.1") },
 ]
 
-export const CRITICAL_EYES = createIncreaseSkill(
-  [5, 10, 15, 20, 25, 30, 40].map((x) => ({ text: `+${x}`, increase: x }))
-)
+export const CRITICAL_EYES = createAffinityIncreaseSkill([5, 10, 15, 20, 25, 30, 40])
 
-export const WEAKNESS_EXPLOITS = createIncreaseSkill([15, 30, 50].map((x) => ({ text: `+${x}`, increase: x })))
+export const WEAKNESS_EXPLOITS = createAffinityIncreaseSkill([15, 30, 50])
 
-export const MAXIMUM_MIGHTS = createIncreaseSkill([10, 20, 30].map((x) => ({ text: `+${x}`, increase: x })))
+export const MAXIMUM_MIGHTS = createAffinityIncreaseSkill([10, 20, 30])
 
-export const CRITICAL_DRAWS = createIncreaseSkill([10, 20, 40].map((x) => ({ text: `+${x}`, increase: x })))
+export const CRITICAL_DRAWS = createAffinityIncreaseSkill([10, 20, 40])
 
 export const CRITICAL_BOOSTS: Factor[] = [
   { text: "1.25", factor: DEFAULT_CRITICAL_RATE },
@@ -173,9 +179,9 @@ export const OFFENSIVE_GUARDS = createFactorSkill(
   ["1.05", "1.1", "1.15"].map((v) => ({ text: `${v}倍`, factor: new Decimal(v) }))
 )
 
-export const PEAK_PERFORMANCES = createIncreaseSkill([5, 10, 20].map((x) => ({ text: `+${x}`, increase: x })))
+export const PEAK_PERFORMANCES = createAttackIncreaseSkill([5, 10, 20])
 
-export const LATENT_POWERS = createIncreaseSkill([10, 20, 30, 40, 50].map((x) => ({ text: `+${x}`, increase: x })))
+export const LATENT_POWERS = createAffinityIncreaseSkill([10, 20, 30, 40, 50])
 
 export const AGITATORS: Agitator[] = [
   { text: "", attack: 0, affinity: 0 },
