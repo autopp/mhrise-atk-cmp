@@ -71,6 +71,7 @@ export type Status = {
     readonly criticalBoost: Factor
     readonly offensiveGuard: Factor
     readonly peakPerformance: Increase
+    readonly latentPower: Increase
   }
 }
 
@@ -167,6 +168,8 @@ export const OFFENSIVE_GUARDS = createFactorSkill(
 
 export const PEAK_PERFORMANCES = createIncreaseSkill([5, 10, 20].map((x) => ({ text: `+${x}`, increase: x })))
 
+export const LATENT_POWERS = createIncreaseSkill([10, 20, 30, 40, 50].map((x) => ({ text: `+${x}`, increase: x })))
+
 export type Total = {
   attack: number
   affinity: number
@@ -215,7 +218,7 @@ function calculateBaseAttack({
 function calculateAffinity({
   weapon,
   rampage,
-  skill: { criticalEye, weaknessExploit, maximumMight, criticalDraw },
+  skill: { criticalEye, weaknessExploit, maximumMight, criticalDraw, latentPower },
 }: Status): Decimal {
   const affinity = sum(
     weapon.affinity,
@@ -224,7 +227,8 @@ function calculateAffinity({
     criticalEye,
     weaknessExploit,
     maximumMight,
-    criticalDraw
+    criticalDraw,
+    latentPower
   )
 
   return new Decimal(Math.min(Math.max(affinity, -100), 100))

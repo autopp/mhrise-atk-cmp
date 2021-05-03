@@ -25,6 +25,7 @@ import {
   CRITICAL_BOOSTS,
   OFFENSIVE_GUARDS,
   PEAK_PERFORMANCES,
+  LATENT_POWERS,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { usePairingState } from "@/lib/pairing"
@@ -61,6 +62,7 @@ const Home: FC = () => {
   const skillCriticalBoost = usePairingState(0)
   const skillOffensiveGuard = usePairingState(0)
   const skillPeakPerformace = usePairingState(0)
+  const skillLatentPower = usePairingState(0)
 
   const [leftStatus, rightStatus]: Status[] = (["leftState", "rightState"] as const).map((pos) => {
     const valueOf = <T,>(states: { leftState: State<T>; rightState: State<T> }) => states[pos][0]
@@ -97,6 +99,7 @@ const Home: FC = () => {
         criticalBoost: CRITICAL_BOOSTS[valueOf(skillCriticalBoost)],
         offensiveGuard: OFFENSIVE_GUARDS[valueOf(skillOffensiveGuard)],
         peakPerformance: PEAK_PERFORMANCES[valueOf(skillPeakPerformace)],
+        latentPower: LATENT_POWERS[valueOf(skillLatentPower)],
       },
     }
   })
@@ -125,6 +128,7 @@ const Home: FC = () => {
     skillCriticalBoost,
     skillOffensiveGuard,
     skillPeakPerformace,
+    skillLatentPower,
   ].map(({ syncedState: [, setSynced] }) => setSynced)
 
   return (
@@ -171,6 +175,7 @@ const Home: FC = () => {
         <LevelInputRow label="超会心" levels={CRITICAL_BOOSTS} {...skillCriticalBoost} />
         <LevelInputRow label="攻めの守勢" levels={OFFENSIVE_GUARDS} {...skillOffensiveGuard} />
         <LevelInputRow label="フルチャージ" levels={PEAK_PERFORMANCES} {...skillPeakPerformace} />
+        <LevelInputRow label="力の解放" levels={LATENT_POWERS} {...skillLatentPower} />
         <ResultRow left={leftStatus} right={rightStatus} syncedSetters={syncedSetters} />
       </div>
     </Layout>

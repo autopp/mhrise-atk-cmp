@@ -25,6 +25,7 @@ import {
   CRITICAL_BOOSTS,
   OFFENSIVE_GUARDS,
   PEAK_PERFORMANCES,
+  LATENT_POWERS,
 } from "@/lib/status"
 import { DeepPartial } from "ts-essentials"
 import { merge as mergeObject } from "lodash"
@@ -63,6 +64,7 @@ const defaultStatus: Status = {
     criticalBoost: CRITICAL_BOOSTS[0],
     offensiveGuard: OFFENSIVE_GUARDS[0],
     peakPerformance: PEAK_PERFORMANCES[0],
+    latentPower: LATENT_POWERS[0],
   },
 }
 
@@ -198,6 +200,10 @@ describe("calculateTotal", () => {
         skill: { offensiveGuard: OFFENSIVE_GUARDS[3], peakPerformance: PEAK_PERFORMANCES[3] },
       },
       { attack: 135, affinity: 0, expectedValue: 135 },
+    ],
+    [
+      { weapon: { attack: 100 }, skill: { latentPower: LATENT_POWERS[5] } },
+      { attack: 100, affinity: 50, expectedValue: 112.5 },
     ],
   ])("case %#", (partialStatus, expected) => {
     it(`returns ${JSON.stringify(expected)}`, () => {
