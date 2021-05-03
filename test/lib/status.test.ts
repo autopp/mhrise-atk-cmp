@@ -22,6 +22,7 @@ import {
   WEAKNESS_EXPLOITS,
   MAXIMUM_MIGHTS,
   CRITICAL_DRAWS,
+  CRITICAL_BOOSTS,
 } from "@/lib/status"
 import { DeepPartial } from "ts-essentials"
 import { merge as mergeObject } from "lodash"
@@ -57,6 +58,7 @@ const defaultStatus: Status = {
     weaknessExploit: WEAKNESS_EXPLOITS[0],
     maximumMight: MAXIMUM_MIGHTS[0],
     criticalDraw: CRITICAL_DRAWS[0],
+    criticalBoost: CRITICAL_BOOSTS[0],
   },
 }
 
@@ -173,6 +175,14 @@ describe("calculateTotal", () => {
     [
       { weapon: { attack: 100 }, skill: { criticalDraw: CRITICAL_DRAWS[3] } },
       { attack: 100, affinity: 40, expectedValue: 110 },
+    ],
+    [
+      { weapon: { attack: 100, affinity: 40 }, skill: { criticalBoost: CRITICAL_BOOSTS[3] } },
+      { attack: 100, affinity: 40, expectedValue: 116 },
+    ],
+    [
+      { weapon: { attack: 100, affinity: -40 }, skill: { criticalBoost: CRITICAL_BOOSTS[3] } },
+      { attack: 100, affinity: -40, expectedValue: 90 },
     ],
   ])("case %#", (partialStatus, expected) => {
     it(`returns ${JSON.stringify(expected)}`, () => {

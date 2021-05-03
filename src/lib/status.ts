@@ -64,8 +64,11 @@ export type Status = {
     readonly weaknessExploit: Increase
     readonly maximumMight: Increase
     readonly criticalDraw: Increase
+    readonly criticalBoost: Factor
   }
 }
+
+const DEFAULT_CRITICAL_RATE = new Decimal("0.25")
 
 export const SHARPNESSES: Sharpness[] = [
   { text: "赤 (0.5)", factor: new Decimal("0.5") },
@@ -141,6 +144,13 @@ export const MAXIMUM_MIGHTS = createIncreaseSkill([10, 20, 30].map((x) => ({ tex
 
 export const CRITICAL_DRAWS = createIncreaseSkill([10, 20, 40].map((x) => ({ text: `+${x}`, increase: x })))
 
+export const CRITICAL_BOOSTS: Factor[] = [
+  { text: "1.25", factor: DEFAULT_CRITICAL_RATE },
+  { text: "1.30", factor: new Decimal("0.30") },
+  { text: "1.35", factor: new Decimal("0.35") },
+  { text: "1.40", factor: new Decimal("0.40") },
+]
+
 export type Total = {
   attack: number
   affinity: number
@@ -195,8 +205,15 @@ function calculateAffinity({
   return new Decimal(Math.min(Math.max(affinity, -100), 100))
 }
 
-function calculateCriticalFactor({ rampage: { brutalStrike } }: Status, affinity: Decimal): Decimal {
-  return affinity.isNegative() && brutalStrike ? new Decimal("0.0625") : new Decimal("0.25")
+function calculateCriticalFactor(
+  { rampage: { brutalStrike }, skill: { criticalBoost } }: Status,
+  affinity: Decimal
+): Decimal {
+  if (affinity.isNegative()) {
+    return brutalStrike ? new Decimal("0.0625") : DEFAULT_CRITICAL_RATE
+  }
+
+  return criticalBoost.factor
 }
 
 function calculateDullingStrikeFactor({ weapon: { sharpness }, rampage: { dullingStrike } }: Status): Decimal {
