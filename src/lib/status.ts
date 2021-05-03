@@ -143,10 +143,12 @@ export type Total = {
 
 export function calculateTotal(status: Status): Total {
   const baseAttack = calculateBaseAttack(status)
-  const attack = new Decimal(baseAttack)
-    .mul(status.weapon.sharpness.factor)
-    .mul(status.dango.temper)
-    .mul(calculateDullingStrikeFactor(status))
+  const attack = product(
+    baseAttack,
+    status.weapon.sharpness.factor,
+    status.dango.temper,
+    calculateDullingStrikeFactor(status)
+  )
   const affinity = calculateAffinity(status)
   const criticalFactor = calculateCriticalFactor(status, affinity)
   return {
@@ -163,14 +165,14 @@ function calculateBaseAttack({
   rampage,
   skill: { attackBoost },
 }: Status): Decimal {
-  const weaponAttack = new Decimal(sumOf(weapon.attack, rampage.attackBoost, rampage.attackOrAffinitySurge.attack))
+  const weaponAttack = new Decimal(sum(weapon.attack, rampage.attackBoost, rampage.attackOrAffinitySurge.attack))
   return weaponAttack
     .mul(attackBoost.factor)
-    .add(sumOf(talonAndCharm, mightSeed, demonPowder, booster, demonDrug, rampage.nonElementalBoost, attackBoost))
+    .add(sum(talonAndCharm, mightSeed, demonPowder, booster, demonDrug, rampage.nonElementalBoost, attackBoost))
 }
 
 function calculateAffinity({ weapon, rampage, skill: { criticalEye, weaknessExploit } }: Status): Decimal {
-  const affinity = sumOf(
+  const affinity = sum(
     weapon.affinity,
     rampage.affinityBoost,
     rampage.attackOrAffinitySurge.affinity,
@@ -189,6 +191,13 @@ function calculateDullingStrikeFactor({ weapon: { sharpness }, rampage: { dullin
   return dullingStrike && sharpness.level <= SHARPNESS_GREEN.level ? new Decimal("1.02") : new Decimal(1.0)
 }
 
-function sumOf(...values: (number | Increase)[]): number {
-  return values.reduce<number>((sum, x) => (typeof x === "number" ? sum + x : sum + x.increase), 0)
+function sum(...values: (number | Increase)[]): number {
+  return values.reduce<number>((s, x) => s + (typeof x === "number" ? x : x.increase), 0)
+}
+
+function product(...values: (number | Decimal | Factor)[]): Decimal {
+  return values.reduce<Decimal>(
+    (p, x) => p.mul(typeof x === "number" ? new Decimal(x) : x instanceof Decimal ? x : x.factor),
+    UNIT_FACTOR
+  )
 }
