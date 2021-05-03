@@ -17,6 +17,7 @@ import {
   RAMPAGE_NO_SURGE,
   RAMPAGE_ATTACK_SURGE,
   RAMPAGE_AFFINITY_SURGE,
+  ATTACK_BOOSTS,
 } from "@/lib/status"
 import { DeepPartial } from "ts-essentials"
 import { merge as mergeObject } from "lodash"
@@ -45,6 +46,9 @@ const defaultStatus: Status = {
     dullingStrike: false,
     brutalStrike: false,
     attackOrAffinitySurge: RAMPAGE_NO_SURGE,
+  },
+  skill: {
+    attackBoost: ATTACK_BOOSTS[0],
   },
 }
 
@@ -128,6 +132,23 @@ describe("calculateTotal", () => {
     [
       { weapon: { attack: 110 }, rampage: { attackOrAffinitySurge: RAMPAGE_AFFINITY_SURGE } },
       { attack: 100, affinity: 20, expectedValue: 105 },
+    ],
+    [
+      { weapon: { attack: 100 }, skill: { attackBoost: ATTACK_BOOSTS[3] } },
+      { attack: 109, affinity: 0, expectedValue: 109 },
+    ],
+    [
+      { weapon: { attack: 100 }, item: { mightSeed: MIGHT_SEED }, skill: { attackBoost: ATTACK_BOOSTS[7] } },
+      { attack: 130, affinity: 0, expectedValue: 130 },
+    ],
+    [
+      {
+        weapon: { attack: 100, affinity: 30 },
+        item: { mightSeed: MIGHT_SEED },
+        rampage: { attackBoost: RAMPAGE_ATTACK_BOOSTS[4], attackOrAffinitySurge: RAMPAGE_ATTACK_SURGE },
+        skill: { attackBoost: ATTACK_BOOSTS[7] },
+      },
+      { attack: 163, affinity: 0, expectedValue: 163 },
     ],
   ])("case %#", (partialStatus, expected) => {
     it(`returns ${JSON.stringify(expected)}`, () => {

@@ -18,12 +18,16 @@ type AttackOrAffinitySurge = {
   readonly affinity: number
 }
 
+type AttackBoost = Increase & Factor
+
+const UNIT_FACTOR = new Decimal(1)
+
 function createOptionalIncreaseGetter(increase: number): (x: boolean) => number {
   return (x) => (x ? increase : 0)
 }
 
 function createOptionalFactorGetter(factor: Decimal): (x: boolean) => Decimal {
-  return (x) => (x ? factor : new Decimal(1))
+  return (x) => (x ? factor : UNIT_FACTOR)
 }
 
 function createIncreaseSkill(levels: Increase[]): Increase[] {
@@ -53,6 +57,9 @@ export type Status = {
     readonly dullingStrike: boolean
     readonly brutalStrike: boolean
     readonly attackOrAffinitySurge: AttackOrAffinitySurge
+  }
+  readonly skill: {
+    readonly attackBoost: AttackBoost
   }
 }
 
@@ -109,6 +116,17 @@ export const RAMPAGE_ATTACK_OR_AFFINITY_SURGES: AttackOrAffinitySurge[] = [
 ]
 export const [RAMPAGE_NO_SURGE, RAMPAGE_ATTACK_SURGE, RAMPAGE_AFFINITY_SURGE] = RAMPAGE_ATTACK_OR_AFFINITY_SURGES
 
+export const ATTACK_BOOSTS: AttackBoost[] = [
+  { text: "", increase: 0, factor: UNIT_FACTOR },
+  { text: "+3", increase: 3, factor: UNIT_FACTOR },
+  { text: "+6", increase: 6, factor: UNIT_FACTOR },
+  { text: "+9", increase: 9, factor: UNIT_FACTOR },
+  { text: "1.05倍 & +7", increase: 7, factor: new Decimal("1.05") },
+  { text: "1.06倍 & +8", increase: 8, factor: new Decimal("1.06") },
+  { text: "1.08倍 & +9", increase: 9, factor: new Decimal("1.08") },
+  { text: "1.1倍 & +10", increase: 10, factor: new Decimal("1.1") },
+]
+
 export type Total = {
   attack: number
   affinity: number
@@ -135,18 +153,20 @@ function calculateBaseAttack({
   item: { talonAndCharm, demonDrug, mightSeed, demonPowder },
   dango: { booster },
   rampage,
-}: Status): number {
-  return (
-    weapon.attack +
-    talonAndCharm +
-    mightSeed +
-    demonPowder +
-    booster +
-    demonDrug.increase +
-    rampage.attackBoost.increase +
-    rampage.nonElementalBoost +
-    rampage.attackOrAffinitySurge.attack
-  )
+  skill: { attackBoost },
+}: Status): Decimal {
+  const weaponAttack = new Decimal(weapon.attack + rampage.attackBoost.increase + rampage.attackOrAffinitySurge.attack)
+  return weaponAttack
+    .mul(attackBoost.factor)
+    .add(
+      talonAndCharm +
+        mightSeed +
+        demonPowder +
+        booster +
+        demonDrug.increase +
+        rampage.nonElementalBoost +
+        attackBoost.increase
+    )
 }
 
 function calculateAffinity({ weapon, rampage }: Status): Decimal {
