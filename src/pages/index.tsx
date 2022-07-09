@@ -33,6 +33,7 @@ import {
   RAPID_MORPHS,
   AMMO_AND_ARROW_UPS,
   RAPID_FIRE_UPS,
+  RESUSCITATE,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { usePairingState } from "@/lib/pairing"
@@ -72,6 +73,7 @@ const Home: FC = () => {
   const skillPeakPerformace = usePairingState(0)
   const skillLatentPower = usePairingState(0)
   const skillAgitator = usePairingState(0)
+  const skillResuscitate = usePairingState(0)
   const skillBludgeoner = usePairingState(0)
   const skillArtillery = usePairingState(0)
   const skillRapidMorph = usePairingState(0)
@@ -116,6 +118,7 @@ const Home: FC = () => {
         peakPerformance: PEAK_PERFORMANCES[valueOf(skillPeakPerformace)],
         latentPower: LATENT_POWERS[valueOf(skillLatentPower)],
         agitator: AGITATORS[valueOf(skillAgitator)],
+        resuscitate: RESUSCITATE[valueOf(skillResuscitate)],
         bludgeoner: BLUDGEONERS[valueOf(skillBludgeoner)],
         artillery: ARTILLERIES[valueOf(skillArtillery)],
         rapidMorph: RAPID_MORPHS[valueOf(skillRapidMorph)],
@@ -151,6 +154,7 @@ const Home: FC = () => {
     skillPeakPerformace,
     skillLatentPower,
     skillAgitator,
+    skillResuscitate,
     skillBludgeoner,
     skillArtillery,
     skillRapidMorph,
@@ -205,6 +209,7 @@ const Home: FC = () => {
         <LevelInputRow label="フルチャージ" levels={PEAK_PERFORMANCES} {...skillPeakPerformace} />
         <LevelInputRow label="力の解放" levels={LATENT_POWERS} {...skillLatentPower} />
         <LevelInputRow label="挑戦者" levels={AGITATORS} {...skillAgitator} />
+        <LevelInputRow label="死中に活" levels={RESUSCITATE} {...skillResuscitate} />
         <LevelInputRow label="鈍器使い" levels={BLUDGEONERS} {...skillBludgeoner} />
         <LevelInputRow label="砲術" levels={ARTILLERIES} {...skillArtillery} />
         <LevelInputRow label="高速変形" levels={RAPID_MORPHS} {...skillRapidMorph} />
