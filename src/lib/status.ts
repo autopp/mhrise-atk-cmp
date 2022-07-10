@@ -101,6 +101,7 @@ export type Status = {
     readonly latentPower: Increase
     readonly agitator: Agitator
     readonly resuscitate: Increase
+    readonly dragonheart: Factor
     readonly bludgeoner: Bludgeoner
     readonly artillery: Factor
     readonly rapidMorph: Factor
@@ -216,6 +217,10 @@ export const AGITATORS: Agitator[] = [
   { text: "攻撃力+20 & 会心率+15", attack: 20, affinity: 15 },
 ]
 
+export const RESUSCITATE = createAttackIncreaseSkill([5, 10, 20])
+
+export const DRAGONHEART = createDamageFactorSkill(["1.0", "1.0", "1.0", "1.05", "1.1"])
+
 export const BLUDGEONERS: Bludgeoner[] = [
   { text: "", factor: UNIT_FACTOR, activeLevel: SHARPNESS_RED.level },
   { text: "斬れ味が黄色以下の時、攻撃力1.05倍", factor: new Decimal("1.05"), activeLevel: SHARPNESS_YELLOW.level },
@@ -224,8 +229,6 @@ export const BLUDGEONERS: Bludgeoner[] = [
 ]
 
 export const ARTILLERIES = createDamageFactorSkill(["1.1", "1.2", "1.3"])
-
-export const RESUSCITATE = createAttackIncreaseSkill([5, 10, 20])
 
 export const RAPID_MORPHS: Factor[] = [
   { text: "", factor: UNIT_FACTOR },
@@ -271,7 +274,7 @@ function calculateBaseAttack(status: Status): Decimal {
     item: { talonAndCharm, demonDrug, mightSeed, demonPowder },
     dango: { booster },
     rampage,
-    skill: { attackBoost, offensiveGuard, peakPerformance, agitator, resuscitate },
+    skill: { attackBoost, offensiveGuard, peakPerformance, agitator, resuscitate, dragonheart },
   } = status
 
   const weaponAttack = new Decimal(
@@ -281,7 +284,7 @@ function calculateBaseAttack(status: Status): Decimal {
       rampage.attackOrAffinitySurge.attack
     )
   )
-  return product(weaponAttack, attackBoost, offensiveGuard, calculateBludgeonerFactor(status)).add(
+  return product(weaponAttack, attackBoost, offensiveGuard, dragonheart, calculateBludgeonerFactor(status)).add(
     sum(
       talonAndCharm,
       mightSeed,
