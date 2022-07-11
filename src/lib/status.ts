@@ -119,6 +119,7 @@ export const SHARPNESSES: Sharpness[] = [
   { text: "緑 (1.05)", factor: new Decimal("1.05") },
   { text: "青 (1.2)", factor: new Decimal("1.2") },
   { text: "白 (1.32)", factor: new Decimal("1.32") },
+  { text: "紫 (1.44)", factor: new Decimal("1.44") },
 ].map((factor, level) => ({ level, ...factor }))
 
 export const [
