@@ -35,6 +35,7 @@ import {
   RAPID_FIRE_UPS,
   RESUSCITATE,
   DRAGONHEART,
+  RESENTMENT,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { usePairingState } from "@/lib/pairing"
@@ -75,6 +76,7 @@ const Home: FC = () => {
   const skillLatentPower = usePairingState(0)
   const skillAgitator = usePairingState(0)
   const skillResuscitate = usePairingState(0)
+  const skillResentment = usePairingState(0)
   const skillDragonheart = usePairingState(0)
   const skillBludgeoner = usePairingState(0)
   const skillArtillery = usePairingState(0)
@@ -121,6 +123,7 @@ const Home: FC = () => {
         latentPower: LATENT_POWERS[valueOf(skillLatentPower)],
         agitator: AGITATORS[valueOf(skillAgitator)],
         resuscitate: RESUSCITATE[valueOf(skillResuscitate)],
+        resentment: RESENTMENT[valueOf(skillResentment)],
         dragonheart: DRAGONHEART[valueOf(skillDragonheart)],
         bludgeoner: BLUDGEONERS[valueOf(skillBludgeoner)],
         artillery: ARTILLERIES[valueOf(skillArtillery)],
@@ -158,6 +161,7 @@ const Home: FC = () => {
     skillLatentPower,
     skillAgitator,
     skillResuscitate,
+    skillResentment,
     skillDragonheart,
     skillBludgeoner,
     skillArtillery,
@@ -214,6 +218,7 @@ const Home: FC = () => {
         <LevelInputRow label="力の解放" levels={LATENT_POWERS} {...skillLatentPower} />
         <LevelInputRow label="挑戦者" levels={AGITATORS} {...skillAgitator} />
         <LevelInputRow label="死中に活" levels={RESUSCITATE} {...skillResuscitate} />
+        <LevelInputRow label="逆恨み" levels={RESENTMENT} {...skillResentment} />
         <LevelInputRow label="龍気活性" levels={DRAGONHEART} {...skillDragonheart} />
         <LevelInputRow label="鈍器使い" levels={BLUDGEONERS} {...skillBludgeoner} />
         <LevelInputRow label="砲術" levels={ARTILLERIES} {...skillArtillery} />

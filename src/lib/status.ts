@@ -101,6 +101,7 @@ export type Status = {
     readonly latentPower: Increase
     readonly agitator: Agitator
     readonly resuscitate: Increase
+    readonly resentment: Increase
     readonly dragonheart: Factor
     readonly bludgeoner: Bludgeoner
     readonly artillery: Factor
@@ -220,6 +221,8 @@ export const AGITATORS: Agitator[] = [
 
 export const RESUSCITATE = createAttackIncreaseSkill([5, 10, 20])
 
+export const RESENTMENT = createAttackIncreaseSkill([5, 10, 15, 20, 25])
+
 export const DRAGONHEART = createDamageFactorSkill(["1.0", "1.0", "1.0", "1.05", "1.1"])
 
 export const BLUDGEONERS: Bludgeoner[] = [
@@ -275,7 +278,7 @@ function calculateBaseAttack(status: Status): Decimal {
     item: { talonAndCharm, demonDrug, mightSeed, demonPowder },
     dango: { booster },
     rampage,
-    skill: { attackBoost, offensiveGuard, peakPerformance, agitator, resuscitate, dragonheart },
+    skill: { attackBoost, offensiveGuard, peakPerformance, agitator, resuscitate, resentment, dragonheart },
   } = status
 
   const weaponAttack = new Decimal(
@@ -296,7 +299,8 @@ function calculateBaseAttack(status: Status): Decimal {
       attackBoost,
       peakPerformance,
       agitator.attack,
-      resuscitate
+      resuscitate,
+      resentment
     )
   )
 }
