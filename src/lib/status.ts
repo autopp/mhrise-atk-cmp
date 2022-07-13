@@ -130,6 +130,7 @@ export const [
   SHARPNESS_GREEN,
   SHARPNESS_BLUE,
   SHARPNESS_WHITE,
+  SHARPNESS_PURPLE,
 ] = SHARPNESSES
 
 export const BARRELS: Factor[] = [
