@@ -103,6 +103,7 @@ export type Status = {
     readonly resuscitate: Increase
     readonly resentment: Increase
     readonly dragonheart: Factor
+    readonly chainCrit: Increase
     readonly bludgeoner: Bludgeoner
     readonly artillery: Factor
     readonly rapidMorph: Factor
@@ -226,6 +227,8 @@ export const RESENTMENT = createAttackIncreaseSkill([5, 10, 15, 20, 25])
 
 export const DRAGONHEART = createDamageFactorSkill(["1.0", "1.0", "1.0", "1.05", "1.1"])
 
+export const CHAIN_CRIT = createAttackIncreaseSkill([10, 12, 15])
+
 export const BLUDGEONERS: Bludgeoner[] = [
   { text: "", factor: UNIT_FACTOR, activeLevel: SHARPNESS_RED.level },
   { text: "斬れ味が黄色以下の時、攻撃力1.05倍", factor: new Decimal("1.05"), activeLevel: SHARPNESS_YELLOW.level },
@@ -279,7 +282,7 @@ function calculateBaseAttack(status: Status): Decimal {
     item: { talonAndCharm, demonDrug, mightSeed, demonPowder },
     dango: { booster },
     rampage,
-    skill: { attackBoost, offensiveGuard, peakPerformance, agitator, resuscitate, resentment, dragonheart },
+    skill: { attackBoost, offensiveGuard, peakPerformance, agitator, resuscitate, resentment, dragonheart, chainCrit },
   } = status
 
   const weaponAttack = new Decimal(
@@ -301,7 +304,8 @@ function calculateBaseAttack(status: Status): Decimal {
       peakPerformance,
       agitator.attack,
       resuscitate,
-      resentment
+      resentment,
+      chainCrit
     )
   )
 }
