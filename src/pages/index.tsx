@@ -37,6 +37,7 @@ import {
   DRAGONHEART,
   RESENTMENT,
   CHAIN_CRIT,
+  CHAIN_CRIT_GUNNER,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { usePairingState } from "@/lib/pairing"
@@ -80,6 +81,7 @@ const Home: FC = () => {
   const skillResentment = usePairingState(0)
   const skillDragonheart = usePairingState(0)
   const skillChainCrit = usePairingState(0)
+  const skillChainCritGunner = usePairingState(0)
   const skillBludgeoner = usePairingState(0)
   const skillArtillery = usePairingState(0)
   const skillRapidMorph = usePairingState(0)
@@ -128,6 +130,7 @@ const Home: FC = () => {
         resentment: RESENTMENT[valueOf(skillResentment)],
         dragonheart: DRAGONHEART[valueOf(skillDragonheart)],
         chainCrit: CHAIN_CRIT[valueOf(skillChainCrit)],
+        chainCritGunner: CHAIN_CRIT_GUNNER[valueOf(skillChainCritGunner)],
         bludgeoner: BLUDGEONERS[valueOf(skillBludgeoner)],
         artillery: ARTILLERIES[valueOf(skillArtillery)],
         rapidMorph: RAPID_MORPHS[valueOf(skillRapidMorph)],
@@ -167,6 +170,7 @@ const Home: FC = () => {
     skillResentment,
     skillDragonheart,
     skillChainCrit,
+    skillChainCritGunner,
     skillBludgeoner,
     skillArtillery,
     skillRapidMorph,
@@ -225,6 +229,7 @@ const Home: FC = () => {
         <LevelInputRow label="逆恨み" levels={RESENTMENT} {...skillResentment} />
         <LevelInputRow label="龍気活性" levels={DRAGONHEART} {...skillDragonheart} />
         <LevelInputRow label="連撃" levels={CHAIN_CRIT} {...skillChainCrit} />
+        <LevelInputRow label="連撃（ガンナー）" levels={CHAIN_CRIT_GUNNER} {...skillChainCritGunner} />
         <LevelInputRow label="鈍器使い" levels={BLUDGEONERS} {...skillBludgeoner} />
         <LevelInputRow label="砲術" levels={ARTILLERIES} {...skillArtillery} />
         <LevelInputRow label="高速変形" levels={RAPID_MORPHS} {...skillRapidMorph} />
