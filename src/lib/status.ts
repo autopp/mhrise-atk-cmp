@@ -105,6 +105,7 @@ export type Status = {
     readonly dragonheart: Factor
     readonly chainCrit: Increase
     readonly chainCritGunner: Increase
+    readonly bloodlust: Increase
     readonly bludgeoner: Bludgeoner
     readonly artillery: Factor
     readonly rapidMorph: Factor
@@ -232,6 +233,8 @@ export const CHAIN_CRIT = createAttackIncreaseSkill([10, 12, 15])
 
 export const CHAIN_CRIT_GUNNER = createAttackIncreaseSkill([8, 9, 10])
 
+export const BLOODLUST = createAttackIncreaseSkill([10, 15, 20])
+
 export const BLUDGEONERS: Bludgeoner[] = [
   { text: "", factor: UNIT_FACTOR, activeLevel: SHARPNESS_RED.level },
   { text: "斬れ味が黄色以下の時、攻撃力1.05倍", factor: new Decimal("1.05"), activeLevel: SHARPNESS_YELLOW.level },
@@ -295,6 +298,7 @@ function calculateBaseAttack(status: Status): Decimal {
       dragonheart,
       chainCrit,
       chainCritGunner,
+      bloodlust,
     },
   } = status
 
@@ -319,7 +323,8 @@ function calculateBaseAttack(status: Status): Decimal {
       resuscitate,
       resentment,
       chainCrit,
-      chainCritGunner
+      chainCritGunner,
+      bloodlust
     )
   )
 }
