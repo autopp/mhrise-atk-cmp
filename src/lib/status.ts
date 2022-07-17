@@ -106,6 +106,7 @@ export type Status = {
     readonly chainCrit: Increase
     readonly chainCritGunner: Increase
     readonly bloodlust: Increase
+    readonly bloodlustRestored: Increase
     readonly bludgeoner: Bludgeoner
     readonly artillery: Factor
     readonly rapidMorph: Factor
@@ -235,6 +236,8 @@ export const CHAIN_CRIT_GUNNER = createAttackIncreaseSkill([8, 9, 10])
 
 export const BLOODLUST = createAttackIncreaseSkill([10, 15, 20])
 
+export const BLOODLUST_RESTORED = createAffinityIncreaseSkill([20, 25, 25])
+
 export const BLUDGEONERS: Bludgeoner[] = [
   { text: "", factor: UNIT_FACTOR, activeLevel: SHARPNESS_RED.level },
   { text: "斬れ味が黄色以下の時、攻撃力1.05倍", factor: new Decimal("1.05"), activeLevel: SHARPNESS_YELLOW.level },
@@ -332,7 +335,7 @@ function calculateBaseAttack(status: Status): Decimal {
 function calculateAffinity({
   weapon,
   rampage,
-  skill: { criticalEye, weaknessExploit, maximumMight, criticalDraw, latentPower, agitator },
+  skill: { criticalEye, weaknessExploit, maximumMight, criticalDraw, latentPower, agitator, bloodlustRestored },
 }: Status): Decimal {
   const affinity = sum(
     weapon.affinity,
@@ -343,7 +346,8 @@ function calculateAffinity({
     maximumMight,
     criticalDraw,
     latentPower,
-    agitator.affinity
+    agitator.affinity,
+    bloodlustRestored
   )
 
   return new Decimal(Math.min(Math.max(affinity, -100), 100))

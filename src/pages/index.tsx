@@ -39,6 +39,7 @@ import {
   CHAIN_CRIT,
   CHAIN_CRIT_GUNNER,
   BLOODLUST,
+  BLOODLUST_RESTORED,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { usePairingState } from "@/lib/pairing"
@@ -84,6 +85,7 @@ const Home: FC = () => {
   const skillChainCrit = usePairingState(0)
   const skillChainCritGunner = usePairingState(0)
   const skillBloodlust = usePairingState(0)
+  const skillBloodlustRestored = usePairingState(0)
   const skillBludgeoner = usePairingState(0)
   const skillArtillery = usePairingState(0)
   const skillRapidMorph = usePairingState(0)
@@ -134,6 +136,7 @@ const Home: FC = () => {
         chainCrit: CHAIN_CRIT[valueOf(skillChainCrit)],
         chainCritGunner: CHAIN_CRIT_GUNNER[valueOf(skillChainCritGunner)],
         bloodlust: BLOODLUST[valueOf(skillBloodlust)],
+        bloodlustRestored: BLOODLUST_RESTORED[valueOf(skillBloodlustRestored)],
         bludgeoner: BLUDGEONERS[valueOf(skillBludgeoner)],
         artillery: ARTILLERIES[valueOf(skillArtillery)],
         rapidMorph: RAPID_MORPHS[valueOf(skillRapidMorph)],
@@ -175,6 +178,7 @@ const Home: FC = () => {
     skillChainCrit,
     skillChainCritGunner,
     skillBloodlust,
+    skillBloodlustRestored,
     skillBludgeoner,
     skillArtillery,
     skillRapidMorph,
@@ -235,6 +239,7 @@ const Home: FC = () => {
         <LevelInputRow label="連撃" levels={CHAIN_CRIT} {...skillChainCrit} />
         <LevelInputRow label="連撃（ガンナー）" levels={CHAIN_CRIT_GUNNER} {...skillChainCritGunner} />
         <LevelInputRow label="狂竜症【触】" levels={BLOODLUST} {...skillBloodlust} />
+        <LevelInputRow label="狂竜症【触】（克服）" levels={BLOODLUST_RESTORED} {...skillBloodlustRestored} />
         <LevelInputRow label="鈍器使い" levels={BLUDGEONERS} {...skillBludgeoner} />
         <LevelInputRow label="砲術" levels={ARTILLERIES} {...skillArtillery} />
         <LevelInputRow label="高速変形" levels={RAPID_MORPHS} {...skillRapidMorph} />
