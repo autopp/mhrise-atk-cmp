@@ -108,6 +108,7 @@ export type Status = {
     readonly bloodlust: Increase
     readonly bloodlustRestored: Increase
     readonly coalescence: Increase
+    readonly dereliction: Increase
     readonly bludgeoner: Bludgeoner
     readonly artillery: Factor
     readonly rapidMorph: Factor
@@ -241,6 +242,8 @@ export const BLOODLUST_RESTORED = createAffinityIncreaseSkill([20, 25, 25])
 
 export const COALESCENCE = createAttackIncreaseSkill([12, 15, 18])
 
+export const DERELICTION = createAttackIncreaseSkill([25, 30, 35])
+
 export const BLUDGEONERS: Bludgeoner[] = [
   { text: "", factor: UNIT_FACTOR, activeLevel: SHARPNESS_RED.level },
   { text: "斬れ味が黄色以下の時、攻撃力1.05倍", factor: new Decimal("1.05"), activeLevel: SHARPNESS_YELLOW.level },
@@ -306,6 +309,7 @@ function calculateBaseAttack(status: Status): Decimal {
       chainCritGunner,
       bloodlust,
       coalescence,
+      dereliction,
     },
   } = status
 
@@ -332,7 +336,8 @@ function calculateBaseAttack(status: Status): Decimal {
       chainCrit,
       chainCritGunner,
       bloodlust,
-      coalescence
+      coalescence,
+      dereliction
     )
   )
 }

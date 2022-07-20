@@ -41,6 +41,7 @@ import {
   BLOODLUST,
   BLOODLUST_RESTORED,
   COALESCENCE,
+  DERELICTION,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { usePairingState } from "@/lib/pairing"
@@ -88,6 +89,7 @@ const Home: FC = () => {
   const skillBloodlust = usePairingState(0)
   const skillBloodlustRestored = usePairingState(0)
   const skillCoalescence = usePairingState(0)
+  const skillDereliction = usePairingState(0)
   const skillBludgeoner = usePairingState(0)
   const skillArtillery = usePairingState(0)
   const skillRapidMorph = usePairingState(0)
@@ -140,6 +142,7 @@ const Home: FC = () => {
         bloodlust: BLOODLUST[valueOf(skillBloodlust)],
         bloodlustRestored: BLOODLUST_RESTORED[valueOf(skillBloodlustRestored)],
         coalescence: COALESCENCE[valueOf(skillCoalescence)],
+        dereliction: DERELICTION[valueOf(skillDereliction)],
         bludgeoner: BLUDGEONERS[valueOf(skillBludgeoner)],
         artillery: ARTILLERIES[valueOf(skillArtillery)],
         rapidMorph: RAPID_MORPHS[valueOf(skillRapidMorph)],
@@ -183,6 +186,7 @@ const Home: FC = () => {
     skillBloodlust,
     skillBloodlustRestored,
     skillCoalescence,
+    skillDereliction,
     skillBludgeoner,
     skillArtillery,
     skillRapidMorph,
@@ -245,6 +249,7 @@ const Home: FC = () => {
         <LevelInputRow label="狂竜症【触】" levels={BLOODLUST} {...skillBloodlust} />
         <LevelInputRow label="狂竜症【触】（克服）" levels={BLOODLUST_RESTORED} {...skillBloodlustRestored} />
         <LevelInputRow label="災禍転福" levels={COALESCENCE} {...skillCoalescence} />
+        <LevelInputRow label="伏魔響命" levels={DERELICTION} {...skillDereliction} />
         <LevelInputRow label="鈍器使い" levels={BLUDGEONERS} {...skillBludgeoner} />
         <LevelInputRow label="砲術" levels={ARTILLERIES} {...skillArtillery} />
         <LevelInputRow label="高速変形" levels={RAPID_MORPHS} {...skillRapidMorph} />
