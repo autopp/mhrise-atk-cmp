@@ -42,6 +42,7 @@ import {
   BLOODLUST_RESTORED,
   COALESCENCE,
   DERELICTION,
+  MAIL_OF_HELLFIRE,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { usePairingState } from "@/lib/pairing"
@@ -90,6 +91,7 @@ const Home: FC = () => {
   const skillBloodlustRestored = usePairingState(0)
   const skillCoalescence = usePairingState(0)
   const skillDereliction = usePairingState(0)
+  const skillMailOfHellfire = usePairingState(0)
   const skillBludgeoner = usePairingState(0)
   const skillArtillery = usePairingState(0)
   const skillRapidMorph = usePairingState(0)
@@ -143,6 +145,7 @@ const Home: FC = () => {
         bloodlustRestored: BLOODLUST_RESTORED[valueOf(skillBloodlustRestored)],
         coalescence: COALESCENCE[valueOf(skillCoalescence)],
         dereliction: DERELICTION[valueOf(skillDereliction)],
+        mailOfHellfire: MAIL_OF_HELLFIRE[valueOf(skillMailOfHellfire)],
         bludgeoner: BLUDGEONERS[valueOf(skillBludgeoner)],
         artillery: ARTILLERIES[valueOf(skillArtillery)],
         rapidMorph: RAPID_MORPHS[valueOf(skillRapidMorph)],
@@ -187,6 +190,7 @@ const Home: FC = () => {
     skillBloodlustRestored,
     skillCoalescence,
     skillDereliction,
+    skillMailOfHellfire,
     skillBludgeoner,
     skillArtillery,
     skillRapidMorph,
@@ -250,6 +254,7 @@ const Home: FC = () => {
         <LevelInputRow label="狂竜症【触】（克服）" levels={BLOODLUST_RESTORED} {...skillBloodlustRestored} />
         <LevelInputRow label="災禍転福" levels={COALESCENCE} {...skillCoalescence} />
         <LevelInputRow label="伏魔響命" levels={DERELICTION} {...skillDereliction} />
+        <LevelInputRow label="業鎧【修羅】" levels={MAIL_OF_HELLFIRE} {...skillMailOfHellfire} />
         <LevelInputRow label="鈍器使い" levels={BLUDGEONERS} {...skillBludgeoner} />
         <LevelInputRow label="砲術" levels={ARTILLERIES} {...skillArtillery} />
         <LevelInputRow label="高速変形" levels={RAPID_MORPHS} {...skillRapidMorph} />
