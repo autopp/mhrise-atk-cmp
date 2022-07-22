@@ -54,7 +54,7 @@ const Home: FC = () => {
   // Weapon
   const weaponAttack = usePairingState(180)
   const weaponAffinity = usePairingState(0)
-  const weaponSharpness = usePairingState(SHARPNESSES.length - 1)
+  const weaponSharpness = usePairingState(SHARPNESSES.length - 2)
   const weaponBarrel = usePairingState(0)
   // Item
   const itemTalonAndCharm = usePairingState(true)
