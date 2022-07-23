@@ -88,6 +88,7 @@ export type Status = {
     readonly dullingStrike: boolean
     readonly brutalStrike: boolean
     readonly attackOrAffinitySurge: AttackOrAffinitySurge
+    readonly kushalaDaoraSoul: number
   }
   readonly skill: {
     readonly attackBoost: AttackBoost
@@ -185,6 +186,9 @@ export const RAMPAGE_ATTACK_OR_AFFINITY_SURGES: AttackOrAffinitySurge[] = [
   { text: "会心率激化", attack: -10, affinity: 20 },
 ]
 export const [RAMPAGE_NO_SURGE, RAMPAGE_ATTACK_SURGE, RAMPAGE_AFFINITY_SURGE] = RAMPAGE_ATTACK_OR_AFFINITY_SURGES
+
+export const RAMPAGE_KUSHALA_DAORA_SOUL = 15
+export const getRampageKushalaDaoraSoul = createOptionalIncreaseGetter(RAMPAGE_KUSHALA_DAORA_SOUL)
 
 export const ATTACK_BOOSTS: AttackBoost[] = [
   { text: "", increase: 0, factor: UNIT_FACTOR },
@@ -356,6 +360,7 @@ function calculateAffinity({
     weapon.affinity,
     rampage.affinityBoost,
     rampage.attackOrAffinitySurge.affinity,
+    rampage.kushalaDaoraSoul,
     criticalEye,
     weaknessExploit,
     maximumMight,

@@ -43,6 +43,7 @@ import {
   COALESCENCE,
   DERELICTION,
   MAIL_OF_HELLFIRE,
+  getRampageKushalaDaoraSoul,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { usePairingState } from "@/lib/pairing"
@@ -71,6 +72,7 @@ const Home: FC = () => {
   const rampageDullingStrike = usePairingState(false)
   const rampageBrutalStrike = usePairingState(false)
   const rampageAttackOrAffinitySurge = usePairingState(0)
+  const rampageKushalaDaoraSoul = usePairingState(false)
   // Skill
   const skillAttackBoost = usePairingState(0)
   const skillCriticalEye = usePairingState(0)
@@ -124,6 +126,7 @@ const Home: FC = () => {
         dullingStrike: valueOf(rampageDullingStrike),
         brutalStrike: valueOf(rampageBrutalStrike),
         attackOrAffinitySurge: RAMPAGE_ATTACK_OR_AFFINITY_SURGES[valueOf(rampageAttackOrAffinitySurge)],
+        kushalaDaoraSoul: getRampageKushalaDaoraSoul(valueOf(rampageKushalaDaoraSoul)),
       },
       skill: {
         attackBoost: ATTACK_BOOSTS[valueOf(skillAttackBoost)],
@@ -171,6 +174,7 @@ const Home: FC = () => {
     rampageDullingStrike,
     rampageBrutalStrike,
     rampageAttackOrAffinitySurge,
+    rampageKushalaDaoraSoul,
     skillAttackBoost,
     skillCriticalEye,
     skillWeaknessExploit,
@@ -234,6 +238,7 @@ const Home: FC = () => {
           options={RAMPAGE_ATTACK_OR_AFFINITY_SURGES}
           {...rampageAttackOrAffinitySurge}
         />
+        <CheckboxInputRow label="鋼龍の魂" {...rampageKushalaDaoraSoul} />
         <HeadingRow text="スキル" />
         <LevelInputRow label="攻撃" levels={ATTACK_BOOSTS} {...skillAttackBoost} />
         <LevelInputRow label="見切り" levels={CRITICAL_EYES} {...skillCriticalEye} />
