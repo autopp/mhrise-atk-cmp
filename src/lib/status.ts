@@ -89,6 +89,7 @@ export type Status = {
     readonly brutalStrike: boolean
     readonly attackOrAffinitySurge: AttackOrAffinitySurge
     readonly kushalaDaoraSoul: number
+    readonly speciesExploit: Decimal
   }
   readonly skill: {
     readonly attackBoost: AttackBoost
@@ -189,6 +190,9 @@ export const [RAMPAGE_NO_SURGE, RAMPAGE_ATTACK_SURGE, RAMPAGE_AFFINITY_SURGE] = 
 
 export const RAMPAGE_KUSHALA_DAORA_SOUL = 15
 export const getRampageKushalaDaoraSoul = createOptionalIncreaseGetter(RAMPAGE_KUSHALA_DAORA_SOUL)
+
+export const RAMPAGE_SPECIES_EXPLOIT = new Decimal("1.05")
+export const getRampageSpeciesExploit = createOptionalFactorGetter(RAMPAGE_SPECIES_EXPLOIT)
 
 export const ATTACK_BOOSTS: AttackBoost[] = [
   { text: "", increase: 0, factor: UNIT_FACTOR },
@@ -328,7 +332,14 @@ function calculateBaseAttack(status: Status): Decimal {
       rampage.attackOrAffinitySurge.attack
     )
   )
-  return product(weaponAttack, attackBoost, offensiveGuard, dragonheart, calculateBludgeonerFactor(status)).add(
+  return product(
+    weaponAttack,
+    attackBoost,
+    offensiveGuard,
+    dragonheart,
+    rampage.speciesExploit,
+    calculateBludgeonerFactor(status)
+  ).add(
     sum(
       talonAndCharm,
       mightSeed,
