@@ -53,7 +53,7 @@ import { State } from "@/lib/types"
 
 const Home: FC = () => {
   // Weapon
-  const weaponAttack = usePairingState(180)
+  const weaponAttack = usePairingState(320)
   const weaponAffinity = usePairingState(0)
   const weaponSharpness = usePairingState(SHARPNESSES.length - 2)
   const weaponBarrel = usePairingState(0)
