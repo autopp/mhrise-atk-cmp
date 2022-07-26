@@ -218,7 +218,7 @@ const Home: FC = () => {
           </div>
         </div>
         <HeadingRow text="武器" />
-        <NumberInputRow label="武器攻撃力" min={0} max={300} step={10} {...weaponAttack} />
+        <NumberInputRow label="武器攻撃力" min={0} max={400} step={10} {...weaponAttack} />
         <NumberInputRow label="武器会心率" min={-100} max={100} step={5} {...weaponAffinity} />
         <RadioInputRow label="斬れ味" idPrefix="weaponSharpness" options={SHARPNESSES} {...weaponSharpness} />
         <RadioInputRow label="ロング/パワーバレル" idPrefix="weaponBarrel" options={BARRELS} {...weaponBarrel} />
