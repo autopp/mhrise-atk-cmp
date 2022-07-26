@@ -78,7 +78,7 @@ export type Status = {
     readonly demonPowder: number
   }
   readonly dango: {
-    readonly booster: number
+    readonly booster: Increase
     readonly temper: Decimal
   }
   readonly rampage: {
@@ -165,8 +165,7 @@ export const getMightSeed = createOptionalIncreaseGetter(MIGHT_SEED)
 export const DEMON_POWDER = 10
 export const getDemonPowder = createOptionalIncreaseGetter(DEMON_POWDER)
 
-export const DANGO_BOOSTER = 9
-export const getDangoBooster = createOptionalIncreaseGetter(DANGO_BOOSTER)
+export const DANGO_BOOSTER = createAttackIncreaseSkill([6, 9, 12, 15])
 
 export const DANGO_TEMPER = new Decimal("1.05")
 export const getDangoTemper = createOptionalFactorGetter(DANGO_TEMPER)

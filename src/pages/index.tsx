@@ -9,7 +9,6 @@ import {
   getTalonAndCharm,
   getMightSeed,
   getDemonPowder,
-  getDangoBooster,
   SHARPNESSES,
   BARRELS,
   Status,
@@ -45,6 +44,7 @@ import {
   MAIL_OF_HELLFIRE,
   getRampageKushalaDaoraSoul,
   getRampageSpeciesExploit,
+  DANGO_BOOSTER,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { usePairingState } from "@/lib/pairing"
@@ -64,7 +64,7 @@ const Home: FC = () => {
   const itemMightSeed = usePairingState(false)
   const itemDemonPowder = usePairingState(false)
   // Dango
-  const dangoBooster = usePairingState(false)
+  const dangoBooster = usePairingState(0)
   const dangoTemper = usePairingState(false)
   // Rampage
   const rampageAttackBoost = usePairingState(0)
@@ -118,7 +118,7 @@ const Home: FC = () => {
         demonPowder: getDemonPowder(valueOf(itemDemonPowder)),
       },
       dango: {
-        booster: getDangoBooster(valueOf(dangoBooster)),
+        booster: DANGO_BOOSTER[valueOf(dangoBooster)],
         temper: getDangoTemper(valueOf(dangoTemper)),
       },
       rampage: {
@@ -228,7 +228,7 @@ const Home: FC = () => {
         <CheckboxInputRow label="怪力の種" {...itemMightSeed} />
         <CheckboxInputRow label="鬼人の粉塵" {...itemDemonPowder} />
         <HeadingRow text="おだんごスキル" />
-        <CheckboxInputRow label="おだんご短期催眠術" {...dangoBooster} />
+        <LevelInputRow label="おだんご短期催眠術" levels={DANGO_BOOSTER} {...dangoBooster} />
         <CheckboxInputRow label="おだんご暴れ撃ち" {...dangoTemper} />
         <HeadingRow text="百竜スキル" />
         <LevelInputRow label="攻撃力強化" levels={RAMPAGE_ATTACK_BOOSTS} {...rampageAttackBoost} />
