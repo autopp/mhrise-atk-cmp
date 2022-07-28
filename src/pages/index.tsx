@@ -12,7 +12,7 @@ import {
   SHARPNESSES,
   BARRELS,
   Status,
-  getDangoTemper,
+  DANGO_TEMPER,
   RAMPAGE_ATTACK_BOOSTS,
   RAMPAGE_AFFINITY_BOOSTS,
   getRampageNonElementalBoost,
@@ -65,7 +65,7 @@ const Home: FC = () => {
   const itemDemonPowder = usePairingState(false)
   // Dango
   const dangoBooster = usePairingState(0)
-  const dangoTemper = usePairingState(false)
+  const dangoTemper = usePairingState(0)
   // Rampage
   const rampageAttackBoost = usePairingState(0)
   const rampageAffinityBoost = usePairingState(0)
@@ -119,7 +119,7 @@ const Home: FC = () => {
       },
       dango: {
         booster: DANGO_BOOSTER[valueOf(dangoBooster)],
-        temper: getDangoTemper(valueOf(dangoTemper)),
+        temper: DANGO_TEMPER[valueOf(dangoTemper)],
       },
       rampage: {
         attackBoost: RAMPAGE_ATTACK_BOOSTS[valueOf(rampageAttackBoost)],
@@ -229,7 +229,7 @@ const Home: FC = () => {
         <CheckboxInputRow label="鬼人の粉塵" {...itemDemonPowder} />
         <HeadingRow text="おだんごスキル" />
         <LevelInputRow label="おだんご短期催眠術" levels={DANGO_BOOSTER} {...dangoBooster} />
-        <CheckboxInputRow label="おだんご暴れ撃ち" {...dangoTemper} />
+        <LevelInputRow label="おだんご暴れ撃ち" levels={DANGO_TEMPER} {...dangoTemper} />
         <HeadingRow text="百竜スキル" />
         <LevelInputRow label="攻撃力強化" levels={RAMPAGE_ATTACK_BOOSTS} {...rampageAttackBoost} />
         <LevelInputRow label="会心率強化" levels={RAMPAGE_AFFINITY_BOOSTS} {...rampageAffinityBoost} />

@@ -79,7 +79,7 @@ export type Status = {
   }
   readonly dango: {
     readonly booster: Increase
-    readonly temper: Decimal
+    readonly temper: Factor
   }
   readonly rampage: {
     readonly attackBoost: Increase
@@ -167,8 +167,12 @@ export const getDemonPowder = createOptionalIncreaseGetter(DEMON_POWDER)
 
 export const DANGO_BOOSTER = createAttackIncreaseSkill([6, 9, 12, 15])
 
-export const DANGO_TEMPER = new Decimal("1.05")
-export const getDangoTemper = createOptionalFactorGetter(DANGO_TEMPER)
+export const DANGO_TEMPER = createDamageFactorSkill([
+  new Decimal("1.05"),
+  new Decimal("1.05"),
+  new Decimal("1.07"),
+  new Decimal("1.07"),
+])
 
 export const RAMPAGE_ATTACK_BOOSTS = createAttackIncreaseSkill([4, 6, 8, 10])
 export const RAMPAGE_AFFINITY_BOOSTS = createAffinityIncreaseSkill([4, 6, 8, 10])
