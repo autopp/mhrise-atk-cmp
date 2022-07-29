@@ -13,8 +13,8 @@ type Props = {
 }
 
 const RadioInputRow: FC<Props> = ({ label, idPrefix, options, leftState, rightState, syncedState }: Props) => {
-  const leftElem = <RadioInput {...{ idPrefix, options, state: leftState }} />
-  const rightElem = <RadioInput {...{ idPrefix, options, state: rightState }} />
+  const leftElem = <RadioInput {...{ idPrefix: `${idPrefix}-left`, options, state: leftState }} />
+  const rightElem = <RadioInput {...{ idPrefix: `${idPrefix}-right`, options, state: rightState }} />
   return <InputRow label={label} syncedState={syncedState} left={leftElem} right={rightElem} />
 }
 
