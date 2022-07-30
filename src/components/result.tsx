@@ -8,7 +8,9 @@ type Props = {
 const Result: FC<Props> = ({ total }: Props) => {
   return (
     <div>
-      <p>{total.expectedValue.toFixed(2)}</p>
+      <div>{total.expectedValue.toFixed(2)}</div>
+      <div>攻撃力: {total.attack.toFixed(2)}</div>
+      <div>会心率: {total.affinity.toFixed(2)}</div>
     </div>
   )
 }
