@@ -80,6 +80,7 @@ export type Status = {
   readonly dango: {
     readonly booster: Increase
     readonly temper: Factor
+    readonly marksman: Factor
   }
   readonly rampage: {
     readonly attackBoost: Increase
@@ -172,6 +173,13 @@ export const DANGO_TEMPER = createDamageFactorSkill([
   new Decimal("1.05"),
   new Decimal("1.07"),
   new Decimal("1.07"),
+])
+
+export const DANGO_MARKSMAN = createDamageFactorSkill([
+  new Decimal("1.01"),
+  new Decimal("1.02"),
+  new Decimal("1.03"),
+  new Decimal("1.04"),
 ])
 
 export const RAMPAGE_ATTACK_BOOSTS = createAttackIncreaseSkill([4, 6, 8, 10])
@@ -290,6 +298,7 @@ export function calculateTotal(status: Status): Total {
     baseAttack,
     status.weapon.sharpness.factor,
     status.dango.temper,
+    status.dango.marksman,
     calculateDullingStrikeFactor(status),
     skill.artillery,
     skill.rapidMorph,

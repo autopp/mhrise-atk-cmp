@@ -45,6 +45,7 @@ import {
   getRampageKushalaDaoraSoul,
   getRampageSpeciesExploit,
   DANGO_BOOSTER,
+  DANGO_MARKSMAN,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { usePairingState } from "@/lib/pairing"
@@ -66,6 +67,7 @@ const Home: FC = () => {
   // Dango
   const dangoBooster = usePairingState(0)
   const dangoTemper = usePairingState(0)
+  const dangoMarksman = usePairingState(0)
   // Rampage
   const rampageAttackBoost = usePairingState(0)
   const rampageAffinityBoost = usePairingState(0)
@@ -120,6 +122,7 @@ const Home: FC = () => {
       dango: {
         booster: DANGO_BOOSTER[valueOf(dangoBooster)],
         temper: DANGO_TEMPER[valueOf(dangoTemper)],
+        marksman: DANGO_MARKSMAN[valueOf(dangoMarksman)],
       },
       rampage: {
         attackBoost: RAMPAGE_ATTACK_BOOSTS[valueOf(rampageAttackBoost)],
@@ -171,6 +174,7 @@ const Home: FC = () => {
     itemDemonPowder,
     dangoBooster,
     dangoTemper,
+    dangoMarksman,
     rampageAttackBoost,
     rampageAffinityBoost,
     rampageNonElementalBoost,
@@ -230,6 +234,7 @@ const Home: FC = () => {
         <HeadingRow text="おだんごスキル" />
         <LevelInputRow label="おだんご短期催眠術" levels={DANGO_BOOSTER} {...dangoBooster} />
         <LevelInputRow label="おだんご暴れ撃ち" levels={DANGO_TEMPER} {...dangoTemper} />
+        <LevelInputRow label="おだんご射撃術" levels={DANGO_MARKSMAN} {...dangoMarksman} />
         <HeadingRow text="百竜スキル" />
         <LevelInputRow label="攻撃力強化" levels={RAMPAGE_ATTACK_BOOSTS} {...rampageAttackBoost} />
         <LevelInputRow label="会心率強化" levels={RAMPAGE_AFFINITY_BOOSTS} {...rampageAffinityBoost} />
