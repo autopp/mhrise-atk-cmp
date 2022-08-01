@@ -48,7 +48,7 @@ import {
   DANGO_MARKSMAN,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
-import { usePairingState } from "@/lib/pairing"
+import { PairingState, usePairingState } from "@/lib/pairing"
 import RadioInputRow from "@/components/radio-input-row"
 import LevelInputRow from "@/components/level-input-row"
 import { State } from "@/lib/types"
@@ -164,7 +164,7 @@ const Home: FC = () => {
     }
   })
 
-  const syncedSetters = [
+  const states = [
     weaponAttack,
     weaponAffinity,
     weaponSharpness,
@@ -208,7 +208,7 @@ const Home: FC = () => {
     skillRapidMorph,
     skillAmmoAndArrowUp,
     skillRapidFireUp,
-  ].map(({ syncedState: [, setSynced] }) => setSynced)
+  ] as PairingState<unknown>[]
 
   return (
     <Layout>
@@ -275,7 +275,7 @@ const Home: FC = () => {
         <LevelInputRow label="高速変形" levels={RAPID_MORPHS} {...skillRapidMorph} />
         <LevelInputRow label="弾・矢強化" levels={AMMO_AND_ARROW_UPS} {...skillAmmoAndArrowUp} />
         <LevelInputRow label="速射強化" levels={RAPID_FIRE_UPS} {...skillRapidFireUp} />
-        <ResultRow left={leftStatus} right={rightStatus} syncedSetters={syncedSetters} />
+        <ResultRow left={leftStatus} right={rightStatus} states={states} />
       </div>
     </Layout>
   )

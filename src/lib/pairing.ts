@@ -1,9 +1,14 @@
 import { useState } from "react"
 import { State, SyncedState } from "./types"
 
-export function usePairingState<S>(
-  initialState: S
-): { leftState: State<S>; rightState: State<S>; syncedState: SyncedState } {
+export type PairingState<S> = {
+  leftState: State<S>
+  rightState: State<S>
+  syncedState: SyncedState
+  swap: () => void
+}
+
+export function usePairingState<S>(initialState: S): PairingState<S> {
   const [left, setLeft] = useState(initialState)
   const [right, setRight] = useState(initialState)
   const [synced, setSynced] = useState(false)
@@ -29,9 +34,15 @@ export function usePairingState<S>(
     }
   }
 
+  const swap = () => {
+    setLeft(right)
+    setRight(left)
+  }
+
   return {
     leftState: [left, setLeftWithSync],
     rightState: [right, setRightWithSync],
     syncedState: [synced, setSyncedWithSync],
+    swap,
   }
 }

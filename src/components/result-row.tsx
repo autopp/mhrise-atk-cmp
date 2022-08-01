@@ -1,16 +1,19 @@
+import { PairingState } from "@/lib/pairing"
 import { Status, calculateTotal } from "@/lib/status"
 import { FC } from "react"
 import { inputColClass, labelColClass, syncColClass } from "./input-row"
 import Result from "./result"
 import SyncAllButton from "./sync-all-button"
+import SwapAllButton from "./swap-all-button"
 
 type Props = {
   left: Status
   right: Status
-  syncedSetters: ((v: boolean) => void)[]
+  states: PairingState<unknown>[]
 }
 
-const ResultRow: FC<Props> = ({ left, right, syncedSetters }: Props) => {
+const ResultRow: FC<Props> = ({ left, right, states }: Props) => {
+  const syncedSetters = states.map(({ syncedState: [, setSynced] }) => setSynced)
   return (
     <div className="row">
       <div className={labelColClass}>
@@ -20,7 +23,13 @@ const ResultRow: FC<Props> = ({ left, right, syncedSetters }: Props) => {
         <Result total={calculateTotal(left)} />
       </div>
       <div className={syncColClass}>
-        <SyncAllButton setters={syncedSetters} />
+        <div className="mb-2">
+          <SyncAllButton setters={syncedSetters} />
+        </div>
+
+        <div>
+          <SwapAllButton states={states} />
+        </div>
       </div>
       <div className={inputColClass}>
         <Result total={calculateTotal(right)} />
