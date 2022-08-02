@@ -168,6 +168,7 @@ const Home: FC = () => {
     weaponAttack,
     weaponAffinity,
     weaponSharpness,
+    weaponBarrel,
     itemTalonAndCharm,
     itemDemondrug,
     itemMightSeed,
