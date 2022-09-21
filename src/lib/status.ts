@@ -113,6 +113,7 @@ export type Status = {
     readonly coalescence: Increase
     readonly dereliction: Increase
     readonly mailOfHellfire: Increase
+    readonly adrenalineRush: Increase
     readonly bludgeoner: Bludgeoner
     readonly artillery: Factor
     readonly rapidMorph: Factor
@@ -266,6 +267,8 @@ export const DERELICTION = createAttackIncreaseSkill([25, 30, 35])
 
 export const MAIL_OF_HELLFIRE = createAttackIncreaseSkill([15, 25, 25])
 
+export const ADRENALINE_RUSH = createAttackIncreaseSkill([10, 15, 30])
+
 export const BLUDGEONERS: Bludgeoner[] = [
   { text: "", factor: UNIT_FACTOR, activeLevel: SHARPNESS_RED.level },
   { text: "斬れ味が黄色以下の時、攻撃力1.05倍", factor: new Decimal("1.05"), activeLevel: SHARPNESS_YELLOW.level },
@@ -334,6 +337,7 @@ function calculateBaseAttack(status: Status): Decimal {
       coalescence,
       dereliction,
       mailOfHellfire,
+      adrenalineRush,
     },
   } = status
 
@@ -369,7 +373,8 @@ function calculateBaseAttack(status: Status): Decimal {
       bloodlust,
       coalescence,
       dereliction,
-      mailOfHellfire
+      mailOfHellfire,
+      adrenalineRush
     )
   )
 }
