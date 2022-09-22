@@ -47,6 +47,8 @@ import {
   DANGO_BOOSTER,
   DANGO_MARKSMAN,
   ADRENALINE_RUSH,
+  QURIOUS_ATTACK_BOOST,
+  QURIOUS_AFFINITY_BOOST,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { PairingState, usePairingState } from "@/lib/pairing"
@@ -57,7 +59,9 @@ import { State } from "@/lib/types"
 const Home: FC = () => {
   // Weapon
   const weaponAttack = usePairingState(320)
+  const quriousAttackBoost = usePairingState(0)
   const weaponAffinity = usePairingState(0)
+  const quriousAffinityBoost = usePairingState(0)
   const weaponSharpness = usePairingState(SHARPNESSES.length - 2)
   const weaponBarrel = usePairingState(0)
   // Item
@@ -111,7 +115,9 @@ const Home: FC = () => {
     return {
       weapon: {
         attack: valueOf(weaponAttack),
+        quriousAttackBoost: QURIOUS_ATTACK_BOOST[valueOf(quriousAttackBoost)],
         affinity: valueOf(weaponAffinity),
+        quriousAffinityBoost: QURIOUS_AFFINITY_BOOST[valueOf(quriousAffinityBoost)],
         sharpness: SHARPNESSES[valueOf(weaponSharpness)],
         barrel: BARRELS[valueOf(weaponBarrel)],
       },
@@ -169,7 +175,9 @@ const Home: FC = () => {
 
   const states = [
     weaponAttack,
+    quriousAttackBoost,
     weaponAffinity,
+    quriousAffinityBoost,
     weaponSharpness,
     weaponBarrel,
     itemTalonAndCharm,
@@ -228,7 +236,9 @@ const Home: FC = () => {
         </div>
         <HeadingRow text="武器" />
         <NumberInputRow label="武器攻撃力" min={0} max={400} step={10} {...weaponAttack} />
+        <LevelInputRow label="傀異錬成 攻撃力強化" levels={QURIOUS_ATTACK_BOOST} {...quriousAttackBoost} />
         <NumberInputRow label="武器会心率" min={-100} max={100} step={5} {...weaponAffinity} />
+        <LevelInputRow label="傀異錬成 会心率強化" levels={QURIOUS_AFFINITY_BOOST} {...quriousAffinityBoost} />
         <RadioInputRow label="斬れ味" idPrefix="weaponSharpness" options={SHARPNESSES} {...weaponSharpness} />
         <RadioInputRow label="ロング/パワーバレル" idPrefix="weaponBarrel" options={BARRELS} {...weaponBarrel} />
         <HeadingRow text="アイテム" />

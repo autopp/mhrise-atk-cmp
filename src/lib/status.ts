@@ -67,7 +67,9 @@ function createDamageFactorSkill(factors: Numeric[]): Factor[] {
 export type Status = {
   readonly weapon: {
     readonly attack: number
+    readonly quriousAttackBoost: Increase
     readonly affinity: number
+    readonly quriousAffinityBoost: Increase
     readonly sharpness: Sharpness
     readonly barrel: Factor
   }
@@ -123,6 +125,10 @@ export type Status = {
 }
 
 const DEFAULT_CRITICAL_RATE = new Decimal("0.25")
+
+export const QURIOUS_ATTACK_BOOST = createAttackIncreaseSkill([5, 10])
+
+export const QURIOUS_AFFINITY_BOOST = createAffinityIncreaseSkill([5])
 
 export const SHARPNESSES: Sharpness[] = [
   { text: "赤 (0.5)", factor: new Decimal("0.5") },
@@ -344,6 +350,7 @@ function calculateBaseAttack(status: Status): Decimal {
   const weaponAttack = new Decimal(
     sum(
       weapon.barrel.factor.mul(weapon.attack).toDecimalPlaces(0, Decimal.ROUND_DOWN).toNumber(),
+      weapon.quriousAttackBoost,
       rampage.attackBoost,
       rampage.attackOrAffinitySurge.attack
     )
@@ -386,6 +393,7 @@ function calculateAffinity({
 }: Status): Decimal {
   const affinity = sum(
     weapon.affinity,
+    weapon.quriousAttackBoost,
     rampage.affinityBoost,
     rampage.attackOrAffinitySurge.affinity,
     rampage.kushalaDaoraSoul,
