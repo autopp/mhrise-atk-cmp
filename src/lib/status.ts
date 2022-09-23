@@ -393,7 +393,7 @@ function calculateAffinity({
 }: Status): Decimal {
   const affinity = sum(
     weapon.affinity,
-    weapon.quriousAttackBoost,
+    weapon.quriousAffinityBoost,
     rampage.affinityBoost,
     rampage.attackOrAffinitySurge.affinity,
     rampage.kushalaDaoraSoul,
