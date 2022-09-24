@@ -49,6 +49,7 @@ import {
   ADRENALINE_RUSH,
   QURIOUS_ATTACK_BOOST,
   QURIOUS_AFFINITY_BOOST,
+  SNEAK_ATTACK,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { PairingState, usePairingState } from "@/lib/pairing"
@@ -103,6 +104,7 @@ const Home: FC = () => {
   const skillCoalescence = usePairingState(0)
   const skillDereliction = usePairingState(0)
   const skillMailOfHellfire = usePairingState(0)
+  const skillSneakAttack = usePairingState(0)
   const skillAdrenalineRush = usePairingState(0)
   const skillBludgeoner = usePairingState(0)
   const skillArtillery = usePairingState(0)
@@ -163,6 +165,7 @@ const Home: FC = () => {
         coalescence: COALESCENCE[valueOf(skillCoalescence)],
         dereliction: DERELICTION[valueOf(skillDereliction)],
         mailOfHellfire: MAIL_OF_HELLFIRE[valueOf(skillMailOfHellfire)],
+        sneakAttack: SNEAK_ATTACK[valueOf(skillSneakAttack)],
         adrenalineRush: ADRENALINE_RUSH[valueOf(skillAdrenalineRush)],
         bludgeoner: BLUDGEONERS[valueOf(skillBludgeoner)],
         artillery: ARTILLERIES[valueOf(skillArtillery)],
@@ -215,6 +218,7 @@ const Home: FC = () => {
     skillCoalescence,
     skillDereliction,
     skillMailOfHellfire,
+    skillSneakAttack,
     skillAdrenalineRush,
     skillBludgeoner,
     skillArtillery,
@@ -285,6 +289,7 @@ const Home: FC = () => {
         <LevelInputRow label="災禍転福" levels={COALESCENCE} {...skillCoalescence} />
         <LevelInputRow label="伏魔響命" levels={DERELICTION} {...skillDereliction} />
         <LevelInputRow label="業鎧【修羅】" levels={MAIL_OF_HELLFIRE} {...skillMailOfHellfire} />
+        <LevelInputRow label="闇討ち" levels={SNEAK_ATTACK} {...skillSneakAttack} />
         <LevelInputRow label="巧撃" levels={ADRENALINE_RUSH} {...skillAdrenalineRush} />
         <LevelInputRow label="鈍器使い" levels={BLUDGEONERS} {...skillBludgeoner} />
         <LevelInputRow label="砲術" levels={ARTILLERIES} {...skillArtillery} />

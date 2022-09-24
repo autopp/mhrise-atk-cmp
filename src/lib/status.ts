@@ -115,6 +115,7 @@ export type Status = {
     readonly coalescence: Increase
     readonly dereliction: Increase
     readonly mailOfHellfire: Increase
+    readonly sneakAttack: Factor
     readonly adrenalineRush: Increase
     readonly bludgeoner: Bludgeoner
     readonly artillery: Factor
@@ -273,6 +274,8 @@ export const DERELICTION = createAttackIncreaseSkill([25, 30, 35])
 
 export const MAIL_OF_HELLFIRE = createAttackIncreaseSkill([15, 25, 25])
 
+export const SNEAK_ATTACK = createDamageFactorSkill(["1.05", "1.1", "1.12"])
+
 export const ADRENALINE_RUSH = createAttackIncreaseSkill([10, 15, 30])
 
 export const BLUDGEONERS: Bludgeoner[] = [
@@ -312,7 +315,8 @@ export function calculateTotal(status: Status): Total {
     skill.artillery,
     skill.rapidMorph,
     skill.ammoAndArrowUp,
-    skill.rapidFireUp
+    skill.rapidFireUp,
+    skill.sneakAttack
   )
   const affinity = calculateAffinity(status)
   const criticalFactor = calculateCriticalFactor(status, affinity)
