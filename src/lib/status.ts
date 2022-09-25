@@ -154,7 +154,9 @@ export const [
 export const BARRELS: Factor[] = [
   { text: "なし", factor: UNIT_FACTOR },
   { text: "ロングバレル（1.0475倍）", factor: new Decimal("1.0475") },
+  { text: "ロングバレル + チューンアップ Lv2（1.07倍）", factor: new Decimal("1.07") },
   { text: "パワーバレル（1.125倍）", factor: new Decimal("1.125") },
+  { text: "パワーバレル + チューンアップ Lv2（1.148倍）", factor: new Decimal("1.148") },
 ]
 export const [NO_BARREL, LONG_BARREL, POWER_BARREL] = BARRELS
 
