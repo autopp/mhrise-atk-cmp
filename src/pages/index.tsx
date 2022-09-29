@@ -50,6 +50,7 @@ import {
   QURIOUS_ATTACK_BOOST,
   QURIOUS_AFFINITY_BOOST,
   SNEAK_ATTACK,
+  FORAY,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { PairingState, usePairingState } from "@/lib/pairing"
@@ -99,6 +100,7 @@ const Home: FC = () => {
   const skillDragonheart = usePairingState(0)
   const skillChainCrit = usePairingState(0)
   const skillChainCritGunner = usePairingState(0)
+  const skillForay = usePairingState(0)
   const skillBloodlust = usePairingState(0)
   const skillBloodlustRestored = usePairingState(0)
   const skillCoalescence = usePairingState(0)
@@ -160,6 +162,7 @@ const Home: FC = () => {
         dragonheart: DRAGONHEART[valueOf(skillDragonheart)],
         chainCrit: CHAIN_CRIT[valueOf(skillChainCrit)],
         chainCritGunner: CHAIN_CRIT_GUNNER[valueOf(skillChainCritGunner)],
+        foray: FORAY[valueOf(skillForay)],
         bloodlust: BLOODLUST[valueOf(skillBloodlust)],
         bloodlustRestored: BLOODLUST_RESTORED[valueOf(skillBloodlustRestored)],
         coalescence: COALESCENCE[valueOf(skillCoalescence)],
@@ -213,6 +216,7 @@ const Home: FC = () => {
     skillDragonheart,
     skillChainCrit,
     skillChainCritGunner,
+    skillForay,
     skillBloodlust,
     skillBloodlustRestored,
     skillCoalescence,
@@ -284,6 +288,7 @@ const Home: FC = () => {
         <LevelInputRow label="龍気活性" levels={DRAGONHEART} {...skillDragonheart} />
         <LevelInputRow label="連撃" levels={CHAIN_CRIT} {...skillChainCrit} />
         <LevelInputRow label="連撃（ガンナー）" levels={CHAIN_CRIT_GUNNER} {...skillChainCritGunner} />
+        <LevelInputRow label="攻勢" levels={FORAY} {...skillForay} />
         <LevelInputRow label="狂竜症【触】" levels={BLOODLUST} {...skillBloodlust} />
         <LevelInputRow label="狂竜症【触】（克服）" levels={BLOODLUST_RESTORED} {...skillBloodlustRestored} />
         <LevelInputRow label="災禍転福" levels={COALESCENCE} {...skillCoalescence} />

@@ -20,7 +20,7 @@ type AttackOrAffinitySurge = {
 
 type AttackBoost = Increase & Factor
 
-type Agitator = {
+type AttackAndAffinityIncrease = {
   readonly text: string
   readonly attack: number
   readonly affinity: number
@@ -104,12 +104,13 @@ export type Status = {
     readonly offensiveGuard: Factor
     readonly peakPerformance: Increase
     readonly latentPower: Increase
-    readonly agitator: Agitator
+    readonly agitator: AttackAndAffinityIncrease
     readonly resuscitate: Increase
     readonly resentment: Increase
     readonly dragonheart: Factor
     readonly chainCrit: Increase
     readonly chainCritGunner: Increase
+    readonly foray: AttackAndAffinityIncrease
     readonly bloodlust: Increase
     readonly bloodlustRestored: Increase
     readonly coalescence: Increase
@@ -247,7 +248,7 @@ export const PEAK_PERFORMANCES = createAttackIncreaseSkill([5, 10, 20])
 
 export const LATENT_POWERS = createAffinityIncreaseSkill([10, 20, 30, 40, 50])
 
-export const AGITATORS: Agitator[] = [
+export const AGITATORS: AttackAndAffinityIncrease[] = [
   { text: "", attack: 0, affinity: 0 },
   { text: "攻撃力+4 & 会心率+3", attack: 4, affinity: 3 },
   { text: "攻撃力+8 & 会心率+5", attack: 8, affinity: 5 },
@@ -265,6 +266,13 @@ export const DRAGONHEART = createDamageFactorSkill(["1.0", "1.0", "1.0", "1.05",
 export const CHAIN_CRIT = createAttackIncreaseSkill([10, 12, 15])
 
 export const CHAIN_CRIT_GUNNER = createAttackIncreaseSkill([8, 9, 10])
+
+export const FORAY: AttackAndAffinityIncrease[] = [
+  { text: "", attack: 0, affinity: 0 },
+  { text: "攻撃力+10", attack: 10, affinity: 0 },
+  { text: "攻撃力+10 & 会心率+10", attack: 10, affinity: 10 },
+  { text: "攻撃力+15 & 会心率+20", attack: 15, affinity: 20 },
+]
 
 export const BLOODLUST = createAttackIncreaseSkill([10, 15, 20])
 
@@ -345,6 +353,7 @@ function calculateBaseAttack(status: Status): Decimal {
       dragonheart,
       chainCrit,
       chainCritGunner,
+      foray,
       bloodlust,
       coalescence,
       dereliction,
@@ -383,6 +392,7 @@ function calculateBaseAttack(status: Status): Decimal {
       resentment,
       chainCrit,
       chainCritGunner,
+      foray.attack,
       bloodlust,
       coalescence,
       dereliction,
@@ -395,7 +405,7 @@ function calculateBaseAttack(status: Status): Decimal {
 function calculateAffinity({
   weapon,
   rampage,
-  skill: { criticalEye, weaknessExploit, maximumMight, criticalDraw, latentPower, agitator, bloodlustRestored },
+  skill: { criticalEye, weaknessExploit, maximumMight, criticalDraw, latentPower, agitator, bloodlustRestored, foray },
 }: Status): Decimal {
   const affinity = sum(
     weapon.affinity,
@@ -409,6 +419,7 @@ function calculateAffinity({
     criticalDraw,
     latentPower,
     agitator.affinity,
+    foray.affinity,
     bloodlustRestored
   )
 
