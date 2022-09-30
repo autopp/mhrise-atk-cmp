@@ -118,6 +118,7 @@ export type Status = {
     readonly mailOfHellfire: Increase
     readonly sneakAttack: Factor
     readonly adrenalineRush: Increase
+    readonly buildupBoost: Factor
     readonly bludgeoner: Bludgeoner
     readonly artillery: Factor
     readonly rapidMorph: Factor
@@ -288,6 +289,8 @@ export const SNEAK_ATTACK = createDamageFactorSkill(["1.05", "1.1", "1.12"])
 
 export const ADRENALINE_RUSH = createAttackIncreaseSkill([10, 15, 30])
 
+export const BUILDUP_BOOST = createDamageFactorSkill(["1.1", "1.15", "1.2"])
+
 export const BLUDGEONERS: Bludgeoner[] = [
   { text: "", factor: UNIT_FACTOR, activeLevel: SHARPNESS_RED.level },
   { text: "斬れ味が黄色以下の時、攻撃力1.05倍", factor: new Decimal("1.05"), activeLevel: SHARPNESS_YELLOW.level },
@@ -326,7 +329,8 @@ export function calculateTotal(status: Status): Total {
     skill.rapidMorph,
     skill.ammoAndArrowUp,
     skill.rapidFireUp,
-    skill.sneakAttack
+    skill.sneakAttack,
+    skill.buildupBoost
   )
   const affinity = calculateAffinity(status)
   const criticalFactor = calculateCriticalFactor(status, affinity)

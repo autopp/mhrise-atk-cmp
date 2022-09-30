@@ -51,6 +51,7 @@ import {
   QURIOUS_AFFINITY_BOOST,
   SNEAK_ATTACK,
   FORAY,
+  BUILDUP_BOOST,
 } from "@/lib/status"
 import CheckboxInputRow from "@/components/checkbox-input-row"
 import { PairingState, usePairingState } from "@/lib/pairing"
@@ -108,6 +109,7 @@ const Home: FC = () => {
   const skillMailOfHellfire = usePairingState(0)
   const skillSneakAttack = usePairingState(0)
   const skillAdrenalineRush = usePairingState(0)
+  const skillBuildupBoost = usePairingState(0)
   const skillBludgeoner = usePairingState(0)
   const skillArtillery = usePairingState(0)
   const skillRapidMorph = usePairingState(0)
@@ -170,6 +172,7 @@ const Home: FC = () => {
         mailOfHellfire: MAIL_OF_HELLFIRE[valueOf(skillMailOfHellfire)],
         sneakAttack: SNEAK_ATTACK[valueOf(skillSneakAttack)],
         adrenalineRush: ADRENALINE_RUSH[valueOf(skillAdrenalineRush)],
+        buildupBoost: BUILDUP_BOOST[valueOf(skillBuildupBoost)],
         bludgeoner: BLUDGEONERS[valueOf(skillBludgeoner)],
         artillery: ARTILLERIES[valueOf(skillArtillery)],
         rapidMorph: RAPID_MORPHS[valueOf(skillRapidMorph)],
@@ -224,6 +227,7 @@ const Home: FC = () => {
     skillMailOfHellfire,
     skillSneakAttack,
     skillAdrenalineRush,
+    skillBuildupBoost,
     skillBludgeoner,
     skillArtillery,
     skillRapidMorph,
@@ -296,6 +300,7 @@ const Home: FC = () => {
         <LevelInputRow label="業鎧【修羅】" levels={MAIL_OF_HELLFIRE} {...skillMailOfHellfire} />
         <LevelInputRow label="闇討ち" levels={SNEAK_ATTACK} {...skillSneakAttack} />
         <LevelInputRow label="巧撃" levels={ADRENALINE_RUSH} {...skillAdrenalineRush} />
+        <LevelInputRow label="蓄積時攻撃強化" levels={BUILDUP_BOOST} {...skillBuildupBoost} />
         <LevelInputRow label="鈍器使い" levels={BLUDGEONERS} {...skillBludgeoner} />
         <LevelInputRow label="砲術" levels={ARTILLERIES} {...skillArtillery} />
         <LevelInputRow label="高速変形" levels={RAPID_MORPHS} {...skillRapidMorph} />
