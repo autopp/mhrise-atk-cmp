@@ -74,6 +74,7 @@ export type Status = {
     readonly barrel: Factor
   }
   readonly item: {
+    readonly spribird: number
     readonly talonAndCharm: number
     readonly demonDrug: Increase
     readonly mightSeed: number
@@ -344,7 +345,7 @@ export function calculateTotal(status: Status): Total {
 function calculateBaseAttack(status: Status): Decimal {
   const {
     weapon,
-    item: { talonAndCharm, demonDrug, mightSeed, demonPowder },
+    item: { spribird, talonAndCharm, demonDrug, mightSeed, demonPowder },
     dango: { booster },
     rampage,
     skill: {
@@ -383,6 +384,7 @@ function calculateBaseAttack(status: Status): Decimal {
     calculateBludgeonerFactor(status)
   ).add(
     sum(
+      spribird,
       talonAndCharm,
       mightSeed,
       demonPowder,

@@ -68,6 +68,7 @@ const Home: FC = () => {
   const weaponSharpness = usePairingState(SHARPNESSES.length - 2)
   const weaponBarrel = usePairingState(0)
   // Item
+  const itemSpribird = usePairingState(0)
   const itemTalonAndCharm = usePairingState(true)
   const itemDemondrug = usePairingState(0)
   const itemMightSeed = usePairingState(false)
@@ -128,6 +129,7 @@ const Home: FC = () => {
         barrel: BARRELS[valueOf(weaponBarrel)],
       },
       item: {
+        spribird: valueOf(itemSpribird),
         talonAndCharm: getTalonAndCharm(valueOf(itemTalonAndCharm)),
         demonDrug: DEMONDRUGS[valueOf(itemDemondrug)],
         mightSeed: getMightSeed(valueOf(itemMightSeed)),
@@ -189,6 +191,7 @@ const Home: FC = () => {
     quriousAffinityBoost,
     weaponSharpness,
     weaponBarrel,
+    itemSpribird,
     itemTalonAndCharm,
     itemDemondrug,
     itemMightSeed,
@@ -254,6 +257,7 @@ const Home: FC = () => {
         <RadioInputRow label="斬れ味" idPrefix="weaponSharpness" options={SHARPNESSES} {...weaponSharpness} />
         <RadioInputRow label="ロング/パワーバレル" idPrefix="weaponBarrel" options={BARRELS} {...weaponBarrel} />
         <HeadingRow text="アイテム" />
+        <NumberInputRow label="ヒトダマドリ" min={0} max={20} step={4} {...itemSpribird} />
         <CheckboxInputRow label="爪・護符" {...itemTalonAndCharm} />
         <RadioInputRow label="鬼人薬" idPrefix="itemDemondrug" options={DEMONDRUGS} {...itemDemondrug} />
         <CheckboxInputRow label="怪力の種" {...itemMightSeed} />
