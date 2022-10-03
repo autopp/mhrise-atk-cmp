@@ -331,7 +331,7 @@ export function calculateTotal(status: Status): Total {
     skill.ammoAndArrowUp,
     skill.rapidFireUp,
     skill.sneakAttack,
-    skill.buildupBoost
+    skill.buildupBoost.factor.mul("0.33").add("0.67")
   )
   const affinity = calculateAffinity(status)
   const criticalFactor = calculateCriticalFactor(status, affinity)
